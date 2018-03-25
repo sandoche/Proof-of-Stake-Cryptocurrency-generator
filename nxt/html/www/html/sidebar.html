@@ -1,0 +1,69 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<section class="sidebar">
+    <div class="user-panel">
+        <div class="pull-left info">
+            <div class="pull-left info">
+                <h6><span class="label label-primary" data-18n="your_account">Your Account</span></h6>
+                <div class="badge-active" style="padding:3px;margin-bottom:5px;font-size:12px" id="sidebar_account_id"></div>
+                <div style="margin-bottom:5px;">
+                    <span><a class='btn btn-default btn-xs' href="#" id="account_name" data-toggle="modal" data-target="#account_info_modal" data-i18n="set_account_info">Set Account Info</a></span>
+                    <span id="sidebar_account_link"></span>
+                    <span><a class='btn btn-default btn-xs' href="#" id="copy_account_id" data-clipboard-target="#sidebar_account_id"><span class="fa fa-copy"></span></a></span>
+                </div>
+                <div style="margin-bottom:5px;">
+                    <div id="account_id_dropdown" class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs" data-i18n="switch_account">Switch Account</button>
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"></ul>
+                    </div>
+                </div>
+                <div style="margin-bottom:5px;">
+                    <div>
+                        <a id="sideBalance" data-target="#account_details_modal" data-toggle="modal" href="#">
+                            <span class="badge-active" style="padding:3px;" id="account_balance_sidebar"></span>
+                            <span>NXT</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-bottom:8px;">
+                    <a href="#" data-page="peers" id="connected_indicator" class="connected goto-page" style="display:none;font-size:13px;" data-toggle="tooltip" data-placement="top" title="CONNECTION" data-i18n="[title]server_connection_status"><i class="fa fa-circle" style="font-size:12px;"></i> <span data-18n="connected">Connected</span></a>
+                    <a href="#" id="forging_indicator" class="forging" data-toggle="tooltip" title="" data-placement="bottom" style="display:none;font-size:13px;">
+                        <i class="fa fa-circle" style="font-size:12px;"></i> <span data-18n="forging">Forging</span>
+                    </a>
+                </div>
+                <div class="input-group" style="margin-bottom:5px;">
+                    <span data-i18n="height">HEIGHT</span>
+                    <span class="badge-active" style="padding:3px;" id="sidebar_block_link" data-toggle="tooltip" data-placement="bottom" title="HEIGHT" data-i18n="[title]current_blockchain_height"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form" id="id_search" autocomplete="off">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search by ID..." data-i18n="[placeholder]search_by_id">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" id="sidebar_menu">
+    </ul>
+    <div style="height:50px"></div> <!-- Dummy div, otherwise some browsers cut of the sidebar too high when scrolling on smaller screens -->
+</section>

@@ -1,0 +1,93 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="mobile_settings_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="device_settings">Device Settings</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="callout callout-info info_message"></div>
+                    <div class="input-group" id="mobile_offline_links">
+                        <label data-i18n="offline_actions">Offline Actions</label>
+                        <div>
+                            <a href="#" data-toggle="modal" data-target="#token_modal" data-offline="true">
+                                <i class="fa fa-code"></i>
+                                <span data-i18n="generate_token">Generate Token</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#" data-toggle="modal" data-target="#transaction_json_modal" data-offline="true">
+                                <i class="fa fa-asterisk"></i>
+                                <span data-i18n="sign_transaction">Sign Transaction</span>
+                            </a>
+                        </div>
+                        <p></p>
+                    </div>
+                    <row>
+                        <label data-i18n="settings"></label>
+                    </row>
+                    <div class="input-group">
+                        <input type="checkbox" id="mobile_is_check_remember_me"/>
+                        <label for="mobile_is_check_remember_me" data-i18n="is_check_remember_me">Check Remember Me Checkbox</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="checkbox" id="mobile_is_store_remembered_passphrase"/>
+                        <label for="mobile_is_store_remembered_passphrase" data-i18n="is_store_remembered_passphrase">Store Remembered Passphrase</label>
+                    </div>
+                    <div id="mobile_is_simulate_app_container" class="input-group">
+                        <input type="checkbox" id="mobile_is_simulate_app"/>
+                        <label for="mobile_is_simulate_app" data-i18n="simulate_mobile_app">SIMULATE MOBILE APP</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="checkbox" id="mobile_is_testnet"/>
+                        <label for="mobile_is_testnet" data-i18n="connect_to_testnet">CONNECT TO TESTNET</label>
+                    </div>
+                    <div class="input-group">
+                        <label for="mobile_remote_node_address" data-i18n="remote_node_address">Remote Node Address</label>
+                        <input type="text" id="mobile_remote_node_address" class="form-control" />
+                    </div>
+                    <div class="input-group">
+                        <label for="mobile_remote_node_port" data-i18n="remote_node_port">Remote Node Port</label>
+                        <input type="text" id="mobile_remote_node_port" class="form-control" />
+                    </div>
+                    <div class="input-group">
+                        <input type="checkbox" id="mobile_is_remote_node_ssl"/>
+                        <label for="mobile_is_remote_node_ssl" data-i18n="is_remote_node_ssl">Use Https</label>
+                    </div>
+                    <div class="input-group">
+                        <label for="mobile_validators_count" data-i18n="validators_count">Number of Data Validators</label>
+                        <input type="text" id="mobile_validators_count" class="form-control" />
+                    </div>
+                    <div class="input-group">
+                        <label for="mobile_bootstrap_nodes_count" data-i18n="bootstrap_nodes_count">Number of Bootstrap Nodes</label>
+                        <input type="text" id="mobile_bootstrap_nodes_count" class="form-control" />
+                    </div>
+                    <input type="hidden" name="is_offline" value=""/>
+                    <input type="hidden" name="request_type" value="setMobileSettings"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="set;[placeholder]submitting">SET</button>
+            </div>
+        </div>
+    </div>
+</div>

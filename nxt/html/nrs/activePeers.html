@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            body {background-color: #E0E0E0; color: #000; font-family: Tahoma; font-size: 10pt; margin: 0; padding: 10px;}
+            table {border-collapse: collapse; width: 100%;}
+            td {height: 20px; line-height: 20px; padding: 0;}
+            .connected {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAC60lEQVQ4y6WUbUhTURjHr0kfjEikT0GBcaFEc4EfJCwIp4GDoj4EfSvySwRmQRqmoyBCSRyiiGRglkqIL1hazk29bneaToZTw3enoXvXOd2dc/du8u9cowi5Q7QHfnDuPc/5nXPPc+6hqD0RCAQydnZ2GILG7/enUv8TOp0ulog2Lf4WLG91IRwOW/Py8o4eWmg2m5OJECpjCmrMWRDbZMXVPM8/5jjuQm5u7sGEarX6DFkVRrl8LARqsSFMw8kz8AkWcbUQBMHg47jL0dHRu/klJSVR2dnZkYUMw8SHQiHoPHfQYI9BnY36jZ1CpzsVP/1fQPp3gsFgF+ETzwuWIM8bJyenYiWFLGugeUFA03IyqhYoST5br2HS+wHT3kYMrRaCF3gsLi5lSAr1epYmM6JuLhmlP6h9qZ09DzF/aGg4OVKV6cD2NqonZHhhpPalcvwcxHyTyZQkvYf9/fRWIADViAx5OmpfykaSIOYbDAMJksI+hqE5vx+vWRkedlH7UmnMAql6qEipjJMU9vb20T4fhyLtRdxtpXCvNQpPvp3Gc03iblt89y9NYwVwuVenydBoSWFHZ2f8xqYPzaOv0D5RgiXXNMRnkcGFVtxvPonbDdRfOiYqYHc4eyOeQ4225+z6xgZU36+gyqiAx+sNf6yvv97c0nLL5nAsr7iX0DZajor+B6hmc2FaZOBwOs1kaJSksFujpT3rXrxkZCgfVGDNsy7IMzJjxL6cnEenho0jxXPz80arze5eXrFap2ZmGDLmRuRfr1tDEwkKNTKU6hVwr3kEuVwesydNvCyOE45F3Ls/0aVW00SC/K8yFPcq4FpdE9LT02MOddOoVOVHrDZHI6kaCrWJeKPPJBVcw4rVpjoRF3dw4czsnMLhcqFsMA1P+6ldqo034SQTjI1PpBxYqO3pS7M73eFF2wIs1rldlmwW2BwuvrWtPeEwX32k9n3dVT1rKGANg0rWMKDU6dlnb2veXYp4LCTiF0HFXsTGwIcLAAAAAElFTkSuQmCC); width: 20px;}
+            .disabledAnnouncedAddress {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAABaklEQVQoU5XSu0tCYRzG8Z9l1CZRENTU0tbUlNAQ1R8QTQ0RdN2CpggaoykMwgSLvBQ5SAUNHVJ0UWsJIynMSizkpK93UsyTenwaLNC84fezPrwvvOcQNZ+7TRjJr+ePRU7kxJP8hjDqba8YMVl2UwyJSCEEHjwYkhAhxrLbka6SWVKe82fwAjusJWzwII08S43/zmLDufQHrDBVYYEfue/EBBGZOgQvDw6XNXB4hxBwyohNZWDCRR0c0ojMU3QniPMG/IgdUFDJw9jAG5iWnmY+cQpDHUbE8bpCa52RoBtHddwjltjtJSLLZDzrgh6aKnRwIiHaZosPKbmaDiV4WKDFfgkNzPAjnLIuUMvfp5FsDbgMoS8fVFBBBwdu8YwwwsLDmWKQJFRWy/UygxJ78ICPum+cOvPSYj+1UmUOeRhq2BFIHg6R9P85JSl6WMEOVrDO1ZwUk0h9jwx36qrXlbfapx/rrvxZm+sH8dqYK31+8e0AAAAASUVORK5CYII=); width: 20px;}
+            .disabledDownloading {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAABgklEQVQoz32RTyiDYRzHn02hKMlctFIkf8uRdlAUFwcHB7FMkpCsSYsYm0Q7UGIXF6UUK6U4aCYS5d9hEnttbZjFYTbvmHdhXl9Lb8x6Xt/P7enT8zzf348QkbwURPT8Dr/NKYh4nvMja5+8Hwdw4e2cSKhSJQm3f3BeLECPZbBgd4mUoskINxKBBcMYggnv8JiNcup9bMP7pxkD3xyDtaUlUjUm89W/Da1AAB6tSAl2/AH96P1Gh1fYq6maIiHkWYNaYAJh7BdTxbNCDmPoFjCCgzWHKnqbA+hEh4ABIRwVxSk1Er+G3WPv3Wj7oQdPYN3B48Cg5nfgzvIg1rGEObTEMI9FrCKIy7If0VL6yM9AScGER36j5Pdt6dmsL/qrhjhG4cPp9J8V5iQzK3foQ30MWtzDbs5OiitUlercuo62rhPowg0cmxUplPF0ZrhOGDSjNooKDrgOW9NFVmiQXzE2NKIJp7i60GUR8UzluS9vcQs3M5lL/o9KZlVbe5Sy+PMv6eYg0pLXFZkAAAAASUVORK5CYII=); width: 20px;}
+            .disabledUploading {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAABfUlEQVQoz32SSytEARiGDwusbCwk2VAiNpKt3FY2JD9AfgEpC5NGmQUKYUGhpMhtBs0pg1mhXHJZWBjkGI7hzKXhDDPjMuaxMA0dc7zP6qunvr6LIGgSqv60f26GKoX/89IYfVdQiL6/NPyjqTWRsIQNGxKRsFqlo/nLPgI3iFixInLDh+ovTaB5Ct48Missx1jBxZviyddo9zmvznvMzP/CzANhyZX9S1tPCR66WWBGwyJuggdiSlx0VoawMJUACyGk8ri4lKsGnvByxXicCVx48BMImnN/eieNFO+2SWtuRuNM88zpxH7HZKmQpBnotE5llOEYswTY1M78nZGsx8gCAzGmeWIjL/HGk+XdI3pjjPHIYYnObQ6afIxhwoSJHnxc1OuIRanXew66MWLEiAO5X/ctJotcviO6MGBgFbf3OFNXnauQvWcM0k4n5yiKs1ZX7Ss821HYZggDW9xdCsm6anqa2Ow4eYjeIuMQ/yxck9TuEnurvaUp47v8AtZENxJY/CqjAAAAAElFTkSuQmCC); width: 20px;}
+            .disabledWeight {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAABdUlEQVQokX2OTUuUURSAn/u+d8YGB9EMDHR0EYhL9y1sl5ugCCJokxu3RttAyj/RLmortMqdBC6CiFYTodAXRotiamU6OPfjnDavd+4rTGf1nK/nHMjiZeEexrexG7vxnX/03jIqTh54/aIHeqCf1Wn/Sd7Lt4y5852PVRK4su4WTRO0556163qZGCAoBhigl3/dFWCcqbXfV2uDihDPlvjAYcUrY837FuB12WnBV1EESYN/E/exU/aWebHZ2DCT0BFqg0NWBPv0Zvm4yxFQlIu100OOKLa8/odPVWHAzAijYmU8EKqCIyaWjCOCVSI+FYYcCIkFxQqCS8aQOGQsZ8aQmvm5kPE5YyAmjpmx+lGyv/7zo2ZGXzP6jBWrOsoYa8bieH+aFh6PZ4FZwOMROswT8HiaXOL0h9maubfXWnJAQUNC37QDYKFfNIMVoIE7fHXNwO2Lazcm5iC6/TffequrY5PgjvZ2p9vLK+UFOP65vfO89w/cIdwcCRAWYgAAAABJRU5ErkJggg==); width: 20px;}
+            .disconnected {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAC30lEQVQ4y6WUXUhTYRjHz/yGVPDGIsvaLvtAV01S0tIk9EKICLqpu4QgDLxq0LyJuUGEN0KRUBoIzRuVUqfTLaeFqSP8mOxLp86z6T5dus19nn/vLCTtjKU98IP3nPd5f+c573nOS1EHIhAIVMZiMRVB4ff7r1L/EwqFIoeIvExPNxi5HNFodF0ikWQcWajRaM4RIRylArhqbyE+JhW/DoVCjT6fr0gsFnMOJezt7S0gVYFpEiHW0Y6YyYjYmBoxszleLcLh8MS2z3ejqKhoN18oFFJNTU2JhUql8kwkEgHz4D6QnQ1Q1B6MQIAo2QoyzwSDQQWhk1RuIMwur6zkswrVajUvFA6D4fP3yfaJqyoRfd+BaJcMMdEzhHd2QFutd1mFn0dHecFQCMwlIuRQySk4iXi+VqstZxWqVCpegDwxfJmPSCqVnIITiOfr9PprifaQ5w8E4LlSDGc6lRQ39zTi+TOzc+z9OjIywiNfESuCYpgyqKSsVpSC5DMyWVche2MPD/O2trYxT4RTmRSmMzmY4Z3CPP8CprM4u/f+ZPHJY7jcbjonNzedVdjd3VPo/bEFg0SMpRdSOHU6xK/jrPV9wmjhcSiyqD10UjE27PZpspS94eWDQ2c9Xi8s1ZWw1FTDs+llPshkdwh1tM1mdlosWHjVismGR5hqbMDykJwIHWayNJVVOCAf5Lo9mzCU8GEiQjJmmqXSvPjcw/r6/Ilvk88NRtMEbbXZLWu0Tac3qEeUqnsJ/5T+ATnX5fZglgi1NTfhdHuYZokk70BaGiGbcOz3OHH09Q9wHS43JolQQ4QOp4sRN/8l/Ld42dKSQtvWO+0OJ77zL2K2qgJ2hwtrtLVVIBBwDi3UG4y1Gxt2rFaWw5pG7bJ6u45suhNz8wslhz9ch5Vltg1HlDYtgTYYf7G4BOu6PdzT+/H8Ud465e279uvqsXHh2PhX0dj4F9Goevzpm7a2soR9xhI/AYflSPyYGo/SAAAAAElFTkSuQmCC); width: 20px;}
+            .enabledAnnouncedAddress {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACdUlEQVQ4y8XUy08TURQG8DMVAiFRYsAQceXGnStXkrgw6h9gXLEwJD5gY0yUhSgmuCDVKKGEuhECgi/CAqMGxFZalUdJJIA8pCS0sfJoZzozbWlLO9O5dz4XulDTQIFEv+S3/XJucs8h+hdZWPDma5p2gjF2kzH+lHP+9pfnjLHbmqad9Pn8BVsWiZJUnMlkGjnnkmkymBuzMJVemCH7T3IPzOQ0TG6Ac65mMkaTrCglWcvi8XiFwdgy19Zg+muB8YPAJ8rOcwDm0hXwVACMMTGRSJ7+o0yNRI4bhrHBgz2AuxhwUm5cReAr7TAMQ49GY2eIiMjhcBZqmuZjq73AgAXop20SwALt0HQ9ODk5VUyiJJ3T03FgoAzoo515sw/6hgxZli+Soqo2PfgB6KFd0b+/gqqq7RQSxYfplSGgi3ZF8/dBlKTH5PUunk+uKzC7S4A22pnOIiQjq1jy+a7Sjbq6/bKihtIzbYBdAOy0bemJ+1AjkWir3V5ORERDLvfZSDSWSU20Ai2FQBPlxpaPtMeKaCzGh0dGq37/isI7h6NSDMvR2PIXaK+rYDbtBayUlfmgCPrLSqwHPiMsKwmXy32JiCx/L4tgtd49MjM790IKy6nY0gjQQEADgTeVI+WsR3K4Gevz/VDDQUiyos3Nf+1rttmOEpGw2UpbxjzjNYq4CtyyAPX5iM4NYmUtqCx4Fz2TU9NdzvdD1Zeraw4T0Z6crs3omKdCkhXwO+VIDDZiLSTGOzo6jxFR3lbTZE2zraVMlGQzMXgPohQ2Xe6PF3Z1DwVByPN/C8yHpDCmpmce5fy0zXLteu2h7ifPTpWWlhbQ/8wPAy/eSMdSNZAAAAAASUVORK5CYII=); width: 20px;}
+            .enabledDownloading {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACo0lEQVQ4y6WUXUhTYRjHXxUqMBjhusgEQRFLBQkvil0YDvS6OyFxpBHpRSKWRF9+kZCWH9AHSCjVRSR1EXahbUsTFdQwa1s7+96Oyxxz7pydfbh5POffsYtiaHa0B35X7/P+eJ73fd6XkD1GJBI5wfN8qyAIExLj0WhURfYTHMflS6IRURQFW1hEnw3Q+kQkEgmTtJwiW1RWVkZisdilTUGIzgZElE8AKa+Ac9MAHRHAMMyklJYqS6ZUKonUUsvG5iZuLIhIewGQ50DxOyDOC6DppeF7XV1ZsqtjWLYywfOi5qMI8hS/GbRsVcYuKhSKA7JlFEUdjcfjge7PmyBPkIQnxEvV0c17ugSpgk4Ps4H0x5Kk/w8ZA1K78QTMZqpctkylUqWFwxH61iQP0o0kCodExNbXMT0zUyhbaDAaT0ZjMRQNSGfXiSRKBgVsrel0+hzZQq/3e7WPiSK1TRK2JlPwSEA4EsXc3HzBrpKKioqUwFqwkWFDUxI/FugIyI2NbSg6EmC5MKQJcLJsaH4tGLzZ2Ni0fbBtdscZNsThvp7D9REOF15yIFcjO3L5NYemtxzujnHY2mOx2k5vE77XaouDDCtUDjEgDUFZnH/GYGvP6OhY0U5dpxqMpocrqwzO9vhB6ny7ou5dhU/K/fLV0P/Xp5eTk3vIbLG+8awEcaptGaTWuyMl7cugpRwzZRnOzs4+uOvlqNXqw1a7Q0/RAeRdc4NUO5PIb/bAuhSA1WbXlpaWpssam7q6+gyH0/1pwerH8TorSCX1i6x6Kxbtftidrtmamtoje3p6re0dWS43TU0ZVnCs1oTMiyZMG1fgdHu+3b7TkrmvT7Wnty/P4fJYnF4/XBIOl5t60NObS/4nNBqNUqcfb9DpP1ypqqpS/iv/J6jINirQgeSjAAAAAElFTkSuQmCC); width: 20px;}
+            .enabledUploading {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACsUlEQVQ4y6WUXUhTYRjHX6XMrDQoiKhulKSYEBbdSlZ00U0fBEVEmDd1FZV0kYgFFpQlVFoKupVBkTZFY0vUqWXWdH5lbu5D284+zj7tuHP2mXP7d46ENBR19cAPHp73vL/zHp7nPYSsEMFg8Eg0GlXwdPJ5Pvmf8Pv9Z2Kx2Kwl3ABL+B2EnK+d/icZy7JH56LRkNpfjnonmUfjr4BQ49cOJyRjmJmDkcgcp/PVoc6ahFoLQa2V8Hky9L4XiEQiLMMwB1Ylc3s8e37Nzrp/cM2oMa3BcyOJo8a0FkZfK/hnnG63J3tZmd1u3xUOhykz14Uqw3o81pEleWZIg4X7iFA4bKRpeseSsvb29pRAIDhk4wbxZCID5WqyLE8nNoPmhsHvUclk8pRFQoqi8oOhEKo1u3FvhKyKak02hD1GkylvkVAqlWayHMcxPgdcrA4T7haUDhDc5in9g5DfGUiGmemHg9VgmjOD8/kCTU3NmUt9dVJlZVWOUqks4t/YZp/R4lYfWcR91U74/AGMq9V1AypVsVgsFrqdtGxzxtWaE17Oi+LejSjqIXFUqPYJp0KnQpG96jnkT7p9xsvOVamO4WoHiePB1/3wshw6OhVZicx2stVGK3unJLgiJ3GUdGeB8bIYGh7OTei2qAaHCjw/p1GiEKGwhSxw+X0qhLphcupkQkKRKGediTL3j5k/obApDRcayQLfzb2w2OiKhH8QYolERNud05/1Ulxs2ICzb8g8kv4iOPk7OjI6ui1h6duGxkNWm90zZvqCG625OFVPcP71JoxTKjhdHidlthxPWFr+8NFerc7Q53C58GFMgputeTj3aivk317CRjsmhSYmLE1Pz0iVydsKtXrDqMPpjploIyg7Ba1+UrbiYK8Q68rK7uYqurqvK7p6rhUUXNry9+JvkLYubhAdqdoAAAAASUVORK5CYII=); width: 20px;}
+            .enabledWeight {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAC00lEQVQ4y3WTT4gcRRTGf9V/piczw+7EVRTNKIiEhESSgzcj0YOsOQiGFREVNDl48GIweFJUktxzivEUV08q7GmDl7C4SEAlAVFxvTgaEBTWGNxkZna6ut57HmbcZLZ7GoqGX7331fe96oYpz9LSUuS9f0tEvhGRH8bru6Io3rly9Woyrc9N2+j3+ydqdXf2p81z5PovAKlr8WjjDSRPTzUajfer+qad5JxzL/w4+Iivbr49seF1k8d2vPu69363c64GYGbr3vsLrVbrylTrajYzkBsEA+x2lr7eQN3wvl/z5RfFcgDaycPcXz907O/r1x+fKmiqBDO8/g9GL1G4tHGC7wcX7pib49W7L2cz6f7XtgRXVlbiTqezA6Db7aqZIQpBJw8KZvxT/L6NGxvhT1qyd2dy9OiC++TTxffSNH3T4doAnQcfUjDEG4VNCoo6CqPMzVAzkvPnP3wujvngy42TrBe/ABC5JH6idRJRbke+w2Go4KKGmZHESTx/zX/L17fOTRQM5BaPZE+NLmWiEYJR4mqMBFWt6WWIl8mCzbBJSCnxoBCkzEUMVSUxU1QMGW4rADQpc80MKSq42JZDFCPk25w4kJQSlwLEl7kKqDMSM0PVCH5bYwwaKngwpKDMxbBIxw6FcuQYJFTwMHJYFVkd4xlqObKkoKEiWgFSWGVki3UcWSpmVRvFK/Fg1TMMhqVGomZWKZg5NLgKhw4pojJXUDOiXq+39kBzL7PRLkI+EpbcsX/nPLtnDxGHxhZ3Rcae9mH2tZ9G82iLN7mHTnMfw+HwD3fq9Jl7X3r5ldV6o7YnD/3xrxeTxU0NIQyItFXo6AaSKCOyZBBFca3QQSIWAMjiBj6XaxeXl590AAsLz9917PjxZ2dmZneNPgHxa2s/X/6t212fP3LkmXpWbwN4n99cXV29NDc31zpw8ODhJE7qAL1e768vPv/s4uLix+v/ASKk3jg8uzTGAAAAAElFTkSuQmCC); width: 20px;}
+            .remove {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADrklEQVQ4y42UzWtcVRiHnzv3TmYymUy+LNhALTRp0FrootBVDUXFgggigrUrUes/4Eqoi2z9WIibtuK2xWx0obZoNS3UukiN0A5US9LYJE2TmkkymXvPvefc8+WiicSmKb5weD95+J1z4IVNliTJoFLq+Vartfvy5cvReu2AtfZ7a+0VKeUx/q8JId52zhnnnHfOeWttaoy5aa1tNO4rPzedeuecbjQaw+Pj48XtOMGGz7Ls2sKsOXjz9xaVakhHZ0ilGlHtjJi6mSASw8vHdhKGAYB0zs0AU865K3N37342ODCg/gNcWlr6qtRWe2NuWhCvGZKWJl7TyNTi/YOhqBjQ0RlRrRWp1h74XXsqWJd/1FmtfgAQrQP92bPn3j9+/M3+of29hzdfwWhPvA6Pm5pWM6fVVMzPxKSJ5rmjO3lyV3hwY34DyN69g6u1rq49M7djfvvlb2RqH/vmHZ0RL77az86nOpianPx6o17YCIaGhg4EQdD/wzd/cWeqSZYpnLcs3osxVpPnmsV7MWHkiGPJ7VurXDo/h3eepUbj4hbgyspK5pzDGIMQkr3PdnFoeAdCSA4c6mP/wR6EkBx+qZ/dAx0IIfFYnHO+fuNGawvwRr2+6J33UREykSOlJowCMpFjrcNaRyZywgiyLCcTOeVKAW10c2RkpLkFePrUqaaxJiuWAlIhEbGCwJMKidYGrQ2pkIQhJLEiFZJKNSRX+fzy8rLZApyYmNB5rhulckAqFKlQhNGD2GiL1gYhFIUwIGlJUqGo1opoo2cBtwUIOGPM/UpHRJYq4pakUIAsVWhj0dois5wwCkhiRZYqurrb0NrMbv79zUBvjFmsVCPSVCESRbEtQAiF0QajDTJTFArQWssQqaK7r4TW+s52QIy1i7WeEtZ6MqEJowLOeZzzWOcphAEEoKQhALp6y0ilZrcHarNQ6y7hnUMpQxQF4D1+/YRhgMcjU013b3ld7dr2CrXOF7p7SjjnkZmBAIJCgHMO5xzFYgHvPUpZene045ynXq/PbGZEm5M0y+729T1BuT3izuQq347+ic4Nv16aw2hHc1Xy3egtFudjBp7uQRu99uknHy9vq/DS2Ng1Y414/a195Llh9Ms6znkmrs5zfXwBnVvOnblOrauNo68NkiTJ1cnJyfxR+/Df/OJPYyee2bfvc2cp5/mjF0R7JUJKOT029vMr7737zh+PAwIEJ09+ODR85MgL7eX2noebHu9Xllemvzhz+scLF86vPNz/B+AKUQAzzOteAAAAAElFTkSuQmCC); cursor: pointer; width: 20px;}
+            .software {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADuklEQVQ4y6WUW2gcVRjHp60VoWCDPkgpFfHy4EtFCKIPbRopXlov0CiC4LWNpLY+pAoVpaJtLO6DpWikT2o0GzGbqm20pok+GEy3l9zjZpMme5mdvc39ZGZ2ZnZns/37zbYklg1S9MCP7zvf5b/nO3sYjvuXFerpWe15XkulUhkkhshvvXDx4hruvy7HcQ6VK1cQKXiYsjx45Luu++kNCxQKhcZyuTy4uLiYK3leL/naICviWNqqMqC5oJxdLBZ/IJul/DnbtneuKCYryoPlxcXilFXCadVB0vH8ZnwnOfiQt6p8lbersbTroVd1MWaWQD1lTdO21ggahtGesEtoTRhVDiYNyNT4u+6gNX419jP9ECt5eI83l2JRqwjTNIM1gqqqdY0aLnbPsyVO5CwkCsWlfcR00SEWrqv5kznQdf1MjWCS59+2iyUcz5h4/rKO5wjfThkO9sQYXprXMWu5eOEfuUDagFUsQkin2+rq6q4K1dfXrzIMM+C4bsV2XZDFCLPxZpzhsRkN+xMMRwUD7/MLOEj4seaYjrBeqNZe67lCY58IBAKruWwuv8OyHWpgaJhW8TKd5LOMgSHNQkg0sXNWxVsk6vP4jIquvEFiFr7IGniNhBuiKg4kGRZIQ5SkFzlJlj8/r5m4f0quoT4i06gatkUVbCF8/6GIvGLtgGyAtL7kEkn+gzlm4u5JCRvHxSqbJkTsmFFwmNfREtewnfxGEtwTU9GW0vH0rII7J5brfX9CM5AShGNcMNh1r6Jq7A9pAYeSNFJWB88M9IqMTijh9rE8mucVvDKnYMN4Hpv/khDKMQhU003W7+mnWk1n9k+nTj1Q/WM6O4MPx+LxIZ0tYFRmeGpGws0jOawl3okr2DotYfOUiCPUvPZafHtUQlhi8HtoyuHuUKiRpFYtPZtUOtM2SWLr6URrqMHHP1FEYbhlNIebaD8m67hncjm/juJhSUc6k22veYcpIR36WlDBDeeWOM4rCKaXY+0pBR0r1AiZ7ECNYGQ6+m5MVnEfjcaN5vEojSkqGl6fk6t7n6ZZCTLFnqUr8febJkVEJBXR2cuf1Aju27e/bj6euJQh0Ut5BSJZiXiC7oobyVd5JCJWY35umGrSZONJPvLR4SN3rPjFadjWeOuZvrOvDoUvHP2+u6cplkiOnxRkrKe7XEd0pGTwKSH+zbedzwyFz3/c1z/QvGtX0203/H3sOfnjlpSQUQRRRoqgu2Kne395kvs/q2Xv3o2/9vXvPtv/2xutrQfuuu5prLD+Bh2wsnSTy5e1AAAAAElFTkSuQmCC); width: 20px;}
+            .text {cursor: default; padding: 0 10px 0 5px; white-space: nowrap;}
+            .wellKnown {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACpElEQVQ4y62U30tTYRjH36lkkSjeGKF4UVQXFUJ420VmQeJFV+YfkGGYWAlCKOSFhOVAUi9mWnkxTVNzZkppRW4zpzmKzM1tBm5zZz+PTo8729k5O9/ONAgrdc2+8OG878X7ed+X57wPITFkZmYmKRAIHGMY5ohKpUog8cZisSSHw+E6URRp/EwkEnFwHHdrbGwsNrHfv3qc5/leQRCMvCAYfCER5Z+BE6+Bk2+AmllgnRcRCoXaMjMzZTvK9Hp9qiSzT7gjqNKL0HlFnB4GSOdW8t8BvBCJSp+wLFvQ09Mj+/1qB4LBYL10PYoNC0hTSgufAokdm9+/UTUtYtQeAccLUfGI3W5P25DJ5fIEaZcRiuFRoY0gb0gEUSBmcnpFfF/hEWDZoeLiYhlxudyFgSCHnC5J1IS4yO0WEQxxoCjneeKj6cYPi2EQOfaE2spBcjUQB0U1fLSGQO5hT3TPcvB4vUqi003lM+vrKFAKIHfF+KgVMWVlYbXZ6qN1STSZzB20n8FDDYvcFg7kTvifuPg4hNU1RhxXq89uVDojIyNZo5247XK7nc3jayCVTEzIJArbGVg9azBbFrqih9vyP86bzLXzS34crFwGKad3pfTZCpZX/JFvc4bOoqKi1D9eSlNzS5bT5fZ062ik33SCXPvF0WoXriu9SCzdnJ+pc8OytAxJppCWJm37/Pr6X5yzS6VfpGg8n/Qi774Dhyps0Ft88PpoGK00dPM+eKSxyWx5X1ZWlr5rg7haUnLYYDQNWCkfsm4s4O0XNxZtdrOite2CWqOtntRNPejrH7ickpKyP9bOJZNOOd04aEP76BKksVfR+uhU3H0wOzt7n4NyMdqvTjicrtCAavAS2WNkas1EzZzB+Onlq+Er0Tn5D5HtWL1t8gNKktsJilVhCwAAAABJRU5ErkJggg==); width: 20px;}
+        </style>
+        <script type="text/javascript">
+            var downloadingDeadlines = [], uploadingDeadlines = [];
+
+            function addPeer(peer) {
+                if (document.getElementById("peer" + peer.index) != null) {
+                    document.getElementById("peers").deleteRow(document.getElementById("peer" + peer.index).rowIndex);
+                }
+                var peers = document.getElementById("peers"), row = peers.insertRow(peers.rows.length), element;
+                row.id = "peer" + peer.index;
+                element = row.insertCell(0);
+                element.id = "state" + peer.index;
+                if (peer.disconnected) {
+                    element.className = "disconnected";
+                    element.title = "Disconnected";
+                } else {
+                    element.className = "connected";
+                    element.title = "Connected";
+                }
+                element = row.insertCell(1);
+                element.className = "text";
+                element.title = peer.address;
+                element.innerHTML = peer.address;
+                element = row.insertCell(2);
+                element.id = "announcedAddressIcon" + peer.index;
+                if (peer.wellKnown) {
+                    element.className = "wellKnown";
+                    element.title = "Well-known address";
+                } else {
+                    if (peer.announcedAddress.length > 1) {
+                        element.className = "enabledAnnouncedAddress";
+                    } else {
+                        element.className = "disabledAnnouncedAddress";
+                    }
+                    element.title = "Announced address";
+                }
+                element = row.insertCell(3);
+                element.id = "announcedAddress" + peer.index;
+                element.className = "text";
+                element.title = peer.announcedAddress;
+                element.textContent = peer.announcedAddress;
+                element = row.insertCell(4);
+                element.id = "weightIcon" + peer.index;
+                element.className = peer.weight > 0 ? "enabledWeight" : "disabledWeight";
+                element.title = "Weight";
+                element = row.insertCell(5);
+                element.id = "weight" + peer.index;
+                element.className = "text";
+                element.innerHTML = formatWeight(peer.weight);
+                element = row.insertCell(6);
+                element.id = "downloading" + peer.index;
+                element.className = "disabledDownloading";
+                element.title = "Downloading";
+                element = row.insertCell(7);
+                element.id = "downloaded" + peer.index;
+                element.className = "text";
+                element.title = "Downloaded volume";
+                element.innerHTML = formatVolume(peer.downloaded);
+                element = row.insertCell(8);
+                element.id = "uploading" + peer.index;
+                element.className = "disabledUploading";
+                element.title = "Uploading";
+                element = row.insertCell(9);
+                element.id = "uploaded" + peer.index;
+                element.className = "text";
+                element.title = "Uploaded volume";
+                element.innerHTML = formatVolume(peer.uploaded);
+                element = row.insertCell(10);
+                element.className = "software";
+                element.title = "Software";
+                element = row.insertCell(11);
+                element.className = "text";
+                element.title = "Application (version)";
+                element.textContent = peer.software;
+                element = row.insertCell(12);
+                element.id = "remove" + peer.index;
+                element.className = "remove";
+                element.title = peer.disconnected ? "Remove from the list" : "Disconnect and remove from the list";
+                element.onclick = function() {
+                    requestPeerRemoving(peer.index);
+                };
+                element = parent.document.getElementById("activePeersCounter");
+                element.innerHTML = parseInt(element.innerHTML) + 1;
+            }
+
+            function addPeers(peers) {
+                var i;
+                for (i = 0; i < peers.length; i++) {
+                    addPeer(peers[i]);
+                }
+            }
+
+            function changePeer(peer) {try{
+                var element;
+                if (peer.connected) {
+                    element = document.getElementById("state" + peer.index);
+                    element.className = "connected";
+                    element.title = "Connected";
+                    document.getElementById("remove" + peer.index).title = "Disconnect and remove from the list";
+                }
+                if (peer.disconnected) {
+                    element = document.getElementById("state" + peer.index);
+                    element.className = "disconnected";
+                    element.title = "Disconnected";
+                    document.getElementById("remove" + peer.index).title = "Remove from the list";
+                }
+                if (peer.announcedAddress) {
+                    element = document.getElementById("announcedAddress" + peer.index);
+                    element.title = peer.announcedAddress;
+                    element.textContent = peer.announcedAddress;
+                    element = document.getElementById("announcedAddressIcon" + peer.index);
+                    if (peer.wellKnown) {
+                        element.className = "wellKnown";
+                        element.title = "Well-known address";
+                    } else {
+                        if (peer.announcedAddress.length > 1) {
+                            element.className = "enabledAnnouncedAddress";
+                        } else {
+                            element.className = "disabledAnnouncedAddress";
+                        }
+                        element.title = "Announced address";
+                    }
+                }
+                if (peer.weight) {
+                    element = document.getElementById("weightIcon" + peer.index);
+                    element.className = peer.weight > 0 ? "enabledWeight" : "disabledWeight";
+                    element = document.getElementById("weight" + peer.index);
+                    element.innerHTML = formatWeight(peer.weight);
+                }
+                if (peer.downloaded > 0) {
+                    downloadingDeadlines[peer.index] = (new Date()).getTime() + 1000;
+                    document.getElementById("downloading" + peer.index).className = "enabledDownloading";
+                    document.getElementById("downloaded" + peer.index).innerHTML = formatVolume(peer.downloaded);
+                }
+                if (peer.uploaded > 0) {
+                    uploadingDeadlines[peer.index] = (new Date()).getTime() + 1000;
+                    document.getElementById("uploading" + peer.index).className = "enabledUploading";
+                    document.getElementById("uploaded" + peer.index).innerHTML = formatVolume(peer.uploaded);
+                }}catch(e){}
+            }
+
+            function changePeers(peers) {
+                var i;
+                for (i = 0; i < peers.length; i++) {
+                    changePeer(peers[i]);
+                }
+            }
+
+            function formatVolume(volume) {
+                var digits=[], formattedVolume = "", i;
+                do {
+                    digits[digits.length] = volume % 10;
+                    volume = Math.floor(volume / 10);
+                } while (volume > 0);
+                for (i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 3 == 0) {
+                        formattedVolume = "'" + formattedVolume;
+                    }
+                    formattedVolume = digits[i] + formattedVolume;
+                }
+                return formattedVolume + " B";
+            }
+
+            function formatWeight(weight) {
+                var digits=[], formattedWeight = "", i;
+                do {
+                    digits[digits.length] = weight % 10;
+                    weight = Math.floor(weight / 10);
+                } while (weight > 0);
+                for (i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 3 == 0) {
+                        formattedWeight = "'" + formattedWeight;
+                    }
+                    formattedWeight = digits[i] + formattedWeight;
+                }
+                return formattedWeight;
+            }
+
+            function initialize() {
+                setInterval(function() {
+                    var i, time = (new Date()).getTime(), element;
+                    for (i = 0; i < downloadingDeadlines.length; i++) {
+                        if (downloadingDeadlines[i] > 0 && downloadingDeadlines[i] <= time) {
+                            element = document.getElementById("downloading" + i);
+                            if (element != null) {
+                                element.className = "disabledDownloading";
+                            }
+                            downloadingDeadlines[i] = 0;
+                        }
+                    }
+                    for (i = 0; i < uploadingDeadlines.length; i++) {
+                        if (uploadingDeadlines[i] > 0 && uploadingDeadlines[i] <= time) {
+                            element = document.getElementById("uploading" + i);
+                            if (element != null) {
+                                element.className = "disabledUploading";
+                            }
+                            uploadingDeadlines[i] = 0;
+                        }
+                    }
+                }, 100);
+            }
+
+            function removePeer(peer) {try{
+                document.getElementById("peers").deleteRow(document.getElementById("peer" + peer.index).rowIndex);
+                var element = parent.document.getElementById("activePeersCounter");
+                element.innerHTML = parseInt(element.innerHTML) - 1;}catch(e){}
+            }
+
+            function removePeers(peers) {
+                var i;
+                for (i = 0; i < peers.length; i++) {
+                    removePeer(peers[i]);
+                }
+            }
+
+            function requestPeerRemoving(index) {
+                parent.sendRequest("removeActivePeer&peer=" + index);
+            }
+        </script>
+    </head>
+    <body onload="initialize();">
+        <table id="peers"></table>
+    </body>
+</html>

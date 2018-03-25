@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            body {background-color: #E0E0E0; color: #000; font-family: Tahoma; font-size: 10pt; margin: 0; padding: 10px;}
+            table {border-collapse: collapse; width: 100%;}
+            td {height: 20px; line-height: 20px; padding: 0;}
+            .disabledAnnouncedAddress {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAABaklEQVQoU5XSu0tCYRzG8Z9l1CZRENTU0tbUlNAQ1R8QTQ0RdN2CpggaoykMwgSLvBQ5SAUNHVJ0UWsJIynMSizkpK93UsyTenwaLNC84fezPrwvvOcQNZ+7TRjJr+ePRU7kxJP8hjDqba8YMVl2UwyJSCEEHjwYkhAhxrLbka6SWVKe82fwAjusJWzwII08S43/zmLDufQHrDBVYYEfue/EBBGZOgQvDw6XNXB4hxBwyohNZWDCRR0c0ojMU3QniPMG/IgdUFDJw9jAG5iWnmY+cQpDHUbE8bpCa52RoBtHddwjltjtJSLLZDzrgh6aKnRwIiHaZosPKbmaDiV4WKDFfgkNzPAjnLIuUMvfp5FsDbgMoS8fVFBBBwdu8YwwwsLDmWKQJFRWy/UygxJ78ICPum+cOvPSYj+1UmUOeRhq2BFIHg6R9P85JSl6WMEOVrDO1ZwUk0h9jwx36qrXlbfapx/rrvxZm+sH8dqYK31+8e0AAAAASUVORK5CYII=); width: 20px;}
+            .enabledAnnouncedAddress {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACdUlEQVQ4y8XUy08TURQG8DMVAiFRYsAQceXGnStXkrgw6h9gXLEwJD5gY0yUhSgmuCDVKKGEuhECgi/CAqMGxFZalUdJJIA8pCS0sfJoZzozbWlLO9O5dz4XulDTQIFEv+S3/XJucs8h+hdZWPDma5p2gjF2kzH+lHP+9pfnjLHbmqad9Pn8BVsWiZJUnMlkGjnnkmkymBuzMJVemCH7T3IPzOQ0TG6Ac65mMkaTrCglWcvi8XiFwdgy19Zg+muB8YPAJ8rOcwDm0hXwVACMMTGRSJ7+o0yNRI4bhrHBgz2AuxhwUm5cReAr7TAMQ49GY2eIiMjhcBZqmuZjq73AgAXop20SwALt0HQ9ODk5VUyiJJ3T03FgoAzoo515sw/6hgxZli+Soqo2PfgB6KFd0b+/gqqq7RQSxYfplSGgi3ZF8/dBlKTH5PUunk+uKzC7S4A22pnOIiQjq1jy+a7Sjbq6/bKihtIzbYBdAOy0bemJ+1AjkWir3V5ORERDLvfZSDSWSU20Ai2FQBPlxpaPtMeKaCzGh0dGq37/isI7h6NSDMvR2PIXaK+rYDbtBayUlfmgCPrLSqwHPiMsKwmXy32JiCx/L4tgtd49MjM790IKy6nY0gjQQEADgTeVI+WsR3K4Gevz/VDDQUiyos3Nf+1rttmOEpGw2UpbxjzjNYq4CtyyAPX5iM4NYmUtqCx4Fz2TU9NdzvdD1Zeraw4T0Z6crs3omKdCkhXwO+VIDDZiLSTGOzo6jxFR3lbTZE2zraVMlGQzMXgPohQ2Xe6PF3Z1DwVByPN/C8yHpDCmpmce5fy0zXLteu2h7ifPTpWWlhbQ/8wPAy/eSMdSNZAAAAAASUVORK5CYII=); width: 20px;}
+            .remove {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADrklEQVQ4y42UzWtcVRiHnzv3TmYymUy+LNhALTRp0FrootBVDUXFgggigrUrUes/4Eqoi2z9WIibtuK2xWx0obZoNS3UukiN0A5US9LYJE2TmkkymXvPvefc8+WiicSmKb5weD95+J1z4IVNliTJoFLq+Vartfvy5cvReu2AtfZ7a+0VKeUx/q8JId52zhnnnHfOeWttaoy5aa1tNO4rPzedeuecbjQaw+Pj48XtOMGGz7Ls2sKsOXjz9xaVakhHZ0ilGlHtjJi6mSASw8vHdhKGAYB0zs0AU865K3N37342ODCg/gNcWlr6qtRWe2NuWhCvGZKWJl7TyNTi/YOhqBjQ0RlRrRWp1h74XXsqWJd/1FmtfgAQrQP92bPn3j9+/M3+of29hzdfwWhPvA6Pm5pWM6fVVMzPxKSJ5rmjO3lyV3hwY34DyN69g6u1rq49M7djfvvlb2RqH/vmHZ0RL77az86nOpianPx6o17YCIaGhg4EQdD/wzd/cWeqSZYpnLcs3osxVpPnmsV7MWHkiGPJ7VurXDo/h3eepUbj4hbgyspK5pzDGIMQkr3PdnFoeAdCSA4c6mP/wR6EkBx+qZ/dAx0IIfFYnHO+fuNGawvwRr2+6J33UREykSOlJowCMpFjrcNaRyZywgiyLCcTOeVKAW10c2RkpLkFePrUqaaxJiuWAlIhEbGCwJMKidYGrQ2pkIQhJLEiFZJKNSRX+fzy8rLZApyYmNB5rhulckAqFKlQhNGD2GiL1gYhFIUwIGlJUqGo1opoo2cBtwUIOGPM/UpHRJYq4pakUIAsVWhj0dois5wwCkhiRZYqurrb0NrMbv79zUBvjFmsVCPSVCESRbEtQAiF0QajDTJTFArQWssQqaK7r4TW+s52QIy1i7WeEtZ6MqEJowLOeZzzWOcphAEEoKQhALp6y0ilZrcHarNQ6y7hnUMpQxQF4D1+/YRhgMcjU013b3ld7dr2CrXOF7p7SjjnkZmBAIJCgHMO5xzFYgHvPUpZene045ynXq/PbGZEm5M0y+729T1BuT3izuQq347+ic4Nv16aw2hHc1Xy3egtFudjBp7uQRu99uknHy9vq/DS2Ng1Y414/a195Llh9Ms6znkmrs5zfXwBnVvOnblOrauNo68NkiTJ1cnJyfxR+/Df/OJPYyee2bfvc2cp5/mjF0R7JUJKOT029vMr7737zh+PAwIEJ09+ODR85MgL7eX2noebHu9Xllemvzhz+scLF86vPNz/B+AKUQAzzOteAAAAAElFTkSuQmCC); cursor: pointer; width: 20px;}
+            .text {cursor: default; padding: 0 10px 0 5px; white-space: nowrap;}
+            .wellKnown {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACpElEQVQ4y62U30tTYRjH36lkkSjeGKF4UVQXFUJ420VmQeJFV+YfkGGYWAlCKOSFhOVAUi9mWnkxTVNzZkppRW4zpzmKzM1tBm5zZz+PTo8729k5O9/ONAgrdc2+8OG878X7ed+X57wPITFkZmYmKRAIHGMY5ohKpUog8cZisSSHw+E6URRp/EwkEnFwHHdrbGwsNrHfv3qc5/leQRCMvCAYfCER5Z+BE6+Bk2+AmllgnRcRCoXaMjMzZTvK9Hp9qiSzT7gjqNKL0HlFnB4GSOdW8t8BvBCJSp+wLFvQ09Mj+/1qB4LBYL10PYoNC0hTSgufAokdm9+/UTUtYtQeAccLUfGI3W5P25DJ5fIEaZcRiuFRoY0gb0gEUSBmcnpFfF/hEWDZoeLiYhlxudyFgSCHnC5J1IS4yO0WEQxxoCjneeKj6cYPi2EQOfaE2spBcjUQB0U1fLSGQO5hT3TPcvB4vUqi003lM+vrKFAKIHfF+KgVMWVlYbXZ6qN1STSZzB20n8FDDYvcFg7kTvifuPg4hNU1RhxXq89uVDojIyNZo5247XK7nc3jayCVTEzIJArbGVg9azBbFrqih9vyP86bzLXzS34crFwGKad3pfTZCpZX/JFvc4bOoqKi1D9eSlNzS5bT5fZ062ik33SCXPvF0WoXriu9SCzdnJ+pc8OytAxJppCWJm37/Pr6X5yzS6VfpGg8n/Qi774Dhyps0Ft88PpoGK00dPM+eKSxyWx5X1ZWlr5rg7haUnLYYDQNWCkfsm4s4O0XNxZtdrOite2CWqOtntRNPejrH7ickpKyP9bOJZNOOd04aEP76BKksVfR+uhU3H0wOzt7n4NyMdqvTjicrtCAavAS2WNkas1EzZzB+Onlq+Er0Tn5D5HtWL1t8gNKktsJilVhCwAAAABJRU5ErkJggg==); width: 20px;}
+            .software {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADuklEQVQ4y6WUW2gcVRjHp60VoWCDPkgpFfHy4EtFCKIPbRopXlov0CiC4LWNpLY+pAoVpaJtLO6DpWikT2o0GzGbqm20pok+GEy3l9zjZpMme5mdvc39ZGZ2ZnZns/37zbYklg1S9MCP7zvf5b/nO3sYjvuXFerpWe15XkulUhkkhshvvXDx4hruvy7HcQ6VK1cQKXiYsjx45Luu++kNCxQKhcZyuTy4uLiYK3leL/naICviWNqqMqC5oJxdLBZ/IJul/DnbtneuKCYryoPlxcXilFXCadVB0vH8ZnwnOfiQt6p8lbersbTroVd1MWaWQD1lTdO21ggahtGesEtoTRhVDiYNyNT4u+6gNX419jP9ECt5eI83l2JRqwjTNIM1gqqqdY0aLnbPsyVO5CwkCsWlfcR00SEWrqv5kznQdf1MjWCS59+2iyUcz5h4/rKO5wjfThkO9sQYXprXMWu5eOEfuUDagFUsQkin2+rq6q4K1dfXrzIMM+C4bsV2XZDFCLPxZpzhsRkN+xMMRwUD7/MLOEj4seaYjrBeqNZe67lCY58IBAKruWwuv8OyHWpgaJhW8TKd5LOMgSHNQkg0sXNWxVsk6vP4jIquvEFiFr7IGniNhBuiKg4kGRZIQ5SkFzlJlj8/r5m4f0quoT4i06gatkUVbCF8/6GIvGLtgGyAtL7kEkn+gzlm4u5JCRvHxSqbJkTsmFFwmNfREtewnfxGEtwTU9GW0vH0rII7J5brfX9CM5AShGNcMNh1r6Jq7A9pAYeSNFJWB88M9IqMTijh9rE8mucVvDKnYMN4Hpv/khDKMQhU003W7+mnWk1n9k+nTj1Q/WM6O4MPx+LxIZ0tYFRmeGpGws0jOawl3okr2DotYfOUiCPUvPZafHtUQlhi8HtoyuHuUKiRpFYtPZtUOtM2SWLr6URrqMHHP1FEYbhlNIebaD8m67hncjm/juJhSUc6k22veYcpIR36WlDBDeeWOM4rCKaXY+0pBR0r1AiZ7ECNYGQ6+m5MVnEfjcaN5vEojSkqGl6fk6t7n6ZZCTLFnqUr8febJkVEJBXR2cuf1Aju27e/bj6euJQh0Ut5BSJZiXiC7oobyVd5JCJWY35umGrSZONJPvLR4SN3rPjFadjWeOuZvrOvDoUvHP2+u6cplkiOnxRkrKe7XEd0pGTwKSH+zbedzwyFz3/c1z/QvGtX0203/H3sOfnjlpSQUQRRRoqgu2Kne395kvs/q2Xv3o2/9vXvPtv/2xutrQfuuu5prLD+Bh2wsnSTy5e1AAAAAElFTkSuQmCC); width: 20px;}
+        </style>
+        <script type="text/javascript">
+            function addPeer(peer) {
+                if (document.getElementById("peer" + peer.index) != null) return;
+                var peers = document.getElementById("peers"), row = peers.insertRow(peers.rows.length), element;
+                row.id = "peer" + peer.index;
+                element = row.insertCell(0);
+                element.className = "text";
+                element.title = peer.address;
+                element.innerHTML = peer.address;
+                element = row.insertCell(1);
+                if (peer.wellKnown) {
+                    element.className = "wellKnown";
+                    element.title = "Well-known address";
+                } else {
+                    if (peer.announcedAddress.length > 1) {
+                        element.className = "enabledAnnouncedAddress";
+                    } else {
+                        element.className = "disabledAnnouncedAddress";
+                    }
+                    element.title = "Announced address";
+                }
+                element = row.insertCell(2);
+                element.className = "text";
+                element.title = peer.announcedAddress;
+                element.textContent = peer.announcedAddress;
+                element = row.insertCell(3);
+                element.className = "software";
+                element.title = "Software";
+                element = row.insertCell(4);
+                element.className = "text";
+                element.title = "Application (version)";
+                element.textContent = peer.software;
+                element = row.insertCell(5);
+                element.className = "remove";
+                element.title = "Remove blacklisted status";
+                element.onclick = function() {
+                    requestPeerRemoving(peer.index);
+                };
+                element = parent.document.getElementById("blacklistedPeersCounter");
+                element.innerHTML = parseInt(element.innerHTML) + 1;
+            }
+
+            function addPeers(peers) {
+                var i;
+                for (i = 0; i < peers.length; i++) {
+                    addPeer(peers[i]);
+                }
+            }
+
+            function removePeer(peer) {
+                document.getElementById("peers").deleteRow(document.getElementById("peer" + peer.index).rowIndex);
+                var element = parent.document.getElementById("blacklistedPeersCounter");
+                element.innerHTML = parseInt(element.innerHTML) - 1;
+            }
+
+            function removePeers(peers) {
+                var i;
+                for (i = 0; i < peers.length; i++) {
+                    removePeer(peers[i]);
+                }
+            }
+
+            function requestPeerRemoving(index) {
+                parent.sendRequest("removeBlacklistedPeer&peer=" + index);
+            }
+        </script>
+    </head>
+    <body>
+        <table id="peers"></table>
+    </body>
+</html>

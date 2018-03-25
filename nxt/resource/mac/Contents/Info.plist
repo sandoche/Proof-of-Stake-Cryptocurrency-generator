@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.7.4</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+	<key>CFBundleExecutable</key>
+	<string>nxt</string>
+	<key>CFBundleIconFile</key>
+	<string>nxt</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.nxt.runtime</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Nxt</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.8.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>LSApplicationCategoryType</key>
+	<string>Business</string>
+	<key>CFBundleVersion</key>
+	<string>1.8.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright (C) 2016</string>
+	<key>NSHighResolutionCapable</key>
+	<string>true</string>
+</dict>
+</plist>

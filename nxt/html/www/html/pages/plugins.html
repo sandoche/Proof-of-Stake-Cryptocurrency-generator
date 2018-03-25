@@ -1,0 +1,64 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="plugins_page" class="page">
+    <section class="content-header">
+        <h1><span data-i18n="plugins">Plugins</span></h1>
+    </section>
+    <section class="content">
+        <div class="alert alert-warning" role="alert" style="display:none;" id="plugins_disabled_warning"></div>
+        <div class="data-container">
+            <p style="padding-top:20px;">
+              <span id="plugins_page_msg"></span> 
+              <a href="#" class="goto-page" data-page="plugins_overview" data-i18n="plugins_status_page">Status page</a>.
+            </p>
+        </div>
+    </section>
+</div>
+
+
+<div id="plugins_overview_page" class="page">
+    <section class="content-header">
+        <h1><span data-i18n="plugins">Plugins</span></h1>
+    </section>
+    <section class="content">
+
+        <div class="data-container data-loading">
+            <table class="table table-striped table-hover" id="plugins_overview_table">
+                <thead>
+                <tr>
+                    <th data-i18n="name">Name</th>
+                    <th data-i18n="version">Version</th>
+                    <th data-i18n="website">Website</th>
+                    <th data-i18n="validation_status" style='text-align:center;'>Validation Status</th>
+                    <th data-i18n="nrs_compatibility" style='text-align:center;'>NRS Compatibility</th>
+                    <th data-i18n="launch_status" style='text-align:center;'>Launch Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container" style="text-align:center;">
+                <p style="padding-top:80px;padding-bottom:100px;">
+                    <span data-i18n="no_plugins_found">No plugins found</span>.<br>
+                    (<span data-i18n="plugins_more_info">for more info see plugins/ folder of your client installation</span>)
+                </p>
+            </div>
+        </div>
+    </section>
+</div>

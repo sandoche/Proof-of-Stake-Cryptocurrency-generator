@@ -1,0 +1,9 @@
+Desktop wallet performance optimizations to reduce excessive load.
+
+Do not allow login using passphrase to a non-existing account to prevent users
+from losing their funds due to a typo. Use the "choose your own passphrase"
+link under "create new account" if you really need to login to a non-existing
+account using passphrase.
+
+Client UI enhancements and bugfixes.
+

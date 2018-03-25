@@ -1,0 +1,257 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="lockscreen" class="loading">
+    <div id="old_browser_warning" style="display:none;margin-left:auto;margin-right:auto;margin-top:200px;background:white;color:black;padding:20px;width:300px;" data-i18n="old_browser_warning">You are using an old browser which this application does not support.</div>
+
+    <table id="center" style="display:none;width:100%;height:100%;">
+        <tr><td style="text-align:center;vertical-align:middle">
+            <img src="img/nxt_logo.png" alt="Nxt" id="logo-nxt-img" />
+
+            <div id="login_panel">
+                <div class="callout callout-danger custom_login_warning"></div>
+                <div class="callout callout-danger" id="testnet_login" data-i18n="testnet_login_warning">Log in with your TestNet account - not your real one!</div>
+                <div id="login_error" style="max-width:400px;min-width:400px;display:none">
+                    <div class="callout callout-danger"></div>
+                </div>
+
+                <div id="account_data_reader" style="display:none;margin:auto;width:384px;height:384px;"></div>
+				<table style="width:100%;height:100%;">
+				<tr><td style="text-align:center;vertical-align:middle">
+                <div class="lockscreen-widget btn-group" data-toggle="buttons" id="loginButtons">
+                    <label class="lockscreen-widget btn btn-primary btn-lg active" data-login-type="account" data-reader="account_data_reader">
+                        <input type="radio" name="loginButtons"><i class="fa fa-male"></i>
+                    </label>
+                    <label class="lockscreen-widget btn btn-primary btn-lg" data-login-type="password" data-reader="account_data_reader">
+                        <input type="radio" name="loginButtons"><i class="fa fa-key"></i>
+                    </label>
+                    <label class="lockscreen-widget btn btn-primary btn-lg scan-qr-code" data-login-type="scan" data-reader="account_data_reader">
+                        <input type="radio" name="loginButtons"><i class="fa fa-qrcode"></i>
+                    </label>
+                </div>
+				</td></tr>
+				</table>
+				<table style="width:100%;height:100%;">
+				<tr><td style="text-align:center;vertical-align:middle">
+                <div class="lockscreen-item">
+                    <div class="lockscreen-credentials">
+                    	<div class="input-group" id="login_account_container" style="display:table;height:34px;width: 100%;">
+                            <div class="dropdown" style="width: 100%;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" style="width: 100%;">
+                                    <span data-i18n="select_account_to_login">Select an Account to Login with</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="login_account">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <input type="hidden" name="check_password_length" id="login_check_password_length" value="1" />
+                        <div class="input-group" id="login_account_container_other">
+                            <input type="text" class="form-control" id="login_account_other" name="login_account_other" placeholder="Your NXT Account" data-i18n="[placeholder]your_account" autofocus />
+                            <div class="input-group-btn" style="border:1px solid #fff;">
+                                <button class="btn btn-flat" onclick="NRS.login(0,$('#login_account_other').val())"><i class="fa fa-arrow-right text-muted"></i></button>
+                            </div>
+                        </div>
+                        <div class="input-group" style="display:none">
+                            <input type="password" class="form-control" id="login_password" name="login_password" placeholder="Your Passphrase" data-i18n="[placeholder]your_passphrase" autofocus />
+                            <div class="input-group-btn" style="border:1px solid #fff;">
+                                <button class="btn btn-flat" onclick="NRS.login(1,$('#login_password').val(), null, { isPreventLoginToNewAccount: true })"><i class="fa fa-arrow-right text-muted"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				</td></tr>
+				</table>
+				<table style="width:100%;height:100%;">
+				<tr><td style="text-align:center;vertical-align:middle">
+                <a href="#" class="lockscreen-widget mobile-only btn btn-primary" data-toggle="modal" data-target="#mobile_settings_modal" style="display:none;">
+                    <i class="fa fa-navicon"></i>
+                </a>
+				</tr></td>
+				</table>
+
+                <div id="remem-wrap" style="text-align:center;vertical-align:middle">
+                    <div id="remember_me_container">
+                        <input type="checkbox" name="remember_me" id="remember_me" value="1" /> <span></span>
+                        <label for="remember_me" data-i18n="remember_me">Remember Me</label>
+                    </div>
+                </div>
+
+                <div id="lockscreen_active_plugins_warning" style="margin-top:7px;display:none;">
+                <div style="display:inline-block;max-width: 400px; min-width: 400px;">
+                    <div style="margin-top:10px;margin-bottom:12px;">
+                        <a href="#" id="lockscreen_active_plugins_overview" class="label label-default" data-content="" data-toggle="popover" data-placement="top" data-i18n="active_plugins">
+                            Active Plugins
+                        </a>&nbsp;
+                        <a href="#" id="lockscreen_active_plugins_security" class="label label-warning" data-content="" data-toggle="popover" data-placement="top" data-i18n="security_notice">
+                            Security Notice
+                        </a>
+                    </div>
+                    <div>
+                        <span style="color:#fff;opacity:0.96;">
+                            <input type="checkbox" name="disable_all_plugins" id="disable_all_plugins"/> <label for="disable_all_plugins" style="font-weight:normal;" data-i18n="disable_plugins">Disable Plugins during Session</label>
+                        </span>
+                    </div>
+                </div>
+                </div>
+
+                <div id="registration_link">
+                    <a href="#" onclick="NRS.registerAccount();" data-i18n="no_account_q_create_account">Don't have an account? Click here to create one!</a>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="welcome_panel" style="display:none;max-width:500px;">
+                <div class="panel-heading">
+                    <div class="callout custom_login_warning"></div>
+                    <div style="float:right;">
+                        <select name="language" class="form-control" style="width:150px">
+                        </select>
+                    </div>
+                    <div style="display:inline-block;padding-top:6px;padding-bottom:4px;">
+                        <span class="glyphicon glyphicon-lock"></span> <span data-i18n="welcome_to_nxt">Welcome to Nxt</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <button class="btn btn-primary" onclick="NRS.showLoginScreen();return false;" data-i18n="returning_user_q">Returning User?</button>
+                    <button class="btn btn-success" onclick="NRS.registerAccount();return false;" data-i18n="new_q_create_account">Create New Account</button>
+                    <a href="#" class="lockscreen-widget mobile-only btn btn-primary" data-toggle="modal" data-target="#mobile_settings_modal" style="display:none;">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="account_phrase_custom_panel" style="display:none;max-width:500px;">
+                <div class="panel-heading"><span class="glyphicon glyphicon-lock"></span> <span data-i18n="create_your_account">Create Your Account</span></div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="post" autocomplete="off">
+                        <div class="callout callout-info" style="max-width:500px;" data-i18n="passphrase_length_warning">Your passphrase must be at least 35 characters long.</div>
+
+                        <div class="callout callout-danger" style="word-break:inherit;">
+                            <span data-i18n="attention">Attention</span>:<br><br>
+                            <span data-i18n="passphrase_warning_unique">
+                                The passphrase is everything that stands between your account and the rest of the world. Do not use any meaningful sentence, especially any that appears in song or literature.
+                            </span><br><br>
+                            <span data-i18n="passphrase_warning_disclose">
+                                Don't ever disclose your passphrase. If you lose it you lose access to your account!
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registration_password" class="col-sm-3 control-label" data-i18n="passphrase">Passphrase</label>
+                            <div class="col-sm-9"><input type="password" name="registration_password" class="form-control" id="registration_password" placeholder="" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registration_password_repeat" class="col-sm-3 control-label" data-i18n="repeat">Repeat</label>
+                            <div class="col-sm-9"><input type="password" name="registration_password_repeat" class="form-control" id="registration_password_repeat" placeholder="" /></div>
+                        </div>
+
+                        <div style="text-align:right">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Register" data-i18n="[value]register" />
+                            &nbsp;&nbsp;
+                            <button class="btn btn-sm btn-default" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="account_phrase_generator_panel" style="display:none;max-width:500px">
+                <div class="panel-heading"><span class="glyphicon glyphicon-lock"></span> <span data-i18n="create_your_account">Create Your Account</span></div>
+                <div class="panel-body">
+                    <div id="account_phrase_generator_loading">
+                        <p><span class="loading_text" data-i18n="loading_word_list">Loading Word List</span><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></p>
+
+                        <div style="text-align:center;margin-top:20px;margin-bottom:20px;"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                    </div>
+
+                    <div id="account_phrase_generator_loaded">
+                        <div class="step_1 account_phrase_generator_steps">
+                            <div id="account_phrase_generator_seeder" class="seeder">
+                                <p data-i18n="seed_password_generator">Move your cursor around to seed the random number generator...</p>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-info" id="account_phrase_generator_seed_progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+                                        <span class="sr-only">0% Seeded</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="text-align:right">
+                                <button class="btn btn-sm btn-default" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="cancel">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="step_2 account_phrase_generator_steps">
+                            <div id="account_phrase_generator_start">
+                                <p><span data-i18n="generating_passphrase_wait">Generating your passphrase. Please wait</span><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></p>
+
+                                <div style="text-align:center;margin-top:20px;margin-bottom:20px;"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                            </div>
+
+                            <div id="account_phrase_generator_stop" style="display:none">
+                                <p data-i18n="automatically_generated_passphrase_is">Your automatically generated passphrase is:</p>
+                                <textarea style="width:100%;height:50px;margin-bottom:10px;padding:3px;" rows="2" readonly></textarea>
+                                <p data-i18n="memorize_passphrase_help">Please write down or memorize these 12 words (their order and capitalization matters - always lowercase). This passphrase is needed in order to access your Nxt account.</p>
+                                <p data-i18n="your_account_is">Your public account address is:</p>
+                                <input id="step_2_account" style="width:100%;height:50px;margin-bottom:10px;padding:3px;" readonly></input>
+                                <div class="paper-wallet-link-container" style="display: none;">
+                                    <a href="#" id="generator_paper_wallet_link" data-i18n="print_paper_wallet">Print Paper Wallet</a>
+                                </div>
+                                <p></p>
+                                <div class="callout callout-danger">
+                                    <strong><span data-i18n="attention">Attention</span></strong>:
+                                    <span data-i18n="passphrase_warning_disclose">
+                                        Don't ever disclose your passphrase. If you lose it you lose access to your account!
+                                    </span>
+                                </div>
+                                <div id="confirm_passphrase_warning_container">
+                                    <input type="checkbox" id="confirm_passphrase_warning" value="0"/> <span></span>
+                                    <label for="confirm_passphrase_warning" data-i18n="confirm_passphrase_warning">I will not forget my passphrase and I will never disclose it</label>
+                                </div>
+                                <div style="text-align:right">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Next" data-i18n="[value]next" onclick="NRS.createPassphraseToConfirmPassphrase()" />&nbsp;&nbsp;
+                                    <button class="btn btn-sm btn-default" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="cancel">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step_3 account_phrase_generator_steps">
+                            <p data-i18n="passphrase_write_below">Your passphrase is very important! In order to be sure that you have saved it, please write your passphrase below:</p>
+
+                            <div class="callout callout-danger" style="display:none" data-i18n="incorrectly_typed_passphrase">You have not typed the passphrase correctly, please try again!</div>
+
+                            <textarea style="width:100%;height:50px;margin-bottom:10px;" rows="2"></textarea>
+
+                            <div style="text-align:right">
+                                <input type="submit" class="btn btn-primary btn-sm" value="Next" data-i18n="[value]next" onclick="NRS.verifyGeneratedPassphrase();return false;" />
+                                &nbsp;&nbsp;
+                                <button class="btn btn-sm btn-default" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="custom_passphrase_link">
+                <a href="#" onclick="NRS.registerUserDefinedAccount();" data-i18n="choose_own_passphrase">Want to choose your own passphrase? Click here.</a>
+            </div>
+        </td>
+        </tr>
+    </table>
+    <!-- this dummy checkbox corrects rendering problem of checkboxes when using desktop application on Linux -->
+    <div id="dummyCheckbox">
+        <input type="checkbox" disabled>
+    </div>
+</div>

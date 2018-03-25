@@ -1,0 +1,364 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="approve_transaction_modal" data-transaction-type="1" data-transaction-subtype="9" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="approve_transaction">Approve Transaction</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <p>
+                            <span data-i18n="transaction_id">Transaction ID</span>
+                            <span class="at_transaction_full_hash_display"></span>&nbsp; 
+                            (<span class="at_transaction_timestamp"></span>)
+                        </p>
+                        <div id="at_revealed_secret_div" class="form-group">
+                            <label for="at_revealed_secret" data-i18n="reveal_secret">Reveal Secret</label>
+                            <input type="password" tabindex="1" id="at_revealed_secret" name="revealedSecretText" value=""/>
+                        </div>
+                        <input type="hidden" id="at_transaction_full_hash" name="transactionFullHash" value="" />
+                        <div class="alert alert-warning" id="at_min_balance_warning" role="alert" style="margin-left:0;">
+                            <span data-i18n="approval_min_balance_needed_warning">
+                                For valid approval the following min balance is needed at finish height:
+                            </span><br>
+                            <span class="at_min_balance_amount"></span>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="approveTransaction" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="approve_transaction_button" data-loading-text="Submitting..." data-i18n="approve;[data-loading-text]submitting">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="transaction_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <a href='#' class="fa fa-arrow-circle-left back-link"></a>
+                    <span data-i18n="transaction">Transaction</span>&nbsp;<strong><span id="transaction_info_modal_transaction"></span></strong>&nbsp;<span data-i18n="info">Info</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable">
+                    <ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+                        <li class="active"><a href="#transaction_info_tab" data-toggle="tab" id="transaction_info_tab_link" data-i18n="info">Info</a></li>
+                        <li id="transaction_info_actions"><a href="#transaction_info_actions_tab" data-toggle="tab" data-i18n="actions">Actions</a></li>
+                        <li><a href="#transaction_info_details_tab" data-toggle="tab" data-i18n="transaction_details">Transaction Details</a></li>
+                        <li id="phasing_info_details_link"><a href="#phasing_info_details_tab" data-toggle="tab" data-i18n="phasing_details">Phasing Details</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="transaction_info_tab">
+                            <div id="transaction_info_callout" class="callout callout-info" style="display:none;"></div>
+
+                            <div id="transaction_info_output_top" style="display: none;"></div> 
+                            
+                            <table class="table table-striped" id="transaction_info_table" style="display:none;margin-bottom: 0;">
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+
+                            <div id="transaction_info_output_bottom" style="display: none;margin-top:10px;"></div>
+                            <div id="transaction_info_bottom" style="display: none;"></div>
+                        </div>
+                        <div class="tab-pane" id="transaction_info_actions_tab">
+                            <div class="row">
+                                <div class="col-xs-8 col-md-8" style="margin-left:auto;margin-right:auto;float:none;">
+                                    <button type="button" id="transaction_info_modal_send_money" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#send_money_modal" data-account="" data-i18n="send_nxt_to_sender">Send NXT to Sender</button>
+                                    <button type="button" id="transaction_info_modal_transfer_currency" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#transfer_currency_modal" data-account="" data-i18n="send_currency_to_sender">Send Currency to Sender</button>
+                                    <button type="button" id="transaction_info_modal_send_message" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#send_message_modal" data-account="" data-i18n="send_message_to_sender">Send Message to Sender</button>
+                                    <button type="button" id="transaction_info_modal_add_as_contact" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#add_contact_modal" data-account="" data-i18n="add_sender_as_contact">Add Sender as Contact</button>
+                                    <button type="button" id="transaction_info_modal_approve_transaction" class="btn btn-default btn-lg btn-block approve_transaction_btn" data-toggle="modal" data-target="#approve_transaction_modal" data-i18n="approve_transaction">Approve Transaction</button>
+                                    <button type="button" id="transaction_info_modal_extend_data" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#extend_data_modal" data-i18n="extend_tagged_data">Extend Data Lifetime</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="transaction_info_details_tab" style="max-height:350px;overflow:auto;">
+                            <table class="table table-striped" id="transaction_info_details_table" style="margin-bottom:0;table-layout:fixed;">
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="phasing_info_details_tab" style="max-height:350px;overflow:auto;">
+                            <table class="table table-striped" id="phasing_info_details_table" style="margin-bottom:0;table-layout:fixed;">
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="raw_transaction_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="raw_transaction_details">Raw Transaction Details</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="raw_transaction_form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div id="raw_transaction_modal_unsigned_transaction_bytes_container">
+                        <label for="raw_transaction_modal_unsigned_transaction_bytes" data-i18n="unsigned_transaction_bytes">UNSIGNED TRANSACTION BYTES</label>
+                        <div class="form-group">
+                            <textarea class="form-control" id="raw_transaction_modal_unsigned_transaction_bytes" rows="6" readonly></textarea>
+                        </div>
+                    </div>
+                    <div id="raw_transaction_modal_unsigned_bytes_qr_code_container">
+                        <label data-i18n="unsigned_bytes_qr_code">UNSIGNED BYTES QR CODE</label>
+                        <div class="form-group">
+                            <div id="raw_transaction_modal_unsigned_bytes_qr_code"></div>
+                        </div>
+                    </div>
+                    <label for="raw_transaction_modal_transaction_json" id="raw_transaction_modal_transaction_json_label"></label>
+                    <a href="#" id="raw_transaction_modal_transaction_json_download">
+                        <i class="fa fa-download"></i>
+                    </a>
+                    <div class="form-group">
+                        <textarea name="transactionJSON" class="form-control" id="raw_transaction_modal_transaction_json" rows="9" readonly></textarea>
+                    </div>
+                    <div id="raw_transaction_modal_signature_container" class="form-group">
+                        <label for="raw_transaction_modal_signature" data-i18n="signature">SIGNATURE</label>
+                        <a href="#" class="qr_code_reader_link" id="raw_transaction_modal_signature_reader_link">
+                            <i class="fa fa-qrcode"></i>
+                        </a>
+                        <textarea name="signature" class="form-control" tabindex="1" id="raw_transaction_modal_signature" rows="2"></textarea>
+                        <div id="raw_transaction_modal_signature_reader" style="width:384px;height:384px;"></div>
+                    </div>
+                    <div id="raw_transaction_modal_transaction_bytes_container">
+                        <label for="raw_transaction_modal_transaction_bytes" data-i18n="signed_transaction_bytes">SIGNED TRANSACTION BYTES</label>
+                        <div class="form-group">
+                            <textarea class="form-control" id="raw_transaction_modal_transaction_bytes" rows="6" readonly></textarea>
+                        </div>
+                    </div>
+                    <div id="raw_transaction_modal_full_hash_container">
+                        <label for="raw_transaction_modal_full_hash" data-i18n="full_transaction_hash">FULL TRANSACTION HASH</label>
+                        <div class="form-group">
+                            <textarea class="form-control" id="raw_transaction_modal_full_hash" rows="1" readonly></textarea>
+                        </div>
+                    </div>
+                    <div id="raw_transaction_modal_signature_hash_container">
+                        <label for="raw_transaction_modal_signature_hash" data-i18n="signature_hash">SIGNATURE HASH</label>
+                        <div class="form-group">
+                            <textarea class="form-control" id="raw_transaction_modal_signature_hash" rows="1" readonly></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="request_type" value="broadcastTransaction"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn" data-dismiss="modal" data-i18n="close">Close</button>
+                <button type="button" id="raw_transaction_broadcast" class="btn btn-primary" data-i18n="broadcast">Broadcast</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-no-hide" id="transaction_json_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="transaction_operations">TRANSACTION OPERATIONS</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+                    <li class="active" id="broadcast_json_transaction_nav" data-tab="sign_transaction"><a href="#" data-i18n="sign_transaction">Sign Transaction</a></li>
+                    <li data-tab="broadcast_json"><a href="#" data-i18n="broadcast_transaction">Broadcast Transaction</a></li>
+                    <li data-tab="parse_transaction"><a href="#" data-i18n="parse_transaction">Parse Transaction</a></li>
+                    <li data-tab="calculate_full_hash"><a href="#" data-i18n="calculate_full_hash">Calculate Full Hash</a></li>
+                </ul>
+
+                <div id="transaction_json_modal_sign_transaction" class="tab_content" style="display:none">
+                    <form role="form" id="sign_transaction_form" autocomplete="off">
+                        <div class="callout callout-danger error_message" style="display:none"></div>
+                        <div class="form-group">
+                            <label for="unsigned_transaction_bytes" data-i18n="unsigned_transaction_bytes">UNSIGNED TRANSACTION BYTES</label>
+                            <a href="#" class="qr_code_reader_link" id="unsigned_transaction_bytes_reader_link">
+                                <i class="fa fa-qrcode"></i>
+                            </a>
+                            <textarea class="form-control" name="unsignedTransactionBytes" id="unsigned_transaction_bytes" tabindex="1" rows="6" placeholder="Unsigned Transaction Bytes" data-i18n="[placeholder]unsigned_transaction_bytes"></textarea>
+                            <div id="unsigned_transaction_bytes_reader" style="width:384px;height:384px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="unsigned_transaction_json" data-i18n="unsigned_transaction_json">UNSIGNED TRANSACTION JSON</label>
+                                <label for="unsigned_transaction_json_file">
+                                    <i class="fa fa-upload"></i>
+                                </label>
+                                <div class="upload_container">
+                                    <input type="file" id="unsigned_transaction_json_file">
+                                </div>
+                            </div>
+                            <textarea class="form-control" name="unsignedTransactionJSON" id="unsigned_transaction_json" tabindex="2" rows="10" placeholder="Unsigned Transaction JSON" data-i18n="[placeholder]unsigned_transaction_json"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <input type="checkbox" name="validate" id="validate_transaction" value="1" data-default="unchecked"/>
+                            <label for="validate_transaction" style="font-weight:normal;" tabindex="3" data-i18n="validate">VALIDATE</label>
+                        </div>
+                        <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                        <div id="signature_output" class="output">
+                            <label for="transaction_signature" data-i18n="signature">SIGNATURE</label>
+                            <textarea class="form-control" id="transaction_signature" readonly rows="2"></textarea>
+                            <label data-i18n="transaction_signature_qr_code">SIGNATURE QR CODE</label>
+                            <div class="form-group">
+                                <div id="transaction_signature_qr_code"></div>
+                            </div>
+                        </div>
+                        <div id="signed_json_output" class="output">
+                            <label for="signed_transaction_json" data-i18n="signed_transaction_json">SIGNED TRANSACTION JSON</label>
+                            <a href="#" id="signed_transaction_json_download">
+                                <i class="fa fa-download"></i>
+                            </a>
+                            <div class="form-group">
+                                <textarea class="form-control" id="signed_transaction_json" readonly rows="10"></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" class="mobile-offline" value=""/>
+                        <input type="hidden" name="request_type" value="signTransaction" />
+                    </form>
+                </div>
+
+                <div id="transaction_json_modal_broadcast_json" class="tab_content" style="display:none">
+                    <form role="form" id="broadcast_json_form" autocomplete="off">
+                        <div class="callout callout-danger error_message" style="display:none"></div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="broadcast_transaction_bytes" data-i18n="transaction_bytes">TRANSACTION BYTES</label>
+                                <textarea class="form-control" name="transactionBytes" id="broadcast_transaction_bytes" rows="4" placeholder="Signed Transaction Bytes" data-i18n="[placeholder]signed_transaction_bytes"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="broadcast_transaction_json" data-i18n="signed_transaction_json">SIGNED TRANSACTION JSON</label>
+                                <label for="broadcast_transaction_json_file">
+                                    <i class="fa fa-upload"></i>
+                                </label>
+                                <div class="upload_container">
+                                    <input type="file" id="broadcast_transaction_json_file">
+                                </div>
+                            </div>
+                            <textarea class="form-control" name="transactionJSON" id="broadcast_transaction_json" rows="10" placeholder="Signed Transaction JSON" data-i18n="[placeholder]signed_transaction_json"></textarea>
+                        </div>
+                        <input type="hidden" name="request_type" value="broadcastTransaction" />
+                    </form>
+                </div>
+
+                <div id="transaction_json_modal_parse_transaction" class="tab_content" style="display:none">
+                    <form role="form" id="parse_transaction_form" autocomplete="off">
+                        <div class="callout callout-danger error_message" style="display:none"></div>
+                        <div class="form-group">
+                            <label for="parse_transaction_transaction_bytes" data-i18n="transaction_bytes">TRANSACTION BYTES</label>
+                            <textarea class="form-control" name="transactionBytes" id="parse_transaction_transaction_bytes" rows="4" placeholder="Transaction Bytes" data-i18n="[placeholder]transaction_bytes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="parse_transaction_json" data-i18n="transaction_json">TRANSACTION JSON</label>
+                            <textarea class="form-control" name="transactionJSON" id="parse_transaction_JSON" rows="6" placeholder="Transaction JSON" data-i18n="[placeholder]transaction_json"></textarea>
+                        </div>
+                        <input type="hidden" name="request_type" value="parseTransaction" />
+                        <div id="parse_transaction_output" class="output" style="max-height:350px;overflow:auto">
+                            <table class="table table-striped output_table" id="parse_transaction_output_table" style="margin-bottom:0;table-layout:fixed">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="transaction_json_modal_calculate_full_hash" class="tab_content" style="display:none">
+                    <form role="form" id="calculate_full_hash_form" autocomplete="off">
+                        <div class="callout callout-danger error_message" style="display:none"></div>
+                        <div class="form-group">
+                            <label for="calculate_full_hash_unsigned_transaction_bytes" data-i18n="unsigned_transaction_bytes">UNSIGNED TRANSACTION BYTES</label>
+                            <textarea class="form-control" name="unsignedTransactionBytes" id="calculate_full_hash_unsigned_transaction_bytes" rows="4" placeholder="Unsigned Transaction Bytes" data-i18n="[placeholder]unsigned_transaction_bytes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="calculate_full_hash_unsigned_json" data-i18n="unsigned_transaction_json">UNSIGNED TRANSACTION JSON</label>
+                            <textarea class="form-control" name="unsignedTransactionJSON" id="calculate_full_hash_unsigned_json" rows="6" placeholder="Unsigned Transaction JSON" data-i18n="[placeholder]unsigned_transaction_json"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="calculate_full_hash_signature_hash" data-i18n="signature_hash">SIGNATURE HASH</label>
+                            <textarea class="form-control" name="signatureHash" id="calculate_full_hash_signature_hash" rows="1" placeholder="Signature Hash" data-i18n="[placeholder]signature_hash"></textarea>
+                        </div>
+                        <input type="hidden" name="request_type" value="calculateFullHash" />
+                        <div id="calculate_full_hash_output" class="output" style="max-height:350px;overflow:auto">
+                            <table class="table table-striped output_table" id="calculate_full_hash_output_table" style="margin-bottom:0;table-layout:fixed">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="transaction_json_modal_button" data-loading-text="Submitting..." data-i18n="submit;[data-loading-text]submitting">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_scheduled_transaction_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" data-i18n="delete_scheduled_transaction">DELETE SCHEDULED TRANSACTION</h4>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="delete_scheduled_transaction_id" data-i18n="transaction">TRANSACTION</label>
+                        <input class="form-control" name="transaction" id="delete_scheduled_transaction_id" readonly/>
+                    </div>
+                    <input type="hidden" name="request_type" value="deleteScheduledTransaction" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="delete;[placeholder]submitting">DELETE</button>
+            </div>
+        </div>
+    </div>
+</div>

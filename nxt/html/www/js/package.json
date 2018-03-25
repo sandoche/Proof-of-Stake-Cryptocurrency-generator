@@ -1,0 +1,32 @@
+{
+  "name": "nxt-blockchain",
+  "version": "1.11.8",
+  "description": "Client API library for the NXT Blockchain",
+  "main": "nrs.node.bridge.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/Jelurida/nxt.git"
+  },
+  "keywords": [
+    "blockchain",
+    "client",
+    "api"
+  ],
+  "author": "Jelurida",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/Jelurida/nxt#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "crypto-js": "^3.1.9-1",
+    "jquery": "^3.1.1",
+    "jsbn": "^0.1.0",
+    "jsdom": "^9.9.1",
+    "pako": "^1.0.4"
+  }
+}

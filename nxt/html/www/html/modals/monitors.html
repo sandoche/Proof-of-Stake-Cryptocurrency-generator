@@ -1,0 +1,212 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+
+<div class="modal fade" id="start_funding_monitor_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="start_funding_monitor">Start Funding Monitor</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger remote_warning" style="display:none">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="passphrase_remote_warning">Your passphrase will be sent to the server!</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="start_monitor_property" data-i18n="control_property">Control Property</label>
+                        <input type="text" name="property" id="start_monitor_property" class="form-control" placeholder="property" data-i18n="[placeholder]property" tabindex="1">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="start_monitor_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="monitorAmountNXT" id="start_monitor_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="2">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="start_monitor_threshold" data-i18n="threshold">THRESHOLD</label>
+                                <div class="input-group">
+                                    <input type="text" name="monitorThresholdNXT" id="start_monitor_threshold" step="any" min="0" class="form-control" placeholder="Threshold" data-i18n="[placeholder]threshold" tabindex="3">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_monitor_interval" data-i18n="interval">Interval</label>
+                        <input type="text" name="interval" id="start_monitor_interval" class="form-control" placeholder="Number of Blocks" data-i18n="[placeholder]number_of_blocks" tabindex="4">
+                    </div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <input type="hidden" name="request_type" value="startFundingMonitor" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="start;[placeholder]submitting">Start</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="stop_funding_monitor_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="stop_funding_monitor">Stop Account Monitor</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="stop_monitor_account" data-i18n="account">Account</label>
+                        <input type="text" name="account" id="stop_monitor_account" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="stop_monitor_property" data-i18n="control_property">Control Property</label>
+                        <input type="text" name="property" id="stop_monitor_property" class="form-control" readonly>
+                    </div>
+                    <input type="hidden" name="adminPassword" id="stop_monitor_admin_password"/>
+                    <input type="hidden" name="request_type" value="stopFundingMonitor"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="stop;[placeholder]submitting">Stop</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_monitored_account_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="add_monitored_account">Add Monitored Account</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="add_monitored_account_property" data-i18n="property">Property</label>
+                        <input type="text" name="property" id="add_monitored_account_property" class="form-control" readonly>
+                    </div>
+                    <div data-replace-with-modal-template="recipient_modal_template"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="add_monitored_account_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="amount" id="add_monitored_account_amount" step="any" min="0" class="form-control add_monitored_account_value" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="2">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="add_monitored_account_threshold" data-i18n="threshold">THRESHOLD</label>
+                                <div class="input-group">
+                                    <input type="text" name="threshold" id="add_monitored_account_threshold" step="any" min="0" class="form-control add_monitored_account_value" placeholder="Threshold" data-i18n="[placeholder]threshold" tabindex="3">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_monitored_account_interval" data-i18n="interval">Interval</label>
+                        <input type="text" name="interval" id="add_monitored_account_interval" class="form-control add_monitored_account_value" placeholder="Number of Blocks" data-i18n="[placeholder]number_of_blocks" tabindex="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="add_monitored_account_value" data-i18n="value">Value</label>
+                        <input type="text" name="value" id="add_monitored_account_value" class="form-control" readonly>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="setAccountProperty" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="add;[placeholder]submitting">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove_monitored_account_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="remove_monitored_account">Remove Monitored Account</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="remove_monitored_account_recipient" data-i18n="recipient">Recipient</label>
+                        <input type="text" name="recipient" id="remove_monitored_account_recipient" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="remove_monitored_account_property" data-i18n="property">Property</label>
+                        <input type="text" name="property" id="remove_monitored_account_property" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="remove_monitored_account_value" data-i18n="value">Value</label>
+                        <input type="text" id="remove_monitored_account_value" class="form-control" readonly>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="deleteAccountProperty" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="remove;[placeholder]submitting">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+
+<div class="modal fade" id="m_shuffler_start_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="start_shuffler">Start Shuffler</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger remote_warning" style="display:none">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="passphrase_remote_warning">Your passphrase will be sent to the server!</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="shuffler_start_shuffling_id" data-i18n="shuffling_id">Shuffling Id</label><br/>
+                        <span id="shuffler_start_shuffling_id"></span>
+                    </div>
+                    <input type="hidden" id="shuffler_start_shuffling_full_hash" name="shufflingFullHash" />
+                    <div class="callout callout-danger never_hide">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="shuffling_recipient_passphrase_warning"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="m_shuffler_start_recipient_secretphrase" data-i18n="recipient_passphrase">Recipient Passphrase</label>
+                        <input type="password" name="recipientSecretPhrase" id="m_shuffler_start_recipient_secretphrase" class="form-control" placeholder="Recipient Passphrase" data-i18n="[placeholder]recipient_passphrase" tabindex="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="m_shuffler_start_recipient_account" data-i18n="recipient_account">Recipient Account</label>
+                        <input id="m_shuffler_start_recipient_account" class="form-control" placeholder="Recipient Account" data-i18n="[placeholder]recipient_account" readonly>
+                    </div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div class="callout callout-info never_hide">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="shuffling_node_running_warning"></span>
+                    </div>
+                    <input type="hidden" name="request_type" value="startShuffler" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="start_shuffler;[placeholder]submitting">Start Shuffler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_shuffling_create_modal" tabindex="-1" role="dialog" aria-hidden="true" data-transaction-type="7" data-transaction-subtype="0">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="create_shuffling">Create Shuffling</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger never_hide">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="shuffling_node_running_warning"></span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="m_shuffling_create_holding_type" data-18n="holding_type">Holding Type</label>
+                        <select name="holdingType" id="m_shuffling_create_holding_type" class="form-control" data-default="0" tabindex="1">
+                            <option selected value="0" data-i18n="nxt_capital_letters">NXT</option>
+                            <option value="1" data-i18n="asset">Asset</option>
+                            <option value="2" data-i18n="currency">Currency</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" aria-hidden="true" id="shuffling_asset_id_group" style="display: none;">
+                        <div class="form-group shuffling_holding_asset" data-modal-ui-element="add_asset_modal_ui_element"></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" aria-hidden="true" id="shuffling_ms_currency_group" style="display: none;">
+                        <div class="form-group shuffling_holding_currency" data-modal-ui-element="add_currency_modal_ui_element"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_shuffling_create_amount">
+                                    <span id="m_shuffling_create_unit"></span>
+                                </label>
+                                <input name="amount" id="m_shuffling_create_amount" class="form-control" placeholder="" data-default="0" value="0" tabindex="2">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group shuffling_finish_height" data-modal-ui-element="block_height_modal_ui_element"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="m_shuffling_create_participant_count" data-i18n="participant_count">Participant Count</label>
+                        <input type="text" name="participantCount" id="m_shuffling_create_participant_count" class="form-control" placeholder="Participant Count" data-i18n="[placeholder]participant_count" tabindex="3" min="3" max="30">
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="shufflingCreate" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="create_shuffling;[placeholder]submitting">Create Shuffling</button>
+            </div>
+        </div>
+    </div>
+</div>

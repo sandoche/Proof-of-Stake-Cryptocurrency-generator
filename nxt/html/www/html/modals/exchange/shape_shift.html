@@ -1,0 +1,396 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="shape_shift_buy_modal" data-type="buy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="shape_shift_buy_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_min" data-i18n="min_deposit_amount">MINIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_buy_min" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_buy_min_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_max" data-i18n="max_deposit_amount">MAXIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_buy_max" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_buy_max_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_buy_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_buy_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_fee" data-i18n="fee">FEE</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_buy_fee" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_buy_fee_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="amountNXT" id="shape_shift_buy_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="1">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-16 col-sm-8 col-md-8">
+                            <div class="form-group">
+                                <label for="shape_shift_buy_withdrawal_address" data-i18n="withdrawal_address">WITHDRAWAL ADDRESS</label>
+                                <div class="input-group">
+                                    <input type="text" id="shape_shift_buy_withdrawal_address" class="form-control" tabindex="2">
+                                    <span class="input-group-addon" id="shape_shift_withdrawal_address_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <input type="hidden" id="shape_shift_buy_pair" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="shape_shift_buy_submit" data-ignore="true" data-loading-text="Submitting..." data-i18n="send_nxt;[data-loading-text]submitting">Send NXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_send_amount_buy_modal" data-type="buy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="m_send_amount_buy_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_withdrawal_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="amount" id="m_send_amount_buy_withdrawal_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="1">
+                                    <span class="input-group-addon" id="m_send_amount_buy_withdrawal_amount_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-16 col-sm-8 col-md-8">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_withdrawal_address" data-i18n="withdrawal_address">WITHDRAWAL ADDRESS</label>
+                                <div class="input-group">
+                                    <input type="text" id="m_send_amount_buy_withdrawal_address" class="form-control" tabindex="2">
+                                    <span class="input-group-addon" id="m_send_amount_withdrawal_address_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_buy_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="m_send_amount_buy_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_fee" data-i18n="fee">FEE</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_buy_fee" class="form-control" readonly>
+                                    <span class="input-group-addon" id="m_send_amount_buy_fee_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_expiration" data-i18n="expiration">EXPIRATION</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_buy_expiration" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_buy_deposit_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_buy_deposit_amount" class="form-control" readonly>
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <input type="hidden" id="m_send_amount_buy_pair" value="" />
+                    <input type="hidden" id="m_send_amount_buy_deposit_address" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="m_send_amount_buy_submit" data-ignore="true" data-loading-text="Submitting..." data-i18n="send_nxt;[data-loading-text]submitting">Send NXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="shape_shift_sell_modal" data-type="sell" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="shape_shift_sell_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_min" data-i18n="min_deposit_amount">MINIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_sell_min" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_sell_min_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_max" data-i18n="max_deposit_amount">MAXIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_sell_max" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_sell_max_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_sell_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_sell_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_fee" data-i18n="fee">FEE</label>
+                                <div class="input-group">
+                                    <input id="shape_shift_sell_fee" class="form-control" readonly>
+                                    <span class="input-group-addon" id="shape_shift_sell_fee_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_deposit_address" data-i18n="deposit_address">DEPOSIT ADDRESS</label>
+                                <div class="input-group">
+                                    <span id="shape_shift_sell_deposit_address"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="shape_shift_sell_qr_code" data-i18n="deposit_qr_code">Deposit QR Code</label>
+                                <div class="input-group">
+                                    <div id="shape_shift_sell_qr_code"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-24 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <span data-i18n="deposit_instructions_shift">
+                                    Copy the deposit address or scan the QR code from your coin wallet and deposit your funds.<br>
+                                    Do not deposit less than the minimum amount or more than the maximum amount, since this will cause
+                                    your transaction to be rejected by ShapeShift.<br>
+                                    Once you completed your deposit click the "Done" button.<br>
+                                    To cancel your deposit click the "Cancel" button.<br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="shape_shift_sell_pair" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" id="shape_shift_sell_cancel" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="shape_shift_sell_done" data-ignore="true" data-loading-text="Submitting..." data-i18n="done;[data-loading-text]submitting">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_send_amount_sell_modal" data-type="buy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="m_send_amount_sell_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_withdrawal_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="amount" id="m_send_amount_sell_withdrawal_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="1">
+                                    <span class="input-group-addon" id="m_send_amount_sell_withdrawal_amount_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_sell_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="m_send_amount_sell_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_fee" data-i18n="fee">FEE</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_sell_fee" class="form-control" readonly>
+                                    <span class="input-group-addon" id="m_send_amount_sell_fee_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_expiration" data-i18n="expiration">EXPIRATION</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_sell_expiration" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_deposit_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="m_send_amount_sell_deposit_amount" class="form-control" readonly>
+                                    <span class="input-group-addon" id="m_send_amount_sell_deposit_amount_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_deposit_address" data-i18n="deposit_address">DEPOSIT ADDRESS</label>
+                                <div class="input-group">
+                                    <span id="m_send_amount_sell_deposit_address"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="m_send_amount_sell_qr_code" data-i18n="deposit_qr_code">Deposit QR Code</label>
+                                <div class="input-group">
+                                    <div id="m_send_amount_sell_qr_code"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-24 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <span data-i18n="deposit_instructions_sendamount">
+                                    Copy the deposit address or scan the QR code from your coin wallet and deposit your funds.<br>
+                                    Deposit the exact amount. Once you completed your deposit click the "Done" button.<br>
+                                    To cancel your deposit click the "Cancel" button.<br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="m_send_amount_sell_pair" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" id="m_send_amount_sell_cancel" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="m_send_amount_sell_done" data-ignore="true" data-loading-text="Submitting..." data-i18n="done;[data-loading-text]submitting">Done</button>
+            </div>
+        </div>
+    </div>
+</div>

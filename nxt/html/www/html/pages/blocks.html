@@ -1,0 +1,118 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="blocks_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="blocks">Blocks</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <div class="btn-group" data-toggle="buttons" id="blocks_page_type">
+                <label class="btn btn-default active" data-type="">
+                    <input type="radio" name="blocks_page_type"> <span data-i18n="all_blocks">All Blocks</span>
+                </label>
+                <label class="btn btn-default" data-type="forged_blocks">
+                    <input type="radio" name="blocks_page_type"> <span data-i18n="forged_by_you">Forged By You</span>
+                </label>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner inner-smaller">
+                        <h3><span id="blocks_average_amount" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="avg_amount_per_block">Avg. Amount Per Block</p>
+                    </div>
+                    <div class="icon-smaller" style="bottom:-14px"><i class="ion ion-stats-bars"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner inner-smaller">
+                        <h3><span id="blocks_average_fee" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="avg_fee_per_block">Avg. Fee Per Block</p>
+                    </div>
+                    <div class="icon-smaller" style="bottom:-12px"><i class="ion ion-paperclip"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6" id="blocks_transactions_per_hour_box">
+                <div class="small-box bg-yellow">
+                    <div class="inner inner-smaller">
+                        <h3><span id="blocks_transactions_per_hour" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="transactions_per_hour">Transactions Per Hour</p>
+                    </div>
+                    <div class="icon-smaller"><i class="fa fa-shopping-cart"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6" id="blocks_generation_time_box">
+                <div class="small-box bg-red">
+                    <div class="inner inner-smaller">
+                        <h3><span id="blocks_average_generation_time" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="block_generation_time">Block Generation Time</p>
+                    </div>
+                    <div class="icon-smaller"><i class="ion ion-clock"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6" id="forged_blocks_total_box">
+                <div class="small-box bg-yellow">
+                    <div class="inner inner-smaller">
+                        <h3><span id="forged_blocks_total" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="nr_forged_blocks"># Forged Blocks</p>
+                    </div>
+                    <div class="icon-smaller"><i class="fa fa-bars"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6" id="forged_fees_total_box">
+                <div class="small-box bg-red">
+                    <div class="inner inner-smaller">
+                        <h3><span id="forged_fees_total" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="forged_fees_total">Forged Fees Total</p>
+                    </div>
+                    <div class="icon-smaller"><i class="fa fa-briefcase"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="blocks_table">
+                <thead>
+                <tr>
+                    <th data-i18n="height">Height</th>
+                    <th data-i18n="date">Date</th>
+                    <th data-i18n="amount">Amount</th>
+                    <th data-i18n="fee">Fee</th>
+                    <th data-i18n="nr_tx">Nr TX</th>
+                    <th data-i18n="generator">Generator</th>
+                    <th data-i18n="payload">Payload</th>
+                    <th data-i18n="base_target">Base Target</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container" data-i18n="no_blocks_found">No blocks found.</div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>

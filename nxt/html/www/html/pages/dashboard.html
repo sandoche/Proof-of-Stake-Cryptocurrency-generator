@@ -1,0 +1,164 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="dashboard_page" class="page" style="display:block">
+    <section class="content-header">
+        <span style="float:right; font-size:115%;">
+            <span id="nrs_version_info" data-i18n="nrs_version">NRS Version</span>:
+            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#nrs_modal">
+                <span id="nrs_version" class="loading_dots"><span>.</span><span>.</span><span>.</span></span>
+            </a>
+            <span class="label label-danger" id="nrs_update" style="display:none;"></span>
+        </span>
+        <h1 data-i18n="dashboard">Dashboard</h1>
+    </section>
+
+    <section class="content">
+        <div class="alert-danger alert alert-no-icon" id="dashboard_message" style="display:none;padding:5px;margin-bottom:15px;"></div>
+
+        <div class="alert-danger alert alert-no-icon" id="secondary_dashboard_message" style="display:none;padding:5px;margin-bottom:15px;"></div>
+
+        <div class="dashboard_first_row row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3><span id="account_balance" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p><span data-i18n="account_balance">Account Balance</span> <span class="label" id="account_leasing" style="display:none;background-color:#1990B1"></span></p>
+                    </div>
+                    <div class="icon"><i class="fa fa-briefcase"></i></div>
+                    <a href="#" class="small-box-footer" data-toggle="modal" data-target="#account_details_modal"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3><span id="account_assets_balance" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p style="display:inline-block" data-i18n="assets_value">Assets value</p> <p style="display:inline-block">(<span id="account_nr_assets" class="loading_dots"></span></p> <p style="display:inline-block"><span data-i18n="assets_owned">Assets Owned</span>)</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-signal"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="my_assets"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3><span id="account_currencies_balance" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p style="display:inline-block" data-i18n="currencies_value">Currencies value</p> <p style="display:inline-block">(<span id="account_nr_currencies" class="loading_dots"></span></p> <p style="display:inline-block"><span data-i18n="currencies_owned">Currencies Owned</span>)</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-bank"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="currencies"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3><span id="account_purchase_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="purchased_products">Purchased Products</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="purchased_dgs"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>
+                            <span id="account_pending_sale_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span>
+                            <span> / </span>
+                            <span id="account_completed_sale_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span>
+                        </h3>
+                        <p><span data-i18n="pending">Pending</span><span> / </span><span data-i18n="completed_sales">Completed Sales</span></p>
+                    </div>
+                    <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="pending_orders_dgs"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3><span id="account_message_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="message_count">Messages</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-envelope-o"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="messages"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="optional_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3><span id="account_alias_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="aliases">Aliases</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-bookmark"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="aliases"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="block_info_dashboard_tile col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3><span id="nrs_current_block_time" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p><span id="nrs_block" data-i18n="last_updated">Last Updated</span> (<span data-i18n="block">Block</span>: <span class="nrs_current_block loading_dots"><span>.</span><span>.</span><span>.</span></span>)</p>
+                    </div>
+                    <div class="icon"><i class="fa fa-code"></i></div>
+                    <a href="#" class="small-box-footer goto-page" data-page="blocks"><span data-i18n="more_info">More info</span> <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"><h3 class="box-title" data-i18n="recent_transactions">Recent Transactions</h3></div>
+                    <div class="box-body no-padding">
+                        <div class="data-container data-loading" data-no-padding="true" data-extra="#dashboard_transactions_footer">
+                            <table class="table table-striped" id="dashboard_table">
+                                <thead>
+                                <tr>
+                                    <th data-i18n="date">Date</th>
+                                    <th style="width:60px;text-align:center;"><i class="fa fa-envelope-o"></i></th>
+                                    <th data-i18n="type">Type</th>
+                                    <th class="numeric" data-i18n="amount">Amount</th>
+                                    <th class="numeric" data-i18n="fee">Fee</th>
+                                    <th data-i18n="account">Account</th>
+                                    <th style="text-align:center;"><i class="fa fa-gavel"></i></th>
+                                    <th style="text-align:center;" data-i18n="height">Height</th>
+                                    <th style="text-align:center;" data-i18n="confirmations">Confirmations</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                            <div class="data-empty-container"><p data-i18n="no_transactions_yet">No transactions yet.</p></div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <span id="dashboard_transactions_footer" style="display: none">
+                            <button class="btn btn-primary goto-page" data-page="transactions">
+                                <i class="fa fa-caret-right"></i> <span data-i18n="view_more">View More</span>
+                            </button>
+                        </span>
+                        <button class="btn btn-primary goto-page" data-page="ledger">
+                            <i class="fa fa-caret-right"></i> <span data-i18n="account_ledger">Account Ledger</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

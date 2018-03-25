@@ -1,0 +1,89 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="asset_exchange_sidebar_context" class="context_menu dropdown clearfix">
+    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+        <li><a tabindex="-1" href="#" data-option="add_to_group" data-i18n="add_to_group">Add to Group</a></li>
+        <li><a tabindex="-1" href="#" data-option="remove_from_group" data-class="list-group-item-grouped" data-i18n="remove_from_group">Remove From Group</a></li>
+        <li><a tabindex="-1" href="#" data-option="remove_from_bookmarks" data-class="not_owns_asset" data-i18n="remove_from_bookmarks">Remove From Bookmarks</a></li>
+    </ul>
+</div>
+
+<div id="followed_polls_sidebar_context" class="context_menu dropdown clearfix">
+    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+        <li><a tabindex="-1" href="#" data-option="remove_from_bookmarks" data-i18n="remove_from_bookmarks">Remove From Bookmarks</a></li>
+    </ul>
+</div>
+
+<div id="asset_exchange_sidebar_group_context" class="context_menu dropdown clearfix">
+    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+        <li><a tabindex="-1" href="#" data-option="change_group_name" data-i18n="change_group_name">Change Group Name</a></li>
+    </ul>
+</div>
+
+<div id="messages_sidebar_context" class="context_menu dropdown clearfix">
+    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+        <li><a tabindex="-1" href="#" data-option="account_info" data-i18n="account_info">Account Info</a></li>
+        <li><a tabindex="-1" href="#" data-option="add_contact" data-i18n="add_contact">Add Contact</a></li>
+        <li><a tabindex="-1" href="#" data-option="send_nxt" data-i18n="send_nxt">Send NXT</a></li>
+    </ul>
+</div>
+
+<div id="messages_sidebar_update_context" class="context_menu dropdown clearfix">
+    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+        <li><a tabindex="-1" href="#" data-option="account_info" data-i18n="account_info">Account Info</a></li>
+        <li><a tabindex="-1" href="#" data-option="update_contact" data-i18n="update_contact">Update Contact</a></li>
+        <li><a tabindex="-1" href="#" data-option="send_nxt" data-i18n="send_nxt">Send Nxt</a></li>
+    </ul>
+</div>
+
+<div id="downloading_blockchain">
+    <div class="db_active">
+        <div style="font-weight:bold;margin-bottom:5px;">
+            <span data-i18n="downloading_blockchain">Downloading blockchain</span> 
+            <span class="blocks_left_outer" style="display:none;">(<span class="blocks_left"></span>)</span>
+        </div>
+        <div class="db_progress_total">
+            <span data-i18n="total">Total</span>:
+            <div class="progress sm" style="margin-bottom:5px;margin-top:5px;">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">0% Complete</span>
+                </div>
+            </div>
+        </div>
+        <div class="db_progress_last">
+            <span class="last_num_blocks"></span>:
+            <div class="progress sm" style="margin-bottom:5px;margin-top:5px;">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">0% Complete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="db_halted" style="display:none;text-align:center;font-weight:bold;">
+        <span data-i18n="blockchain_download_halted">Blockchain download halted</span>,<br>
+        <span data-i18n="no_connection">no connection</span>
+    </div>
+</div>
+
+<div id="testnet_warning" onclick="this.setAttribute('class', 'testnet-collapse');">
+    <strong><span data-i18n="warning">Warning</span>:</strong>
+    <span data-i18n="testnet_warning">You are connected to the TestNet. Do not use your real passphrase!</span>
+</div>
+
+<div id="show_console">
+    <a href="#" onclick="NRS.showConsole();return false;" style="color:black;"><i class="fa fa-terminal" style="font-weight:bold"></i></a>
+</div>

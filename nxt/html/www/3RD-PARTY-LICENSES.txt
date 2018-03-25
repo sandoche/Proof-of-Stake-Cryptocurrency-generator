@@ -1,0 +1,29 @@
+Theme - MIT - https://github.com/almasaeed2010/AdminLTE
+jquery.js - MIT - http://jquery.com/
+bootstrap.js / bootstrap.css - APACHE2 - http://getbootstrap.com
+font-awesome.css - MIT - http://fortawesome.github.io
+growl - MIT - https://github.com/mouse0270/bootstrap-growl
+ionicons.css - MIT - http://ionicons.com
+jquery.rss.js - MIT - https://github.com/sdepold/jquery-rss
+webdb.js - MIT - http://github.com/haas85/webdb
+passphrasegenerator.js - custom - based on https://github.com/michenriksen/diceware (UNLICENSE) and https://github.com/ggozad/mnemonic.js (MIT)
+signing/converters.js - MIT - https://github.com/Jaguar0625/JavaScriptNrs + https://github.com/jscud/jsBytes/
+signing/crypto.js - MIT - https://github.com/Jaguar0625/JavaScriptNrs
+signing/curve25519.js - MIT - https://github.com/Jaguar0625/JavaScriptNrs
+jsbn.js / jsbn2.js - BSD - http://www-cs-students.stanford.edu/~tjw/jsbn/
+nxt_address.js - public domain
+xoreddata.js - MIT - BloodyRookie
+big.js - MIT - https://github.com/MikeMcl/big.js
+ajaxretry.js - MIT - https://github.com/dcherman/jQuery.ajaxRetry
+autolink.js - MIT - https://github.com/bryanwoods/autolink-js
+addclear.js - https://github.com/skorecky/Add-Clear
+cryptojs - BSD - https://code.google.com/p/crypto-js/
+pako.js - MIT - https://github.com/nodeca/pako
+maskedinput.js - MIT - https://github.com/digitalBush/jquery.maskedinput
+i18next.js - MIT - https://github.com/jamuhl/i18next
+d3.js - BSD - http://d3js.org/
+d3pie.js - MIT - http://d3pie.org/
+highlight.js - BSD - https://github.com/isagalaev/highlight.js/
+handlebars.js - MIT - http://handlebarsjs.com/
+moment.js - MIT - http://momentjs.com/
+html5-qrcode.min.js - MIT - https://github.com/dwa012/html5-qrcode

@@ -1,0 +1,70 @@
+This is a list of current and past developers working on the Nxt core software,
+in order approximately corresponding to the time they joined the team.
+
+
+BCNext
+no contact info available
+
+
+Come-from-Beyond
+come-from-beyond@mail.ru
+
+
+Jean-Luc Picard
+jlp@mailbox.org
+GPG key fingerprint: 263A 9EB0 29CF C77A 3D06  FD13 811D 6940 E1E4 240C
+Nxt account: NXT-X4LF-9A4G-WN9Z-2R322
+
+
+Wesley
+wwesley@tutanota.de
+
+
+Ronald Hoffman (ScripterRon)
+ronald.hoffman6@gmail.com
+GPG key fingerprint: E0AD 742C F130 D180 0504  8EDE A4C8 C35D D619 0F05
+Nxt account: NXT-YKDR-R624-MM4S-5ZKQK
+
+
+Alexander Chepurnoy (kushti)
+kushtech@yahoo.com
+
+
+Lior Yaffe (lyaffe)
+lyaffe@gmail.com
+GPG key fingerprint: 0560 443B 035C EE08 0EC0  D2DD 275E 94A7 D831 1651
+Nxt account: NXT-HBFW-X8TE-WXPW-DZFAG
+
+
+Holger Drewes (holgerd77)
+Holger.Drewes@gmail.com
+
+
+Mr V
+mrv777@comcast.net
+
+
+Alex Jones (jones)
+alex.theboy.jones@gmail.com
+GPG fingerprint: 500A A4EF ACA7 DF9F 8E5D  A52F E945 DA5E DAC1 EAFC
+Nxt account: NXT-RJU8-JSNR-H9J4-2KWKY
+
+Musa Yassin (mess)
+musa.yassin@gmail.com
+
+
+Petko Petkov
+petkodp@gmail.com
+GPG key fingerprint: C3ED C327 AAE3 CA95 ED46 5996 DAB8 9FDE F203 C23F
+Nxt account: NXT-P6F5-J7VU-RWHZ-9LXN8
+
+TeStDrUiF
+testdruif@gmail.com
+GPG key fingerprint: 1263 D21F 482C 6BF8 4550  4451 D085 799A 9EF1 57F3
+Nxt account: NXT-NNGD-V8TN-3MZR-DWWBE
+
+Tomislav Gountchev
+tomislav.gountchev@jelurida.com
+GPG key fingerprint: 4554 EB0D 4B9D A419 7AE7  03DA 1B30 B078 D77E D3E5
+Nxt account: NXT-XNBG-5TB4-SC4R-B73ZW
+

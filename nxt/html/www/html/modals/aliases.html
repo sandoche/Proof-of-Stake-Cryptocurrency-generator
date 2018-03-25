@@ -1,0 +1,308 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="alias_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <!-- todo -->
+                <h4 class="modal-title">Alias <strong><span id="alias_info_modal_alias"></span></strong></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="alias_info_table" style="margin-bottom: 0;">
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info" id="alias_sale_callout" style="display:none;margin-top:10px;margin-bottom:0;"></div>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="register_alias_modal" data-transaction-type="1" data-transaction-subtype="1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="register_alias">Register Alias</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="register_alias_type" data-i18n="type">TYPE</label>
+                        <select class="form-control" name="type" id="register_alias_type">
+                            <option value="uri" data-i18n="uri">URI</option>
+                            <option value="account" data-i18n="account">Account</option>
+                            <option value="general" data-i18n="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_alias_alias" data-i18n="alias">ALIAS</label>
+                        <input type="text" class="form-control" name="aliasName" id="register_alias_alias" placeholder="Alias" data-i18n="[placeholder]alias" tabindex="1" />
+                        <p id="register_alias_alias_noneditable" style="display:none"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_alias_uri" id="register_alias_uri_label" data-i18n="uri">URI</label>
+                        <input type="text" class="form-control" name="aliasURI" id="register_alias_uri" placeholder="URI" data-i18n="[placeholder]uri" tabindex="2" />
+                        <p class="help-block" id="register_alias_help"></p>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    
+                    <input type="hidden" name="register_alias_alias_update" id="register_alias_alias_update" value="0" />
+                    <input type="hidden" name="request_type" value="setAlias" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="register_alias_button" data-loading-text="Submitting..." data-i18n="register;[data-loading-text]submitting">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_alias_modal" data-transaction-type="1" data-transaction-subtype="8" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="delete_alias">Delete Alias</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="delete_alias_alias" data-i18n="alias">ALIAS</label>
+                        <p class="alias_name_display"></p>
+                        <input type="hidden" id="delete_alias_alias" name="aliasName" value="" />
+                        <p id="delete_alias_alias_noneditable" style="display:none"></p>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="delete_alias_alias_update" id="delete_alias_alias_update" value="0" />
+                    <input type="hidden" name="request_type" value="deleteAlias" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="delete_alias_button" data-loading-text="Submitting..." data-i18n="delete;[data-loading-text]submitting">Delete Alias</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="buy_alias_modal" data-transaction-type="1" data-transaction-subtype="7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="buy_alias">Buy Alias</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label data-i18n="alias">ALIAS</label>
+                        <p class="alias_name_display"></p>
+                        <input type="hidden" name="aliasName" value="" />
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="price">PRICE</label>
+                        <div class="input-group">
+                            <input type="text" name="amountNXT" id="buy_alias_price" step="any" min="0" class="form-control" placeholder="Price" data-i18n="[placeholder]price" tabindex="1">
+                            <span class="input-group-addon">NXT</span>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="buyAlias" />
+                    <input type="hidden" name="recipient" id="buy_alias_recipient" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="buy_alias;[data-loading-text]submitting;">Buy Alias</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="transfer_alias_modal" data-transaction-type="1" data-transaction-subtype="6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="transfer_alias">Transfer Alias</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label data-i18n="alias">ALIAS</label>
+                        <p class="alias_name_display"></p>
+                        <input type="hidden" name="aliasName" value="" />
+                        <input type="hidden" name="priceNQT" value="0" />
+                    </div>
+                    <div data-replace-with-modal-template="recipient_modal_template"></div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="sellAlias" />
+                    <input type="hidden" name="modal" value="transfer_alias" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="transfer_alias;[data-loading-text]submitting">Transfer Alias</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sell_alias_modal" data-transaction-type="1" data-transaction-subtype="6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="sell_alias">Sell Alias</h4>
+            </div>
+            <div class="modal-body">    
+                <ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+                    <li class="active"><a href="#" id="sell_alias_to_specific_account" data-i18n="sell_to_specific_account">Sell to Specific Account</a></li>
+                    <li><a href="#" id="sell_alias_to_anyone" data-i18n="sell_to_anyone">Sell to Anyone</a></li>
+                </ul>       
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label data-i18n="alias">ALIAS</label>
+                        <p class="alias_name_display"></p>
+                        <input type="hidden" name="aliasName" value="" />
+                    </div>
+                    <div data-replace-with-modal-template="recipient_modal_template"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="sell_alias_price" data-i18n="price">PRICE</label>
+                                <div class="input-group">
+                                    <input type="text" name="priceNXT" id="sell_alias_price" step="any" min="0" class="form-control" placeholder="Price" tabindex="3">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="modal" value="sell_alias" />
+                    <input type="hidden" name="request_type" value="sellAlias" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="sell_alias;[data-loading-text]submitting">Sell Alias</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cancel_alias_sale_modal" data-transaction-type="1" data-transaction-subtype="6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="cancel_alias_sale">Cancel Alias Sale</h4>
+            </div>
+            <div class="modal-body">    
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label data-i18n="alias">ALIAS</label>
+                        <p class="alias_name_display"></p>
+                        <input type="hidden" name="aliasName" value="" />
+                        <input type="hidden" name="modal" value="cancel_alias_sale" />
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="sellAlias" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="cancel_sale;[data-loading-text]submitting">Cancel Sale</button>
+            </div>
+        </div>
+    </div>
+</div>

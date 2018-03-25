@@ -1,0 +1,216 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="set_mandatory_approval_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="phasing_only">Mandatory Approval</h4>
+            </div>
+            <div class="modal-body">
+                <div class="callout callout-warning never_hide" data-i18n="mandatory_approval_info">All subsequent transactions will be mandatory approved (phased) according to whatever is set below. Once set, this account control can only be removed with the approval of the accounts/stake holders set below.</div>
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    
+                    <div class="phasing_only_modal" id="mandatory_approval_modal">
+                        <div role="tabpanel" class="approve_tab_panel">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs mandatory_approve_tab_list" role="tablist">
+                                <li role="presentation" class="active show_popover" data-toggle="popover" data-delay="250" data-placement="top" data-content="Transaction don't need further approval to become valid" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_modal_no_approval_tab_help">
+                                    <a href="#mandatory_approval_tab_no_approval" aria-controls="mandatory_approval_tab_no_approval" class="at_no_approval" role="tab" data-toggle="tab"><span class="label label-default"><i class="fa fa-gavel"></i></span> <span class="label label-default"><i class="ion-close-circled"></i></span></a></li>
+                                <li role="presentation" class="show_popover" data-toggle="popover" data-placement="top" data-content="Transaction has to be approved by a certain number of accounts" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_modal_by_account_tab_help">
+                                    <a href="#mandatory_approval_tab_accounts" aria-controls="mandatory_approval_tab_accounts" class="at_accounts" role="tab" data-toggle="tab"><span class="label label-default"><i class="fa fa-gavel"></i></span> <span class="label label-warning"><i class="fa fa-group"></i></span></a>
+                                </li>    
+                                <li role="presentation" class="show_popover" data-toggle="popover" data-placement="top" data-content="Transaction has to be approved by accounts holding a certain amount of NXT" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_modal_by_balance_tab_help">
+                                    <a href="#mandatory_approval_tab_balance" aria-controls="mandatory_approval_tab_balance" class="at_balance" role="tab" data-toggle="tab"><span class="label label-default"><i class="fa fa-gavel"></i></span> <span class="label label-warning"><i class="fa fa-money"></i></span></a>
+                                </li>
+                                <li role="presentation" class="show_popover" data-toggle="popover" data-placement="top" data-content="Transaction has to be approved by asset holders with a certain stake" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_modal_by_asset_tab_help">
+                                    <a href="#mandatory_approval_tab_asset_holders" aria-controls="mandatory_approval_tab_asset_holders" class="at_asset_holders" role="tab" data-toggle="tab"><span class="label label-default"><i class="fa fa-gavel"></i></span> <span class="label label-warning"><i class="fa fa-signal"></i></span></a>
+                                </li>
+                                <li role="presentation" class="show_popover" data-toggle="popover" data-placement="top" data-content="Transaction has to be approved by currency holders with a certain stake" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_modal_by_currency_tab_help">
+                                    <a href="#mandatory_approval_tab_currency_holders" aria-controls="mandatory_approval_tab_currency_holders" class="at_currency_holders" role="tab" data-toggle="tab"><span class="label label-default"><i class="fa fa-gavel"></i></span> <span class="label label-warning"><i class="fa fa-bank"></i></span></a>
+                                </li>
+                            </ul>
+                
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane tab_pane_approve active" id="mandatory_approval_tab_no_approval">
+                                    <span data-i18n="process_without_approval">Process without approval.</span>
+                                    <input type="hidden" name="controlVotingModel" value="-1" />
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane tab_pane_approve" id="mandatory_approval_tab_accounts">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_number_accounts_group">
+                                                <label data-i18n="approve_number_accounts">Number Accounts</label>
+                                                <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#mandatory_approval_modal" data-i18n="[data-content]approve_transaction_amount_help"></i>
+                                                <input name="controlQuorum" type="number" min="1" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group add_phasing_only_whitelist_group" data-modal-ui-element="multi_accounts_modal_ui_element"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_min_balance_model_group approve_mb_accounts" data-modal-ui-element="min_balance_model_modal_ui_element"></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group approve_mb_model_1 phasing_only_min_balance_nxt" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                            <div class="form-group approve_mb_model_2 phasing_only_min_balance_asset_quantity" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                            <div class="form-group approve_mb_model_3 phasing_only_min_balance_currency_units" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group phasing_only_holding_asset_optional approve_mb_model_2" data-modal-ui-element="add_asset_modal_ui_element"></div>
+                                            <div class="form-group phasing_only_holding_currency_optional approve_mb_model_3" data-modal-ui-element="add_currency_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="controlVotingModel" value="0" disabled />
+                                </div>
+                
+                                <div role="tabpanel" class="tab-pane tab_pane_approve" id="mandatory_approval_tab_balance">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_amount_nxt" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group add_phasing_only_whitelist_group" data-modal-ui-element="multi_accounts_modal_ui_element"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_min_balance_model_group approve_mb_balance" data-modal-ui-element="min_balance_model_modal_ui_element"></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="controlVotingModel" value="1" disabled />
+                                </div>
+                
+                                <div role="tabpanel" class="tab-pane tab_pane_approve" id="mandatory_approval_tab_asset_holders">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_asset_quantity" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group phasing_only_holding_asset" data-modal-ui-element="add_asset_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group add_phasing_only_whitelist_group" data-modal-ui-element="multi_accounts_modal_ui_element"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_min_balance_model_group approve_mb_asset" data-modal-ui-element="min_balance_model_modal_ui_element"></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group approve_mb_model_2 phasing_only_min_balance_asset_quantity" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="controlVotingModel" value="2" disabled />
+                                </div>
+                
+                                <div role="tabpanel" class="tab-pane tab_pane_approve" id="mandatory_approval_tab_currency_holders">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_currency_units" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group phasing_only_holding_currency" data-modal-ui-element="add_currency_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group add_phasing_only_whitelist_group" data-modal-ui-element="multi_accounts_modal_ui_element"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group phasing_only_min_balance_model_group approve_mb_currency" data-modal-ui-element="min_balance_model_modal_ui_element"></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group approve_mb_model_3 phasing_only_min_balance_currency_units" data-modal-ui-element="simple_input_with_addon_modal_ui_element"></div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="controlVotingModel" value="3" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <!--Minimum fees and phasing duration-->
+                        <div class="phasing_duration_and_min_fees">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group phasing_only_phasing_duration">
+                                        <label data-i18n="phasing_duration">Minimum and maximum phasing duration</label>
+                                        <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#mandatory_approval_modal"
+                                           data-i18n="[data-content]phasing_duration_help"></i>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="input-group">
+                                                    <input name="controlMinDuration" type="number" min="0" class="form-control"
+                                                           placeholder="Min" data-i18n="[placeholder]minimum_duration_short"/>
+                                                    <span class="input-group-addon">Blocks</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="input-group">
+                                                    <input name="controlMaxDuration" type="number" min="0" class="form-control"
+                                                           placeholder="Max" data-i18n="[placeholder]maximum_duration_short"/>
+                                                    <span class="input-group-addon">Blocks</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="form-group phasing_only_maximum_pending_fees">
+                                        <label data-i18n="phasing_maximum_pending_fees">Max pending transactions fees</label>
+                                        <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#mandatory_approval_modal"
+                                           data-i18n="[data-content]maximum_pending_fees_help"></i>
+
+                                        <div class="input-group">
+                                            <input name="controlMaxFeesNXT" type="number" min="0" class="form-control" step="any"
+                                                   placeholder="Max fees" data-i18n="[placeholder]maximum_fees"/>
+                                            <span class="input-group-addon">NXT</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="setPhasingOnlyControl" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="submit;[placeholder]submitting">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

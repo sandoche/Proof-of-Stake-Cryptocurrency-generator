@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style type="text/css">
+			body {background-color: #E0E0E0; color: #000; font-family: Tahoma; font-size: 10pt; margin: 0; padding: 10px;}
+			table {border-collapse: collapse; width: 100%;}
+			td {height: 20px; line-height: 20px; padding: 0;}
+			.amount {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADH0lEQVQ4y6WUa0hTYRjHj5sZXT50WxYVFUQf6kt0IYqCLtAniex+oyIoKLV7rKt2JbqYFUWkRfmhMIpMXTWbmnghs2CauuW249bZuezs6na2o5vav9dBA6nNogd+8PCc9/ye930O56WoQaK7u3tPX19fI+EjybdT/xNarXYMEUVaQwUwyk9AcrmwsHDkP4s4jhsRDofP9fb2ckSCQudsPHUu7BeC1IRwJHJLFMXRfyVzuz3TIz09RqnHgepONfIdM3GVVeAaq8RDx2zofAfgi3SArDHZ7fbxCWUazZsUMqdmRq5HLqvCBYb6I9fZsRC7DAiGQs8SCkWnc21XOIhc+xRk26goj4XlsIVqYQq+ww375Fi9SFyHbjKXktLSUfGP6/Fcp6UanLRSMSxSNQJSMCQFg6E6722ctilxypqEe9yCfiH0+qY5cYW8IFyjA/U4SlMxHnJpcATNkLu6ogTlAKGT5DLIifTp6enD4gpbWlvXSCEJ563TcNBCxThkUeImswha52WwkgEhWQbL8V8yMjNVCWeYlpY2nHQ1tnmroLakYl879RsZ7QoUMJvhDvDw+nyPVKrETqqo6PlcwSFaXX4BFcJd3KVX40jbOOxtpgaQZ14Ff0D6YTZb5sWV0R3WiR6vr9zr65Q7/QH8wuf3Qy+WQ900A7sbqRgWtx4sz5+J/4fwwhXa2YI7LZuQ9zUdGjoPpEFvTW3tJTvLfathnmFHHRXjE1sGUr8fV2ihOy4bhEZsq6CibK9UouF7aVTqJpSYcgc86xANaDeZT8QVVlZ9WOLyeJFdtxSb3lBRtr5Nxvn6lcipW4Ytb5Wxer5+P5wud+TFy5ez4gpTUlKSSccymjciu3oF1hcnYd0ragA7NWNQ1HwRosuFhsbPOeS1pIRf+eix46qWNoNGdLp/GO1N0LY9xq7iidhTMg01pmJwIkfmxnt0lVVZCoUi+W9vsCEP8guW1n9syHOILmS9nosjpYvRn5frKg5v2LBxwqA7+1PMn79gqNXGWBieAcPbQVttrampqUP+69Y+m50zVVdRlfleV7lfrT4xabD1PwESAYIQD5bU0wAAAABJRU5ErkJggg==); width: 20px;}
+			.deadline {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADaUlEQVQ4y42UfUwTZxzHWUn2jzExMdk/m8IfhsQ/tj+2LBqXGKMmukWQmQg4TSYuxBiCGgy+zIlvcQubblnwXQpjKi9atFVR5L2FKmhbEChw9oW70rv22uv1OJCTteXrHcluI22JT/LJPc/397tP7p48dykpSYbf718SiUT2RaPRO7FYzKagzJWMZdmlKe87eJ7/RL7JMDs7O/PPTAw0JcFhn5pDmSuZXJPdUZMoip8uKLPb7YtlGREOzaCng0NjHQ1TUwDKWuD/y8ytQbCMBFnKMQyTllQYFoR9khTBvWoStddcKkM2HpRTnJfVV7gR5t9CnJz8PalQEAQt5ZpAxYVh6Kqc6GpmYHoqP2Uzja4WGflqbmNgqBmb6xm0corQmFQob/Z5LjCFZj2Ju1UEys/2zdFQ/VqWONV1vXYUxiYPKJcAjuMaEso8Hk+aJEncUB+L8z/1ouxYj0rLAzdMLdS87NfjvbD1MJCkt5M0zayME05MiAbKHcKZYhNKi4zzaNQRaG10xeWnDprgGAlCFCeN6enpH6gyq9WWNvVmOnbjDwtKfmiO4/5tO57cJxLWys/14M30NEYJ4jNVOO717uJ5Eft3PkJh3sM46qpewVBvT1gr3PEQPiYMhvEVqUIvTZ9wOVjkZ+oS8vdVC/peelC060HCun2ABs0wZarQ6XLt945zyNt4G3kb4inccQ+1lVaQYwH8VtoZV3896sMYSZWqwk6jaTUvCCj8rgGZqyuTotT7rRR++bFFzfK31oEPC3hpsW5WhRkZGR96aR/xWD+Ib76sWJAtq7Rz/LvW3bLB52fpnJzcRfOOTVt7+7YgF4pdON2Or7+4/l6cPdyEIMejq9ucn+hsa3pfWH4OBEO48acZWWu02PT59YRsWVWBi2VGsAEOtv5XlzUaTWrCr6Wvf2Cd0rRna40s7cZfV57hyF4D9mTXyntVg5ICPbTl3ai++hw7N9+UXzWIoeGR7KTfMuFwHiAIL7atrcTgAAnK4+UZPxvxB4JQ8PkDUdIzHiJGx5G7sRo2ixsOl/tkUmFrW8d6xh+YHSN9cJMe8vCRoysys7KWl1+8tObS5Stfbd+ek/797t3LnG5yhKR8kHvRZX727UL/WM1dXUN2R6expPjQoY+TNRUUFHzU3tFZrNcbclPl8f/aO41uTsaqcVwnAAAAAElFTkSuQmCC); width: 20px;}
+			.fee {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEGUlEQVQ4y5WUa0ybZRTHy/ZhiZdEg5j5iU988JNx0+gHL7jODXDL3AYiSsTBMmM2pmbTOCLzMpcQVhNhCkwYTRmXyVbKuIwSsEW2FggShlxa2r5t6Xvp7e39Bi3l79NXJWwZBk9ykuc9539+5zzP8+YRiTZY+enTafF4vDKZTGqXl5fLRJtYLBYrJBpNIpGoksvl2zfTiYLB4PvJ5BpoSxRra2vJQCCQ96DG5/O9QnJxxhrFaiKJcDh8clNgJBLpoi0RdLfQMC+GkEisOmiGeebfPEVRT5KpLBs10WhUvSnQHwgMUPoA2hsodDaZ4eVjIFtX/lxXv00sFqeRrf4a8K/gptQiaHQzPpBdaUlp2kOBNE2fC4dX0PKTHo2SechlJgKMp4rOkGZlKysJ9HSYhZy0RoeAPwaO46o3nVAikTwdDIU4/SyP2gvTqP1uGurbNqwQI5OGtSpGiKV8ZtKJcCTikUqlmaL/MrV65K1oLJZQKihUfTkuuG7WBcrgQXXF39+3OgyILS8ntWNjRaItWNrCwsKFUCiK+uo/UFk+gqpzGkgqx4R17fcTCAQiMBiNl4l221aAoqysrB0Myw6ztA+Vp1S4+MUogd5BxcfDsFI87A7HeE5OzqOi/2PKwcEXQuHwWqdsBkO9i7iroiCrmwKJQaPRircMslqXMtw8n+3x+gaNiw6cyO9C6aGbKHtbLvjcDAuvz691ufk3bDZ656Ygg8n0BO/1tfsDwVXi4Hk/zh7vReGeVpwp60XFyQFhXV7cDafTi5SGeJI07jZbrBn3wRoaGra7eY/KZLTj/KekcO81FOe14eDLV1GwRwbdHAOK5N7b3yrEinPbUChuIU36oJtnwHs8k0qlcsc6kLJYD7l5L04UdCI/WwbJNyp89M4N5L3YhPbmSXIJTg/D2blbnfeEWNnh6/jhW5UALTnQTvIeWG10yTrQRjM1Y3eMyN39C/oVf8Lpcsdp2oUjr0nx40U1OIeToVluobFGQyZsgpmyC5qRIb1Q85tyATaGlW6c8MqoSo/9u65g6PY8WM4e5OxuHH1diktfD4NhOZd1yUbVXRrFgZeaYLM5BY121CDUKHtnYbYuta0Dp6bvlTCsC0X7WvDuXhkaa+7is1IF9j3fgJFhHYyUuU9vMLZNaE3IIYBTxTfRdFlDzrJVaGq12jEzO/fJOvDYsdLHSQfd5LgJx4904M3n6nH41WZ0SCdS24339PVnd96Q72btjqji+hQ5Z6mg+fBgGzS/L6bOb+mryvNP3XfT5Il6Vm8wTdmdLlgsHFi7E0s06+0fUH7wz/OU1t3Te5QUOzm7C2aiSWkNJvP81Wbprof+i+np6Y+QpFg9MnpW0d1TlJ9fsPPBty43NzdD3qUoIJrPW6615mRmZj62Mf8XcBksfJhAxYwAAAAASUVORK5CYII=); width: 20px;}
+			.info {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACn0lEQVQ4y52UT0gUURzH31qWQpZ16SQdkvIoQaQePAbVZe0giXVK0l3MKLMwVlEIQUxURIVKMgkFRUk7hITbioikVpNu68ruutuu6+7Mrv92dJyZnZlvb7VrsOMPvsx7P5gP39/3vRlCkihBEAoURRlSVZWhGqH7QnLUisViNzRNkz8HNFi+AeOrGuhe4XneeBSeQRRFps+tgbwFSDdVB9DDaJAkyZlCSxetpKQkXY7HpSIbBfZSWM8h8NYIEFcULTc3N02vw2OxGL/S6VBB3lBYF1U70DKngt/d9VGDx5OimM1mA82ukIbfRcVJsowPKwoqrCre2RWIkqQtLi6akz8Inu/ZFyXY1mQ8m1VRPKGi0qaCCcsQaX9+YeFxwn1SsIHBwXOCsK+ZrAoyXwOGzsPcSBtwmj7dERHR6EZ90u4yMjJSWZZj9gQBCTXMxEFeUWAzVRPQ+0NCJLoxpuskjEbj2dHR0ZvrofDPrjnpAEReUjUCA4wI2h/UfQFLS++mbm5th8s+yiANFFZPr45FgT24C49ntVY30OF0Xt3eieFiKwW+oGPXSrjUIiDRs01NXdMNXAsG6757d0Bq9kCeUlXzMA3tgOUiocs5OSd1f3LrYXa6eWIL5NE/PdzE8PwWPF7fgG53D8rL07hIdM/YHQExsSAVLFIqQvCFNrFk/12mGzg2/imLi2zgSmMQ5H7gQKdMfiR6oTDnCrPckMvlzkoaWFlVdSbEcmJRG4Xd8xyq1I3brT5U9/sxv8zC5w906srQ4VwZZlwsCixupNxZhqHYgQsmJ2r6vPCtcWB+LT3XNbalrv683eGcpE6xGuDg8rNIrL1/Atz0zGxTXn5+uu4s6e/pRHt7R96XSWuV9avtSd/7/uvZ2dmZiQn+985f33Dgycr7v7QAAAAASUVORK5CYII=); cursor: pointer; width: 20px;}
+			.recipient {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADTklEQVQ4y52UW0jTURzHz6icWC9RQcMgeg6KXoJsEYMoAnvooZey6H5dSRfCLpZkpWk3y/JCQhdLJeh+WQk1MdvSZal5Y6Zza5tubn+du7g5z7ffcTZf8lIHPnA453s+/H6H//8wNs7w+XyLw+Fw7tDQULVAzMUa+58RCAQOcs5DeidH+jcg/Sug7+IQa2Lvn2SSJK0OU0nJtRyy+wArIvIA2U0gWQuIPZGZrE/mDwQqSzo5WCmJHowI8wkSsitASTOHyIjshLbs7OwZIRqJWhIWk+AecSdSIbtBXAYSH3OIjMhOKCwrK1MEQyEo35Dw7kh1BUQucZ3IApT3OURGZCcUyuXyGE+/16GuCoMVjrR6i8iJtMsyAbUmDMp0i+ykLtFsNhcaewYwq4hH7u2P7BIw6xqH0TEAkZmUTK/XT3P2uIq9Pj/SPg+CXY3cm5Cxi0CadhBiT2REdlxZQkKCzC1J96xuH1aVhofva1iUQVwgzhFnOFYVBWF1+SCy4syYQqvNvkHy9GNd6SBmX+URyfkRURqROgR2kqo+HsCK3H5Iff0QZ/4qi42NlVEbtQU6L5r7qlDfq8HKIqryLI+ITtE8JUgyP9gRD1iyhNvaXtF6rTg7+r/6/UuDwWA+/aMlXp8P71oCqJBSkWmJQY3rKZbnDYyKjnnBDveBHXKD7XdiWaaD2u7lHz5q50WFNk9L1bnOmThrmh7ltCkGJzoYUk1yVHU/w5IrnoiIqmJqF9g+B9huG2bst8Dl7kVTc8uaqNDoqq47aGQYi6Nt01Fi+EmiHqqKRHu6wHZZwbabEbujA06XGw0/GhOjwqYuXd0OA8NYHK+fj7wPHVSRHWynEFnAtprANv/EopR2OJwuvHj5euFohb8aNRmGNUivUUVJrlyAjeUMByri8eq7DnPUJNxmjoi2tINtMmLqplY8qrDB1GlpVCgUo9/jW40mnkreS6i/VNfktLV3hO4aTmD7CwVe135CvLqVqiFJUhumJBkxd68R67PaoTHY8ctm9z559lw17tN1Oy9faWjSeb626LjJbIHJ6kCrSdA9PLd3O4RooK6hsTy/oHDppJ6wuLg4uVKpnPeg+OFazfvyfdqKyhSBmIs1lUolXpmpfzv7G3a700hrr/ORAAAAAElFTkSuQmCC); width: 20px;}
+			.sender {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADRElEQVQ4y52UXUiTURjHz7CcYF2EXjQqouguqJsKEgsWUQRddBN0E0QflFEKlaFFJX1a9t0yk4Q0S6WM1CxL0831scpWKWuapZs6ddO979z2brq2999z3LKkTOvAj/dwzv/97TkPOy9jfxmSJC0MBoOaUCj0hsPnfI39z/D7/btlWQ4Y+mQcew8cewcYemXwNb73TzJRFFcFqaQUowxFAcDyiGuA4gqQogX4Hs9M1Kfw+f36IqsMVkyiWxFhDkFCdg4oMsvgGZ4d15aVlTUlQGOtloSFJMgnboQrZJeJs8DauzJ4hmfHFZaUlKiGAgEkPiLhzUh11wkNcZE4AyQWyOAZnh1XqFQqo90er2PXiyBYbuSoV4lL4eOyTGBXVRCUsfPshJrY0dGR29o/iLg8Ody3H7LTQNwFGa2OQfDMhGQGg2FyX7+z0Cv5kPHyG9j5cN+4jJ0EMrTfwPd4hmf/KktISFAIophvEySsLA4O92tYdIo4QRwlDstYmTcEm1MCz/J3xhTaunvWi24PluUHwwLO8YgogzgUAjtAVe/3Y5nGA3HAA7vdseWPspiYGAUdw3j1pQ/sCPUuQw4/OVx0kH4kbYhktL/HjampAtw6F3yPhZDX613xm7CuTjtTEF3y0mx/uIofpAeGRYsuSdDofch5LiFH70XRa6rw0Fd0RmvhvtdNV1xaPkpobv68pl9wITbdA7ZPAkuNsM8LtteDp1onrNMewRJb+ZPoCrSzMliUFXCVWt0DA67FI8Im06d1fU4Byj0CWIo4mmQB9U9saKWrMxZfYosgNvc+GxGWVzyc7+hzYsFxB1gSsTNCkh1sRy9qKy1oYNlj0ji7AD2tnaUjQpVKNdli7TTdeeHApO1dYFttBD23EJs7UfiwHQ2ri/FWfXsE/ZxrqKb/lW6GBlZ981edrm7WqD7ef1Cm7uru8VYZ7Vh3sQvTky2I2tQGtrENcduaseGcGTuyzcgsacGrxjY0pFeiXJWJL9qm9tramrl//HTlXM9d8rHJVE3iwR67AxabAy0Wjn14ztf4nvFD4zNTvbHFXP/eVFtXM2+8GzhJrVarbhXeXlP1tDpJq9Oncficr/E9nqE2RcXHx0f9+uJ3NEHexbGJXz8AAAAASUVORK5CYII=); width: 20px;}
+			.text {cursor: default; padding: 0 10px 0 5px; white-space: nowrap;}
+			.timestamp {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADq0lEQVQ4y6XUXUxbZRgH8JdF4xZNBDVk3kxvvPFSTfAr9YJlZovGRUfcZGbL0GzKjPEjToZmsc6pF8ZMTQZbSdBTSlm3USgIyBjQgi77kBUKDbSHnn6fnu9z+Grjur9vT+SEeYXuTX7vefo85/+eNmkOIXTZbDaSz+d3FotFL3WDCq5T6d6eQqGwx263l5HVtbKycrx46y9weReCS42m6eUvrfrf1s7m8624easA+oV+qqioKCM8zz9Fn1L0G7vxs0hMXerjKKIAr/KY1VvlkTfT2Qr6tGes3kV9O4rFm5AkqZpoum6XCkGczhGLQ7gbF7UaOHJ3/dMrWzPfgEHtNbQIm27LZPKj0A3jJNF1neGWe/FjlpiG9f3UPgxptQgYhzCiH4DfeAtXFz/B5NI3mKLGjHpz5jfetnJzSx6omuYkqqr+wi0NoilbaWoTnoRX3o5+9Q2cFZ+HR7TBJ7+MPuV12t+GAbUW3fJLtH4RbvFpKxdZ7IKiKAyRJLlJWJ5FQD1xR7LLIYiS5CCSLDNhvQfH4uSOBLWO0oFOQjdmWvOhIUYsdq4cnbmDGBA/gyNdbfVPp1/Ab+IxOjuEL7j7b8v8qbohiKKT5ASBmVR8+JAlpiPzG8HpE1hYXIC6INDrItzZOrSma8yaN+ZhLBqIar/jI3aDlbsqu8Hnck5CN2ZC7sbhCDF9F38WhrGAjsz7OMI+VPorYELyYVRoNvsNbCX8whmzPsputnKXxXZks7yTZLI8c03owsEpYqoP3YMz83txOLQRrVwdNN1Ab+pb/BDdYdZxJQxZlxEUBq1MyTjvQjqTdRK6MVcyXhy4QtYow7nY51BUFVP8KOqvl6M/fpJ+1nAp4QArTiKnZPDxxBYrE0i5kEqlnSSZyjB/JL14c5RYOqNfQ1Y0jHBO1AXuNXuz/HXExYhZt0y/Q+cqvg++amVGuDYkkvTARDLFjMc6sbufmD4dewKirJhiuTmwfBh9kSb8OnfK7F2aZxDhQ+ClHN4bftTKDUXbEE8knSTGxR3jbDd2eYlpf88D6J1pxtBsm8Vx7QPs9d0H1w07LrN9tNeOxmGblSkZmnUhxiUYEpwKvRvPxrDHU45XXOR/qenYhEhqBqGZ8FFy/KsTlfS3Z0bCndjXvgU7Wsh/Uut6GANTbaBHKKeamh8xX7CudvdzbCwey/A5sKkoNbdOEWR4HrF4Iu05f2EbWbuqqqrKO856do76xxr8gfHG9Sjde+78hV3VW7c+uHrO34jpb2MZ2Gv9AAAAAElFTkSuQmCC); width: 20px;}
+		</style>
+		<script type="text/javascript">
+			function addTransaction(transaction) {
+			    removeTransaction(transaction.index);
+				var transactions = document.getElementById("transactions"), row = transactions.insertRow(transactions.rows.length), element;
+				row.id = "transaction" + transaction.index;
+				element = row.insertCell(0);
+				element.className = "timestamp";
+				element.title = "Timestamp";
+				element = row.insertCell(1);
+				element.className = "text";
+				element.innerHTML = formatTimestamp(transaction.timestamp);
+				element = row.insertCell(2);
+				element.className = "deadline";
+				element.title = "Deadline";
+				element = row.insertCell(3);
+				element.className = "text";
+				element.innerHTML = formatDeadline(transaction.deadline);
+				element = row.insertCell(4);
+				element.className = "sender";
+				element.title = "Sender";
+				element = row.insertCell(5);
+				element.className = "text";
+				element.innerHTML = transaction.sender;
+				element = row.insertCell(6);
+				element.className = "recipient";
+				element.title = "Recipient";
+				element = row.insertCell(7);
+				element.className = "text";
+				element.innerHTML = transaction.recipient;
+				element = row.insertCell(8);
+				element.className = "amount";
+				element.title = "Amount";
+				element = row.insertCell(9);
+				element.className = "text";
+				element.innerHTML = formatAmount(transaction.amountNQT);
+				element = row.insertCell(10);
+				element.className = "fee";
+				element.title = "Fee";
+				element = row.insertCell(11);
+				element.className = "text";
+				element.innerHTML = formatAmount(transaction.feeNQT);
+				element = row.insertCell(12);
+				element.className = "info";
+				element.title = "Id: " + transaction.id;
+				eval("element.onclick = function(){parent.showMessage('Transaction id: "+transaction.id+"')};");
+				element = parent.document.getElementById("unconfirmedTransactionsCounter");
+				element.innerHTML = parseInt(element.innerHTML) + 1;
+			}
+			
+			function addTransactions(transactions) {
+				var i;
+				for (i = 0; i < transactions.length; i++) {
+					addTransaction(transactions[i]);
+				}
+			}
+			
+            function formatAmount(amount) {
+                var digits=[], formattedAmount = "", i;
+                var wholePart = Math.floor(amount / 100000000);
+                var fractionalPart = amount % 100000000;
+                do {
+                    digits[digits.length] = wholePart % 10;
+                    wholePart = Math.floor(wholePart / 10);
+                } while (wholePart > 0);
+                for (i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 3 == 0) {
+                        formattedAmount = "'" + formattedAmount;
+                    }
+                    formattedAmount = digits[i] + formattedAmount;
+                }
+                if (fractionalPart != 0) {
+                    formattedAmount += ".";
+                    for (i = ("" + fractionalPart).length; i < 8; i++) {
+                        formattedAmount += "0";
+                    }
+                    formattedAmount += fractionalPart;
+                }
+                return formattedAmount;
+            }
+
+			function formatDeadline(deadline) {
+				if (deadline == 0) {
+					return "No deadline";
+				}
+				var d, h, m;
+				m = deadline % 60;
+				h = ((deadline - m) / 60) % 24;
+				d = (deadline - m - h * 60) / 1440;
+				m = m > 0 ? (m + " minute" + (m > 1 ? "s" : "")) : "";
+				h = h > 0 ? (h + " hour" + (h > 1 ? "s" : "")) : "";
+				d = d > 0 ? (d + " day" + (d > 1 ? "s" : "")) : "";
+				deadline = d + " " + h + " " + m;
+				while (deadline.indexOf("  ") >= 0) {
+					deadline = deadline.replace("  ", " ");
+				}
+				while (deadline.charAt(0) == " ") {
+					deadline = deadline.substr(1);
+				}
+				while (deadline.charAt(deadline.length - 1) == " ") {
+					deadline = deadline.substr(0, deadline.length - 1);
+				}
+				return deadline;
+			}
+			
+			function formatTimestamp(timestamp) {
+				return (new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0) + timestamp * 1000)).toLocaleString();
+			}
+			
+			function removeTransaction(index) {
+			    if (document.getElementById("transaction" + index)) {
+    				document.getElementById("transactions").deleteRow(document.getElementById("transaction" + index).rowIndex);
+	    			var element = parent.document.getElementById("unconfirmedTransactionsCounter");
+		    		element.innerHTML = parseInt(element.innerHTML) - 1;
+		    	}
+			}
+			
+			function removeTransactions(transactions) {
+				var i;
+				for (i = 0; i < transactions.length; i++) {
+					removeTransaction(transactions[i].index);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<table id="transactions"></table>
+	</body>
+</html>

@@ -1,0 +1,123 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="add_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="add_contact">Add Contact</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger never_hide">
+                        <strong><span data-i18n="remember">Remember</span>:</strong>
+                        <span data-i18n="contacts_local_storage_help">Contacts are stored locally, not on the blockchain.</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="add_contact_name" data-i18n="name">NAME</label>
+                        <input type="text" class="form-control" name="name" id="add_contact_name" placeholder="Contact Name" data-i18n="[placeholder]contact_name" autofocus tabindex="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="add_contact_account_id" data-i18n="account_id">ACCOUNT ID</label>
+                        <input type="text" class="form-control" name="account_id" id="add_contact_account_id" placeholder="NXT Account ID" data-i18n="nxt_account_id" tabindex="2" />
+                    </div>
+                    <div class="form-group">
+                        <label for="add_contact_email" data-i18n="email_address">EMAIL ADDRESS</label>
+                        <input type="text" class="form-control" name="email" id="add_contact_email" placeholder="contact@email.com" tabindex="3" />
+                    </div>
+                    <div class="form-group">
+                        <label for="add_contact_description" data-i18n="description">DESCRIPTION</label>
+                        <textarea class="form-control" id="add_contact_description" name="description" rows="3" tabindex="4" placeholder="Optional" data-i18n="[placeholder]optional"></textarea>
+                    </div>
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="addContact" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="add_contact;[placeholder]submitting">Add Contact</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="update_contact">Update Contact</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="update_contact_name" data-i18n="name">NAME</label>
+                        <input type="text" class="form-control" name="name" id="update_contact_name" placeholder="Contact Name" data-i18n="[placeholder]contact_name" autofocus tabindex="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="update_contact_account_id" data-i18n="account_id">ACCOUNT ID</label>
+                        <input type="text" class="form-control" name="account_id" id="update_contact_account_id" placeholder="NXT Account ID" data-i18n="[placeholder]nxt_account_id" tabindex="2" />
+                    </div>
+                    <div class="form-group">
+                        <label for="update_contact_email" data-i18n="email_address">EMAIL ADDRESS</label>
+                        <input type="text" class="form-control" name="email" id="update_contact_email" placeholder="contact@email.com" tabindex="3" />
+                    </div>
+                    <div class="form-group">
+                        <label for="update_contact_description" data-i18n="description">DESCRIPTION</label>
+                        <textarea class="form-control" id="update_contact_description" name="description" rows="3" tabindex="4" placeholder="Optional" data-i18n="[placeholder]optional"></textarea>
+                    </div>
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="contact_id" id="update_contact_id" value="" />
+                    <input type="hidden" name="request_type" value="updateContact" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="update_contact;[data-loading-text]submitting">Update Contact</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="delete_contact">Delete Contact</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger" data-i18n="delete_contact_confirmation">Are you sure you want to delete this contact?</div>
+                    <p><strong data-i18n="name">Name</strong>: <span id="delete_contact_name"></span></p>
+
+                    <input type="hidden" name="contact_id" id="delete_contact_id" value="" />
+                    <input type="hidden" name="account_id" id="delete_contact_account_id" value="" />
+                    <input type="hidden" name="request_type" value="deleteContact" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="do_not_delete">No, Do Not Delete</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="confirm_contact_delete;[data-loading-text]submitting">Yes, Delete Contact</button>
+            </div>
+        </div>
+    </div>
+</div>

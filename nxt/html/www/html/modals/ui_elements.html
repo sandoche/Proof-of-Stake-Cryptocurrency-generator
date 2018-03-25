@@ -1,0 +1,120 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="simple_input_with_addon_modal_ui_element">
+    <label for="{{modalName}}_{{labelI18n}}" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+    <div class="input-group">
+        <input type="text" name="{{inputName}}" class="form-control" placeholder="{{labelText}}" data-i18n="[placeholder]{{labelI18n}}" tabindex="3">
+        <span class="input-group-addon" data-i18n="{{addonI18n}}">{{addonText}}</span>
+    </div>
+</div>
+
+<div id="block_height_modal_ui_element">
+    <div style="float:right;font-size:12px;">
+        <span class="bhm_ue_time_estimate"></span>
+        <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]block_height_estimate_help"></i>
+    </div>
+    <label for="{{modalName}}_{{labelI18n}}" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+    <div class="input-group">
+        <input type="text" name="{{inputName}}" id="{{modalName}}_{{labelI18n}}" class="form-control bhm_ue_time_input" value="{{initBlockHeight}}" placeholder="{{labelText}}" data-i18n="{{labelI18n}}" />
+        <span class="input-group-addon">
+            <a href="#" class="bhm_ue_use_current_block_height" data-current-block-height="" style="color:#000;" data-content="" data-placement="bottom" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]current_block_height_help"><span class="bhm_ue_current_block_height"></span></a>
+        </span>
+        <span class="input-group-btn">
+            <button class="btn btn-default bhm_ue_reduce_height_btn" data-bhm-ue-num-blocks="{{changeHeightBlocks}}" data-content="-{{changeHeightBlocks}}" data-placement="bottom" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" type="button"><i class="fa fa-minus-circle"></i></button>
+        </span>
+        <span class="input-group-btn">
+            <button class="btn btn-default bhm_ue_add_height_btn" data-bhm-ue-num-blocks="{{changeHeightBlocks}}" data-content="+{{changeHeightBlocks}}" data-placement="right" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" type="button"><i class="fa fa-plus-circle"></i></button>
+        </span>
+    </div>
+</div>
+
+<div id="add_currency_modal_ui_element">
+    <label for="{{modalName}}_{{labelI18n}}" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+    <div class="input-group">
+        <input type="text"  class="form-control acm_ue_currency_code_input" name="{{inputCodeName}}" size="5" maxlength="5" id="{{modalName}}_{{labelI18n}}" placeholder="Code" data-i18n="[placeholder]code" tabindex="2" />
+        <input type="hidden" class="acm_ue_currency_id_input" name="{{inputIdName}}" disabled>
+        <input type="hidden" class="acm_ue_currency_decimals_input" name="{{inputDecimalsName}}" disabled>
+        <span class="input-group-addon" style="min-width:440px;text-align:left;">
+            ID: <span class="acm_ue_currency_id">-</span>
+        </span>
+    </div>
+</div>
+
+<div id="add_asset_modal_ui_element">
+    <label for="{{modalName}}_{{labelI18n}}" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+    <div class="input-group">
+        <input type="text"  class="form-control aam_ue_asset_id_input" name="{{inputIdName}}" size="20" maxlength="20" id="{{modalName}}_{{labelI18n}}" placeholder="Asset ID" data-i18n="[placeholder]asset_id" tabindex="2" />
+        <input type="hidden" class="aam_ue_asset_decimals_input" name="{{inputDecimalsName}}" disabled>
+        <span class="input-group-addon" style="min-width:440px;text-align:left;">
+            <span class="aam_ue_asset_name">-</span>
+        </span>
+    </div>
+</div>
+
+<div id="multi_accounts_modal_ui_element">
+    <div class="row">
+        <div class="col-xs-12 multi_accounts_ue_added_account_list">
+            <label data-i18n="{{labelI18n}}">{{labelText}}</label>
+            <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+            <div class="form-group form_group_multi_accounts_ue">
+                <div class="input-group">
+                    <input type="text" class="form-control plain_address_selector_input" name="{{inputName}}" placeholder="Account" data-i18n="[placeholder]account" disabled />
+                    <div class="pas_contact_info">&nbsp;</div>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default remove_account_btn" type="button"><i class="fa fa-minus"></i></button>
+                    </span>
+                    <span class="input-group-btn btn-group plain_address_selector">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></button>
+                        <!--suppress HtmlUnknownTag -->
+                        <ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;"></ul>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <a href="#" class="btn btn-primary add_account_btn"><i class="fa fa-plus"></i> <span data-i18n="add_account">Add Account</span></a>
+        </div>
+    </div>
+</div>
+
+<div id="min_balance_model_modal_ui_element">
+    <label for="{{modalName}}_{{labelI18n}}" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <i class="fa fa-question-circle modal-context-help" data-content="" data-toggle="popover" data-trigger="hover" data-container="#{{modalId}}" data-i18n="[data-content]{{helpI18n}}"></i>
+    <div class="input-group">
+        <select class="form-control" name="{{selectName}}" id="{{modalName}}_{{labelI18n}}">
+            <option value="0" selected data-i18n="min_balance_none">No min balance necessary</option>
+            <option value="1" data-i18n="min_balance_type_nxt">Min balance of NXT required</option>
+            <option value="2" data-i18n="min_balance_type_asset">Min balance of asset quantity required</option>
+            <option value="3" data-i18n="min_balance_type_currency">Min balance of currency units required</option>
+        </select>
+    </div>    
+</div>
+
+<div id="hash_algorithm_model_modal_ui_element">
+    <label for="hash_algorithms_template" data-i18n="{{labelI18n}}">{{labelText}}</label>
+    <div class="input-group">
+        <select class="form-control" name="{{selectName}}" id="hash_algorithms_template">
+        </select>
+    </div>
+</div>
+

@@ -1,0 +1,77 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="start_forging_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="confirm_forging_start">Confirm Forging Start</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <p class="show_secret_phrase" data-i18n="start_forging_confirmation_passphrase">If you want to start forging, type your passphrase to confirm.</p>
+                    <p class="hide_secret_phrase" style="display:none" data-i18n="start_forging_confirmation">If you you want to start forging, click the button below to confirm.</p>
+                    <div class="callout callout-danger remote_warning" style="display:none">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="passphrase_remote_warning">Your passphrase will be sent to the server!</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group secret_phrase">
+                        <label for="start_forging_password" data-i18n="passphrase">PASSPHRASE</label>
+                        <input type="password" name="secretPhrase" id="start_forging_password" class="form-control" placeholder="" tabindex="1">
+                    </div>
+                    <input type="hidden" name="request_type" value="startForging" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="start_forging_button" data-loading-text="Submitting..."  data-i18n="start_forging;[data-loading-text]submitting">Start Forging</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="stop_forging_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span data-i18n="confirm_forging_stop">Confirm Forging Stop</span> <span class="show_logout" data-i18n="and_logout">&amp; Logout</span></h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <p class="show_secret_phrase" data-i18n="stop_forging_confirmation_passphrase">If you are sure you want to stop forging, type your passphrase to confirm.</p>
+                    <p class="hide_secret_phrase" style="display:none" data-i18n="stop_forging_confirmation">If you are sure you want to stop forging, click the button below to confirm.</p>
+                    <div class="callout callout-danger remote_warning" style="display:none">
+                        <strong><span data-i18n="warning">Warning</span>:</strong>
+                        <span data-i18n="passphrase_remote_warning">Your passphrase will be sent to the server!</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group secret_phrase">
+                        <label for="stop_forging_password" data-i18n="passphrase">PASSPHRASE</label>
+                        <input type="password" name="secretPhrase" id="stop_forging_password" class="form-control" placeholder="" tabindex="1">
+                    </div>
+                    <input type="hidden" name="request_type" value="stopForging" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="continue_forging">Continue Forging</button>
+                <button type="button" class="btn btn-primary" id="stop_forging_button" data-loading-text="Submitting..." data-i18n="[data-loading-text]submitting"><span data-i18n="stop_forging">Stop Forging</span> <span class="show_logout" data-i18n="and_logout">and Logout</span></button>
+            </div>
+        </div>
+    </div>
+</div>

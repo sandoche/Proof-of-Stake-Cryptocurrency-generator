@@ -1,0 +1,12 @@
+{
+    "balances": {
+         "NXT-NZKH-MZRE-2CTT-98NPZ": 30000000000000000,
+         "NXT-X5JH-TJKJ-DVGC-5T2V8": 30000000000000000,
+         "NXT-LTR8-GMHB-YG56-4NWSE": 30000000000000000
+     },
+     "publicKeys": [
+         "bf0ced0472d8ba3df9e21808e98e61b34404aad737e2bae1778cebc698b40f37",
+         "39dc2e813bb45ff063a376e316b10cd0addd7306555ca0dd2890194d37960152",
+         "011889a0988ccbed7f488878c62c020587de23ebbbae9ba56dd67fd9f432f808"
+     ]
+ }

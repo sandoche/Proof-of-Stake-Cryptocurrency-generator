@@ -1,0 +1,311 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="settings_page" class="page">
+    <section class="content-header"><h1 data-i18n="account_settings">Account Settings</h1></section>
+    <section class="content" id="settings_box">
+        <div class="alert alert-warning" role="alert" id="settings_db_warning" style="display:none;">
+            <b><span data-i18n="warning">Warning</span>: </b>
+            <span data-i18n="settings_db_warning_1"></span> <span data-i18n="settings_db_warning_2"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title" data-i18n="general">General</h3>
+                    </div>
+
+                    <form id="settings_form" role="form" autocomplete="off">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="settings_language" data-i18n="language">Language</label>
+                                <select name="language" id="settings_language" class="form-control" style="width:150px">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_regional_format" data-i18n="regional_format">Regional format</label>
+                                <select name="regional_format" id="settings_regional_format" class="form-control" style="width:150px">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_24_hour_format" data-i18n="use_24_hour_format">Use 24 Hour Format</label>
+                                <select name="24_hour_format" id="settings_24_hour_format" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_max_nxt_decimals" data-i18n="max_nxt_decimals">Maximum NXT decimal positions</label>
+                                <select name="max_nxt_decimals" id="settings_max_nxt_decimals" class="form-control" style="width:150px">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_enable_plugins" data-i18n="enable_plugins_setting">Enable Plugins</label>
+                                <select name="enable_plugins" id="settings_enable_plugins" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                                <p class="help-block" data-i18n="enable_plugins_help">Need restart of client.</p>
+                            </div>
+                            <div class="form-group" id="settings_console_log_div">
+                                <label for="settings_console_log" data-i18n="show_console_log_button">Show Console Log Button</label>
+                                <select name="console_log" id="settings_console_log" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="settings_admin_password_div">
+                                <label for="settings_admin_password" data-i18n="admin_password">Server Administration Password</label>
+                                <div class="input-group" style="width:150px">
+                                    <input type="password" name="admin_password" id="settings_admin_password" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_transact_during_download" data-i18n="transact_during_download">Transact During Download</label>
+                                <select name="transact_during_download" id="settings_transact_during_download" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title" data-i18n="user_interface_behaviour">User Interface Behaviour</h3>
+                    </div>
+
+                    <form role="form" autocomplete="off">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="settings_submit_on_enter" data-i18n="submit_forms_on_enter">Submit Forms on Enter</label>
+                                <select name="submit_on_enter" id="settings_submit_on_enter" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                                <p class="help-block" data-i18n="submit_forms_on_enter_help">Be careful when choosing to submit forms via the enter key, submitting can't be undone.</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_marketplace" data-i18n="enable_marketplace_section">Enable Marketplace Section</label>
+                                <select name="marketplace" id="settings_marketplace" class="form-control" style="width:150px">
+                                    <option value="-1" id="settings_marketplace_initial" data-i18n="choose">Choose</option>
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_exchange" data-i18n="enable_exchange_section">Enable Exchange Section</label>
+                                <select name="exchange" id="settings_exchange" class="form-control" style="width:150px">
+                                    <option value="-1" id="settings_exchange_initial" data-i18n="choose">Choose</option>
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_news" data-i18n="enable_news_section">Enable News Section</label>
+                                <select name="news" id="settings_news" class="form-control" style="width:150px">
+                                    <option value="-1" id="settings_news_initial" data-i18n="choose">Choose</option>
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_animate_forging" data-i18n="animate_forging_indicator">Animate Forging Indicator</label>
+                                <select name="animate_forging" id="settings_animate_forging" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_items_page" data-i18n="items_per_page">Items to show per page</label>
+                                <select name="items_page" id="settings_items_page" class="form-control" style="width:150px">
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="30">30</option>
+                                    <option value="35">35</option>
+                                    <option value="40">40</option>
+                                    <option value="45">45</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title" data-i18n="form_warnings">Form Warnings</h3>
+                    </div>
+
+                    <form role="form" autocomplete="off">
+                        <div class="box-body" style="padding-top:0;">
+                            <p class="help-block" data-i18n="form_warnings_help">Show a warning when an amount / fee entered is higher than specified below.</p>
+
+                            <div class="form-group">
+                                <label for="settings_amount_warning" data-i18n="max_amount_warning">Max Amount Warning</label>
+                                <div class="input-group" style="width:150px">
+                                    <input type="text" name="amount_warning" id="settings_amount_warning" class="form-control" />
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_fee_warning" data-i18n="max_fee_warning">Max Fee Warning</label>
+                                <div class="input-group" style="width:150px">
+                                    <input type="text" name="fee_warning" id="settings_fee_warning" class="form-control" />
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_asset_transfer_warning" data-i18n="max_asset_transfer_warning">Max Asset Transfer Warning</label>
+                                <div class="input-group" style="width:150px">
+                                    <input type="text" name="asset_transfer_warning" id="settings_asset_transfer_warning" class="form-control" />
+                                    <span class="input-group-addon">QNT</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_currency_transfer_warning" data-i18n="max_currency_transfer_warning">Max Currency Transfer Warning</label>
+                                <div class="input-group" style="width:150px">
+                                    <input type="text" name="currency_transfer_warning" id="settings_currency_transfer_warning" class="form-control" />
+                                    <span class="input-group-addon">Units</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_fake_entity_warning" data-i18n="show_fake_warnings">Show Fake Warnings</label>
+                                <select name="fake_entity_warning" id="settings_fake_entity_warning" class="form-control" style="width:150px">
+                                    <option value="1" data-i18n="yes">Yes</option>
+                                    <option value="0" data-i18n="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-success" style="overflow:visible">
+                    <div class="box-header">
+                        <h3 class="box-title" data-i18n="theme_settings">Theme Settings</h3>
+                    </div>
+
+                    <form role="form" autocomplete="off">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label class="control-label" data-i18n="header">Header</label>
+                                <div class="input-group">
+                                    <div class="btn-group colors">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+                                            <span class="text" data-i18n="select_color_scheme">Select Color Scheme</span> <span class="caret"></span>
+                                        </button>
+                                        <ul id="header_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="header" data-container="body">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" data-i18n="sidebar">Sidebar</label>
+                                <div class="input-group">
+                                    <div class="btn-group colors">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+                                            <span class="text" data-i18n="select_color_scheme">Select Color Scheme</span> <span class="caret"></span>
+                                        </button>
+                                        <ul id="sidebar_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="sidebar" data-container="body">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Boxes</label>
+                                <div class="input-group">
+                                    <div class="btn-group colors">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+                                            <span class="text" data-i18n="select_color_scheme">Select Color Scheme</span> <span class="caret"></span>
+                                        </button>
+                                        <ul id="boxes_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="boxes" data-container="body">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="box box-exchange">
+                    <div class="box-header">
+                        <h3 class="box-title" data-i18n="exchange_settings">Exchange Settings</h3>
+                    </div>
+                    <form role="form" autocomplete="off">
+                        <div class="box-body" style="padding-top:0;">
+                            <div class="form-group">
+                                <label for="settings_shape_shift_url" data-i18n="shape_shift_url">ShapeShift URL</label>
+                                <div class="input-group">
+                                    <input type="text" name="shape_shift_url" id="settings_shape_shift_url" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_shape_shift_api_key" data-i18n="shape_shift_api_key">ShapeShift API Key</label>
+                                <div class="input-group">
+                                    <input type="text" name="shape_shift_api_key" id="settings_shape_shift_api_key" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_changelly_url" data-i18n="changelly_url">Changelly URL</label>
+                                <div class="input-group">
+                                    <input type="text" name="changelly_url" id="settings_changelly_url" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_changelly_api_key" data-i18n="changelly_api_key">Changelly API Key</label>
+                                <div class="input-group">
+                                    <input type="text" name="changelly_api_key" id="settings_changelly_api_key" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings_changelly_api_secret" data-i18n="changelly_api_secret">Changelly API Secret</label>
+                                <div class="input-group">
+                                    <input type="text" name="changelly_api_secret" id="settings_changelly_api_secret" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

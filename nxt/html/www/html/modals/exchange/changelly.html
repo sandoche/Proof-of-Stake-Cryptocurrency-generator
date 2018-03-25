@@ -1,0 +1,218 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="changelly_buy_modal" data-type="buy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="changelly_buy_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_buy_min" data-i18n="min_deposit_amount">MINIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="changelly_buy_min" class="form-control" readonly>
+                                    <span class="input-group-addon" id="changelly_buy_min_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_buy_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="changelly_buy_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="changelly_buy_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_buy_amount" data-i18n="amount">AMOUNT</label>
+                                <div class="input-group">
+                                    <input type="text" name="amountNXT" id="changelly_buy_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="1">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_buy_estimated_amount" data-i18n="estimated_amount">ESTIMATED AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="changelly_buy_estimated_amount" class="form-control" readonly>
+                                    <span class="input-group-addon" id="changelly_buy_estimated_amount_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-16 col-sm-8 col-md-8">
+                            <div class="form-group">
+                                <label for="changelly_buy_withdrawal_address" data-i18n="withdrawal_address">WITHDRAWAL ADDRESS</label>
+                                <div class="input-group">
+                                    <input type="text" id="changelly_buy_withdrawal_address" class="form-control" tabindex="2">
+                                    <span class="input-group-addon" id="changelly_withdrawal_address_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <input type="hidden" id="changelly_buy_from" value="" />
+                    <input type="hidden" id="changelly_buy_to" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="changelly_buy_submit" data-ignore="true" data-loading-text="Submitting..." data-i18n="send_nxt;[data-loading-text]submitting">Send NXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changelly_sell_modal" data-type="sell" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-700">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="changelly_sell_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_min" data-i18n="min_deposit_amount">MINIMUM DEPOSIT AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="changelly_sell_min" class="form-control" readonly>
+                                    <span class="input-group-addon" id="changelly_sell_min_coin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_rate" data-i18n="rate">RATE</label>
+                                <div class="input-group">
+                                    <input id="changelly_sell_rate" class="form-control" readonly>
+                                    <span class="input-group-addon" id="changelly_sell_rate_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_amount" data-i18n="deposit_amount_optional">DEPOSIT AMOUNT (OPTIONAL)</label>
+                                <div class="input-group">
+                                    <input type="text" id="changelly_sell_amount" step="any" min="0" class="form-control" placeholder="Amount" data-i18n="[placeholder]amount" tabindex="1">
+                                    <span class="input-group-addon" id="changelly_sell_amount_text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_estimated_amount" data-i18n="estimated_amount">ESTIMATED AMOUNT</label>
+                                <div class="input-group">
+                                    <input id="changelly_sell_estimated_amount" class="form-control" readonly>
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_deposit_address" data-i18n="deposit_address">DEPOSIT ADDRESS</label>
+                                <div class="input-group">
+                                    <span id="changelly_sell_deposit_address"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="changelly_sell_qr_code" data-i18n="deposit_qr_code">Deposit QR Code</label>
+                                <div class="input-group">
+                                    <div id="changelly_sell_qr_code"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-24 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <span data-i18n="deposit_instructions_changelly">
+                                    Copy the deposit address or scan the QR code from your coin wallet and deposit your funds.<br>
+                                    Do not deposit less than the minimum amount, since this will cause your transaction to be rejected.<br>
+                                    Once you completed your deposit click the "Done" button.<br>
+                                    To cancel your deposit click the "Cancel" button.<br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="changelly_sell_from" value="" />
+                    <input type="hidden" id="changelly_sell_to" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" id="changelly_sell_cancel" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="changelly_sell_done" data-ignore="true" data-loading-text="Submitting..." data-i18n="done;[data-loading-text]submitting">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changelly_view_transaction" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="view_changelly_transaction">View Changelly Transaction</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="form-group">
+                        <label for="changelly_identifier" data-i18n="id"></label>
+                        <input type="text" class="form-control" id="changelly_identifier" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="changelly_view_content" data-i18n="content"></label>
+                        <pre id="changelly_view_content" class='hljs json'><code></code></pre>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

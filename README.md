@@ -1,29 +1,35 @@
 # Proof-of-Stake-Cryptocurrency-generator
-Create your own Proof of Stake cryptocurrency with its own blockchain based on "Nxt Blockchain Creation Kit". It should satisfy the requirements of the Jelurida Public License version 1.1 for the Nxt Public Blockchain Platform.
+Create your own Proof of Stake cryptocurrency with its own blockchain based on "Nxt Blockchain Creation Kit".
+It should satisfy the requirements of the Jelurida Public License version 1.1 for the Nxt Public Blockchain Platform.
 Basically 10% of your tokens should be given to the owners of the Nxt Cryptocurrency.
 
+This generator will assist you building your NXT clone.
+If you are an advanced user follow directly the official tutorial:
+* Nxt-clone-starter: https://bitbucket.org/Jelurida/nxt-clone-starter
+* Introduction to the NXT Blockchain Creation Kit: https://www.youtube.com/watch?v=6Wg3uv07GU4
+
+## Requirements
+* Java
+* NodeJS
+
 ## Step 1 - Download the Nxt blockchain and create the genesis block
-1. Download and install the last Nxt package from https://bitbucket.org/Jelurida/nxt/downloads
-2. Copy the conf/nxt-default.properties to conf/nxt.properties and put this setting: nxt.addOns=nxt.addons.JPLSnapshot
-3. Run the node, running run.sh or run.bat (for windows), create a wallet, and run the node, it will download the full blockchain it can take a few hours.
-4. Then create your input file like the following:
+1. Clone this repository with `git clone https://github.com/sandoche/Proof-of-Stake-Cryptocurrency-generator`, also feel free to fork this repository!
+2. Go to the cloned folder and install the npm dependencies with `npm install`
+3. Run the Nxt Blockchain with `npm step-1:nxt:run`
+4. The Nxt wallet will open, create an account and save the private keys securely, wait until the full blockchain is synced, this can take a few hours. Copy your nxt address and also its public key.
+5. Open the file `docs/config/newGenesisAccounts.json`, this file will define the repartition of the coins your are creating. On the first block creation 1 billion of coins will be distributed, 10% of them will be distributed to the Nxt holders (this is part of the Jelurida Public License). You have to put the list of accounts you want to credit in the first block (the genesis block) and its matching public key. The total of the amounts should be 90000000000000000 if you don't know what to do, just put your NXT address your created (Step 1-4), and it's public key like this and save it. If you are not sure about what you are doing check this video: https://www.youtube.com/watch?v=6Wg3uv07GU4
 ```
 {
     "balances": {
-         "NXT-NZKH-MZRE-2CTT-98NPZ": 30000000000000000,
-         "NXT-X5JH-TJKJ-DVGC-5T2V8": 30000000000000000,
-         "NXT-LTR8-GMHB-YG56-4NWSE": 30000000000000000
+         "my nxt address here": 90000000000000000
      },
      "publicKeys": [
-         "bf0ced0472d8ba3df9e21808e98e61b34404aad737e2bae1778cebc698b40f37",
-         "39dc2e813bb45ff063a376e316b10cd0addd7306555ca0dd2890194d37960152",
-         "011889a0988ccbed7f488878c62c020587de23ebbbae9ba56dd67fd9f432f808"
+         "the public key of this nxt address"
      ]
  }
- ```
- This 3 accounts will be the one receiving the first coins of the genesis block.
- Each public key should math each account, you can have only one if you feel like, but the total should be 90000000000000000.
- 5. Once the Nxt blockchain is sync go to http://localhost:7876/test?requestTag=ADDONS and upload your file. It will generate the genesis block, just save it.
+```
+6. Go to http://localhost:7876/test?requestTag=ADDONS click on "downloadJPLSnapshot" then upload your file "newGenesisAccounts.json" and copy paste the height you can see in your wallet as in the screenshot below, then submit. A file will be generated after a few minutes, save it as "genesisAccounts.json" in the `conf/data` folder.
+--- SCREENSHOT ---
 
 ## Step 2 - Create your own Cryptocurrency
 * Todo
@@ -33,3 +39,7 @@ Basically 10% of your tokens should be given to the owners of the Nxt Cryptocurr
 
 ## Step 4 - Host your nodes in some servers
 * Todo
+
+## Todo
+- [] How to install NodeJS
+- [] How to install Java

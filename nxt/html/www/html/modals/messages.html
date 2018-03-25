@@ -1,0 +1,180 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="send_message_modal" data-transaction-type="1" data-transaction-subtype="0" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="send_message">Send Message</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="send_message_form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div data-replace-with-modal-template="recipient_modal_template"></div>
+                    <div class="form-group">
+                        <label for="send_message_message" data-i18n="message">MESSAGE</label>
+                        <textarea class="form-control" id="send_message_message" name="message" rows="4" tabindex="3"></textarea>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div style="margin-top:3px">
+                                <label for="send_message_encrypt" style="font-weight:normal;color:#666"><input type="checkbox" name="encrypt_message" id="send_message_encrypt" value="1" data-default="checked" checked="checked" /> <span data-i18n="encrypt_message">Encrypt Message</span></label>
+                            </div>
+                            <div style="margin-top:3px">
+                                <label for="send_message_permanent" style="font-weight:normal;color:#666"><input type="checkbox" name="permanent_message" id="send_message_permanent" value="1" data-default="unchecked" /> <span data-i18n="permanent_message">Message is Never Deleted</span></label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="upload_file_message" data-i18n="file">File</label>
+                                <input type="file" name="file" id="upload_file_message" class="form-control" tabindex="6">
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="sendMessage" data-default="sendMessage" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="send_message_button;[data-loading-text]submitting">Send Message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="messages_decrypt_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="decrypt_messages">Decrypt Messages</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="background:#fbe7e7" data-i18n="passphrase_or_shared_key_required_to_decrypt_data">Your passphrase or a shared key is required to decrypt this data.</div>
+                    <div class="form-group secret_phrase">
+                        <label for="messages_decrypt_password" data-i18n="passphrase">PASSPHRASE</label>
+                        <input type="password" name="secretPhrase" id="messages_decrypt_password" class="form-control" placeholder="" tabindex="8">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0">
+                        <input type="checkbox" name="rememberPassword" id="messages_decrypt_remember_password" /> <span></span><label for="messages_decrypt_remember_password" style="font-weight:normal;" data-i18n="remember_decryption_passphrase">Remember passphrase for decryption</label>
+                    </div>
+                    <input type="hidden" name="request_type" value="decryptMessages" />
+                    <div class="form-group">
+                        <label for="messages_decrypt_shared_key" data-i18n="shared_key">Shared Key</label>
+                        <input name="sharedKey" id="messages_decrypt_shared_key" class="form-control" tabindex="9">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Decrypting..." data-i18n="decrypt;[data-loading-text]decrypting">Decrypt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="decrypt_note_form_container" style="display:none;">
+    <form role="form" style="background:#f6f6f6;margin-bottom:10px;padding:10px;border:1px solid #999;border-radius:5px;" autocomplete="off">
+        <div class="callout callout-danger error_message" style="display:none"></div>
+        <div id="decrypt_note_secret_phrase_div">
+            <div class="form-group secret_phrase">
+                <label for="decrypt_note_form_password" data-i18n="phrase">PASSPHRASE</label>
+                <input type="password" name="secretPhrase" id="decrypt_note_form_password" class="form-control" placeholder="" tabindex="8">
+            </div>
+            <div style="margin-bottom:10px"><input type="checkbox" name="rememberPassword" id="decrypt_note_remember_password"/>
+                &nbsp
+                <label for="decrypt_note_remember_password" style="font-weight:normal;" data-i18n="remember_decryption_passphrase">Remember passphrase for decryption</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="decrypt_note_form_shared_key" data-i18n="shared_key">Shared Key</label>
+            <input name="sharedKey" id="decrypt_note_form_shared_key" class="form-control" tabindex="9">
+        </div>
+        <button type="button" class="btn btn-primary" data-ignore="true" data-i18n="decrypt">Decrypt</button>
+    </form>
+</div>
+
+<div class="modal fade" id="shared_key_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="share_message">Share Message</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="alert alert-info" role="alert" data-i18n="shared_key_info">3rd party accounts can decrypt this message using this shared key</div>
+                    <div class="form-group">
+                        <label for="shared_key_text" data-i18n="shared_key">Shared Key</label>
+                        <input class="form-control" id="shared_key_text" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="shared_key_transaction" data-i18n="transaction">TRANSACTION</label>
+                        <div class="form-control" id="shared_key_transaction"></div>
+                    </div>
+                    <div id="shared_key_link_container" class="form-group">
+                        <label for="shared_key_link" data-i18n="share_link">Share Link</label>
+                        <a class="form-control" id="shared_key_link"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="retrieve_message_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="retrieve_message">Retrieve Message</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="retrieve_message_hash" data-i18n="hash">Hash</label>
+                        <input class="form-control" id="retrieve_message_hash" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="retrieve_message_transaction" data-i18n="transaction">TRANSACTION</label>
+                        <input class="form-control" name="transaction" id="retrieve_message_transaction" readonly/>
+                    </div>
+                    <input type="hidden" name="request_type" value="getPrunableMessage" />
+                    <input type="hidden" name="retrieve" value="true" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="retrieve;[placeholder]submitting">RETRIEVE</button>
+            </div>
+        </div>
+    </div>
+</div>

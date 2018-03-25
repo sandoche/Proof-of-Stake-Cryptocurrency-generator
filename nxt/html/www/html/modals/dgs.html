@@ -1,0 +1,559 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="dgs_listing_modal" data-transaction-type="3" data-transaction-subtype="0" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="list_product_for_sale">List Product For Sale</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="dgs_listing_name" data-i18n="name">NAME</label>
+                        <input type="text" class="form-control" name="name" id="dgs_listing_name" placeholder="Item Name" data-i18n="[placeholder]item_name" autofocus tabindex="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="dgs_listing_description" data-i18n="description">DESCRIPTION</label>
+                        <textarea class="form-control" id="dgs_listing_description" name="description" rows="3" tabindex="2" placeholder="Enter a description" data-i18n="[placeholder]enter_a_description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="dgs_listing_tags"><span data-i18n="tags">TAGS</span> <i class="fa fa-question-circle show_popover" data-content="Choose up to 3 tags, separate them with comma's." data-i18n="[data-content]marketplace_tags_help" data-container="body" style="color:#4CAA6E" ></i></label>
+                        <input type="text" class="form-control" name="tags" id="dgs_listing_tags" placeholder="Tags (categories)" data-i18n="[placeholder]tags_categories" tabindex="3" />
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_listing_price" data-i18n="price">PRICE</label>
+                                <div class="input-group">
+                                    <input type="number" name="priceNXT" id="dgs_listing_price" class="form-control" min="0" placeholder="Price" data-i18n="[placeholder]price" step="any" data-default="" value="" tabindex="4">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_listing_quantity" data-i18n="quantity">QUANTITY</label>
+                                <input type="number" name="quantity" id="dgs_listing_quantity" class="form-control" min="1" placeholder="Quantity" data-i18n="[placeholder]quantity" tabindex="5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_listing_image" data-i18n="image">Image</label>
+                                <input type="file" name="image" id="dgs_listing_image" class="form-control" tabindex="6" onchange='NRS.dgs_makebase64("dgs_listing_modal")'>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6" style="width:100px;height:100px;">
+                            <img style='max-height:100%;max-width:100%' id="dgs_product_picture_example" src="img/no_image_available.png"/>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    <input type="hidden" name="messageIsPrunable" value="true" />
+                    <input type="hidden" name="messageIsText" value="false" />
+                    <input type="hidden" name="request_type" value="dgsListing" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="put_for_sale;[data-loading-text]submitting">Put For Sale</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_delisting_modal" data-transaction-type="3" data-transaction-subtype="1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="confirm_marketplace_deletion">Confirm Marketplace Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <p data-i18n="confirm_marketplace_deletion_help">Please confirm if you want to delete this item.</p>
+                    <input type="hidden" name="goods" id="dgs_delisting_goods" value="" />
+                    <div class="row">
+                        <div class="goods_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="dgsDelisting" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="do_not_delete">No, Do Not Delete</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="delete_my_item;[data-loading-text]submitting">Delete My Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_price_change_modal" data-transaction-type="3" data-transaction-subtype="2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_item_price_change">Marketplace Item Price Change</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <input type="hidden" name="goods" id="dgs_price_change_goods" value="" />
+                    <div class="row">
+                        <div class="goods_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_price_change_current_price" data-i18n="current_price">CURRENT PRICE</label>
+                                <input type="number" id="dgs_price_change_current_price" class="form-control" data-default="0" value="0" disabled="disabled" step="any" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_price_change_price" data-i18n="new_price">NEW PRICE</label>
+                                <div class="input-group">
+                                    <input type="number" name="priceNXT" id="dgs_price_change_price" class="form-control" placeholder="New Price" data-i18n="new_price" min="1" data-default="1" value="1" tabindex="1" step="any">
+                                    <span class="input-group-addon">NXT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="dgsPriceChange" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="change_price;[data-loading-text]submitting">Change Price</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_quantity_change_modal" data-transaction-type="3" data-transaction-subtype="3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_item_quantity_change">Marketplace Item Quantity Change</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <input type="hidden" name="goods" id="dgs_quantity_change_goods" value="" />
+                    <div class="row">
+                        <div class="goods_info">Loading...</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_quantity_change_current_quantity" data-i18n="current_quantity">CURRENT QUANTITY</label>
+                                <input type="number" id="dgs_quantity_change_current_quantity" class="form-control" data-default="0" value="0" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_quantity_change_quantity" data-i18n="new_quantity">NEW QUANTITY</label>
+                                <input type="number" name="quantity" id="dgs_quantity_change_quantity" class="form-control" placeholder="New Quantity" data-i18n="[placeholder]new_quantity" min="1" data-default="1" value="1" tabindex="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="dgsQuantityChange" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="change_quantity;[data-loading-text]submitting">Change Quantity</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_product_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="product_info">Product Info</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="goods_info" style="margin-bottom:0;" data-i18n="loading">Loading...</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_show_feedback_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <a href='#' class="fa fa-arrow-circle-left back-link"></a>
+                    <span data-i18n="product_feedback">Product Feedback</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="data-container modal_content" style="max-height: 350px; overflow: auto; display: block;">
+                    <table class="table">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="dgs_purchase_modal" data-transaction-type="3" data-transaction-subtype="4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_purchase">Marketplace Purchase</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="goods_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <input type="hidden" name="recipient" id="dgs_purchase_recipient" value="" />
+                    <input type="hidden" name="goods" id="dgs_purchase_goods" value="" />
+                    <input type="hidden" name="priceNQT" id="dgs_purchase_price" value="" />
+
+                    <div class="form-group">
+                        <label for="dgs_total_purchase_price" data-i18n="price">PRICE</label>
+                        <p id="dgs_total_purchase_price"></p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_purchase_quantity" data-i18n="quantity">QUANTITY</label>
+                                <input type="number" name="quantity" id="dgs_purchase_quantity" class="form-control" min="1" data-default="1" value="1" placeholder="Quantity" data-i18n="[placeholder]quantity" tabindex="2">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="dgs_purchase_delivery_deadline_timestamp" data-i18n="delivery_deadline_hours">DELIVERY DEADLINE (HOURS)</label>
+                                <input type="number" name="deliveryDeadlineTimestamp" id="dgs_purchase_delivery_deadline_timestamp" class="form-control" placeholder="Deadline" data-i18n="[placeholder]deadline" min="1" data-default="168" value="168" tabindex="3">
+                            </div>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    <input type="hidden" name="request_type" value="dgsPurchase" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="purchase;[data-loading-text]submitting">Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_delivery_modal" data-transaction-type="3" data-transaction-subtype="5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_purchase_delivery">Marketplace Purchase Delivery</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="purchase_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div id="dgs_delivery_note_form"></div>
+                    <input type="hidden" name="recipient" id="dgs_delivery_recipient" value="" />
+                    <input type="hidden" name="purchase" id="dgs_delivery_purchase" value="" />
+                    <div class="form-group">
+                        <label for="dgs_delivery_data" data-i18n="data">DATA</label>
+                        <textarea class="form-control" id="dgs_delivery_data" name="data" rows="3" tabindex="2"></textarea>
+                        <div style="margin-top:3px;">
+                            <label style="font-weight:normal;color:#666" data-i18n="data_is_encrypted">Data is encrypted.</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dgs_delivery_discount" data-i18n="discount">DISCOUNT</label>
+                        <div class="input-group">
+                            <input type="number" name="discountNXT" id="dgs_delivery_discount" class="form-control" min="0" placeholder="Discount" data-i18n="discount" step="any" data-default="0" value="0" tabindex="3">
+                            <span class="input-group-addon">NXT</span>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="dgsDelivery" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="deliver_purchase;[data-loading-text]submitting">Deliver Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_view_delivery_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_delivery">Marketplace Delivery</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="purchase_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div id="dgs_view_delivery_output"></div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target=""></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_view_purchase_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_purchase">Marketplace Purchase</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row" style="margin-bottom:0">
+                        <div class="purchase_info" style="margin-bottom:0;" data-i18n="loading">Loading...</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#dgs_delivery_modal" data-i18n="deliver_goods">Deliver Goods</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_view_refund_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_refund">Marketplace Refund</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="purchase_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div id="dgs_view_refund_output"></div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_refund_modal" data-transaction-type="3" data-transaction-subtype="7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_purchase_refund">Marketplace Purchase Refund</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="row">
+                        <div class="purchase_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <input type="hidden" name="recipient" id="dgs_refund_recipient" value="" />
+                    <input type="hidden" name="purchase" id="dgs_refund_purchase" value="" />
+                    <div class="form-group">
+                        <label for="dgs_refund_refund" data-i18n="refund">REFUND</label>
+                        <div class="input-group">
+                            <input type="number" name="refundNXT" id="dgs_refund_refund" class="form-control" min="0" placeholder="Refund Price" data-i18n="[placeholder]refund_price" step="any" data-default="0" value="0" tabindex="3">
+                            <span class="input-group-addon">NXT</span>
+                        </div>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="dgsRefund" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="refund_purchase;[data-loading-text]submitting">Refund Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_feedback_modal" data-transaction-type="3" data-transaction-subtype="6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="marketplace_purchase_feedback">Marketplace Purchase Feedback</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <input type="hidden" name="recipient" id="dgs_feedback_recipient" value="" />
+                    <input type="hidden" name="purchase" id="dgs_feedback_purchase" value="" />
+                    <div class="row">
+                        <div class="purchase_info" data-i18n="loading">Loading...</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dgs_feedback_message" data-i18n="feedback">Feedback</label>
+                        <textarea class="form-control" id="dgs_feedback_message" name="message" rows="3" tabindex="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="dgs_feedback_type" data-i18n="type">Type</label>
+                        <select class="form-control" name="feedback_type" id="dgs_feedback_type">
+                            <option value="private" data-i18n="private_feedback">Private Feedback</option>
+                            <option value="public" data-i18n="public_feedback">Public Feedback</option>
+                        </select>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    <input type="hidden" name="permanent_message" value="true" />
+                    <input type="hidden" name="request_type" value="dgsFeedback" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="submit_feedback;[data-loading-text]submitting">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dgs_show_picture_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <a href='#' class="fa fa-arrow-circle-left back-link"></a>
+                    <span id="dgs_product_picture_modal_goods_name"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <img id="dgs_product_picture_modal" src="img/no_image_available.png"/>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

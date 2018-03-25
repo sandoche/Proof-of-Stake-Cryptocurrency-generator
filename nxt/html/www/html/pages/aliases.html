@@ -1,0 +1,57 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="aliases_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="aliases">Aliases</h1> <span id="alias_count_heading">(<span data-i18n="total">Total</span>: <span id="alias_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span>)</span>
+        <div style="position:absolute;top:9px;right:9px;">
+            <form action="#" method="get" class="sidebar-form" id="alias_search" style="width:180px;margin:0;display:inline-block;vertical-align:middle;" autocomplete="off">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search Aliases..." data-i18n="[placeholder]search_aliases">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>             
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_alias_modal" style="display:inline-block;vertical-align:middle;" data-i18n="register_alias">Register Alias</button>
+        </div>
+    </section>
+    <section class="content">                 
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="aliases_table">
+                <thead>
+                <tr>
+                    <th data-i18n="alias">Alias</th>
+                    <th data-i18n="uri">URI</th>
+                    <th data-i18n="status" style="width:5%">Status</th>
+                    <th data-i18n="actions" style="width:10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container">
+                <p>
+                    <span data-i18n="no_aliases_yet">No aliases yet</span>, 
+                    <a href="#" data-toggle="modal" data-target="#register_alias_modal" data-i18n="register_one_alias">register one</a>!
+                </p>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>

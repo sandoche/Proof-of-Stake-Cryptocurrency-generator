@@ -1,0 +1,54 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="contacts_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="contacts">Contacts</h1>
+        <div class="contact-btn"> 
+            <button id="add_contact_button" type="button" class="btn btn-default" data-toggle="modal" data-target="#add_contact_modal" data-i18n="add_contact">Add Contact</button>
+            <button id="export_contacts_button" type="button" class="btn btn-default" data-i18n="export_contact">Export Contacts</button>
+            <input type="file" id="import_contacts_button_field" />
+            <button id="import_contacts_button" type="button" class="btn btn-default" data-i18n="import_contact">Import Contacts</button>
+        </div>
+    </section>
+    
+    <section class="content">
+        <div id="contact_page_database_error" style="display:none" data-i18n="contacts_no_db">Your browser does not support database access, without which contacts cannot be created.</div>
+        <div class="data-container data-loading" id="contacts_table_container">
+            <table class="table table-striped" id="contacts_table">
+                <thead>
+                <tr>
+                    <th data-i18n="name">Name</th>
+                    <th data-i18n="account_id">Account ID</th>
+                    <th data-i18n="email_address">Email Address</th>
+                    <th data-i18n="description">Description</th>
+                    <th data-i18n="actions" style="width:10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container">
+                <p>
+                    <span data-i18n="no_contacts_yet">No contacts yet</span>, 
+                    <a href="#" data-toggle="modal" data-target="#add_contact_modal" data-i18n="add_one_contact">add one</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>

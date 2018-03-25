@@ -1,0 +1,2 @@
+#!/bin/sh
+${INSTALL_PATH}/start.sh

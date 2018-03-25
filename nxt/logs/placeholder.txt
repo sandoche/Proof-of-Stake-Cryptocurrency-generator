@@ -1,0 +1,1 @@
+required so that the logs folder is created by the installation

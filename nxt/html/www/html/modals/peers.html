@@ -1,0 +1,120 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="add_peer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="add_peer">Add Peer</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="add_peer_address" data-i18n="address">ADDRESS</label>
+                        <input type="text" class="form-control" name="peer" id="add_peer_address" placeholder="Peer Address" data-i18n="[placeholder]peer_address" autofocus tabindex="1" />
+                    </div>
+                    <div id="add_peer_admin_password_wrapper">
+                        <div data-replace-with-modal-template="admin_password_modal_template"></div>
+                    </div>
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="addPeer" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="add_peer;[placeholder]submitting">Add Peer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="connect_peer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="connect_peer">Connect Peer</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <p><strong data-i18n="name">Address</strong>: <span id="connect_peer_address"></span></p>
+                    <div id="connect_peer_admin_password_wrapper">
+                        <div data-replace-with-modal-template="admin_password_modal_template"></div>
+                    </div>
+                    <input type="hidden" name="peer" id="connect_peer_field_id" value="" />
+                    <input type="hidden" name="request_type" value="addPeer" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="no">No</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="yes;[data-loading-text]submitting">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="blacklist_peer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="blacklist_peer">Blacklist Peer</h4>
+            </div>
+            <div class="modal-body">
+                <div class="callout callout-danger never_hide" data-i18n="blacklist_peer_confirmation">Are you sure you want to blacklist this peer?</div>
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <p><strong data-i18n="name">Address</strong>: <span id="blacklist_peer_address"></span></p>
+                    <div id="blacklist_peer_admin_password_wrapper">
+                        <div data-replace-with-modal-template="admin_password_modal_template"></div>
+                    </div>
+                    <input type="hidden" name="peer" id="blacklist_peer_field_id" value="" />
+                    <input type="hidden" name="request_type" value="blacklistPeer" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="no">No</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="yes;[data-loading-text]submitting">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="peer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <span data-i18n="peer">Peer</span>&nbsp;<strong><span id="peer_info"></span></strong>&nbsp;<span data-i18n="info">Info</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="peer_details_table" style="margin-bottom:0">
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            body {background-color: #E0E0E0; color: #000; font-family: Tahoma; font-size: 10pt; margin: 0; padding: 10px;}
+            table {border-collapse: collapse; width: 100%;}
+            td {background-color: #C0C0C0; height: 20px; line-height: 20px; padding: 0;}
+            .amount {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADH0lEQVQ4y6WUa0hTYRjHj5sZXT50WxYVFUQf6kt0IYqCLtAniex+oyIoKLV7rKt2JbqYFUWkRfmhMIpMXTWbmnghs2CauuW249bZuezs6na2o5vav9dBA6nNogd+8PCc9/ye930O56WoQaK7u3tPX19fI+EjybdT/xNarXYMEUVaQwUwyk9AcrmwsHDkP4s4jhsRDofP9fb2ckSCQudsPHUu7BeC1IRwJHJLFMXRfyVzuz3TIz09RqnHgepONfIdM3GVVeAaq8RDx2zofAfgi3SArDHZ7fbxCWUazZsUMqdmRq5HLqvCBYb6I9fZsRC7DAiGQs8SCkWnc21XOIhc+xRk26goj4XlsIVqYQq+ww375Fi9SFyHbjKXktLSUfGP6/Fcp6UanLRSMSxSNQJSMCQFg6E6722ctilxypqEe9yCfiH0+qY5cYW8IFyjA/U4SlMxHnJpcATNkLu6ogTlAKGT5DLIifTp6enD4gpbWlvXSCEJ563TcNBCxThkUeImswha52WwkgEhWQbL8V8yMjNVCWeYlpY2nHQ1tnmroLakYl879RsZ7QoUMJvhDvDw+nyPVKrETqqo6PlcwSFaXX4BFcJd3KVX40jbOOxtpgaQZ14Ff0D6YTZb5sWV0R3WiR6vr9zr65Q7/QH8wuf3Qy+WQ900A7sbqRgWtx4sz5+J/4fwwhXa2YI7LZuQ9zUdGjoPpEFvTW3tJTvLfathnmFHHRXjE1sGUr8fV2ihOy4bhEZsq6CibK9UouF7aVTqJpSYcgc86xANaDeZT8QVVlZ9WOLyeJFdtxSb3lBRtr5Nxvn6lcipW4Ytb5Wxer5+P5wud+TFy5ez4gpTUlKSSccymjciu3oF1hcnYd0ragA7NWNQ1HwRosuFhsbPOeS1pIRf+eix46qWNoNGdLp/GO1N0LY9xq7iidhTMg01pmJwIkfmxnt0lVVZCoUi+W9vsCEP8guW1n9syHOILmS9nosjpYvRn5frKg5v2LBxwqA7+1PMn79gqNXGWBieAcPbQVttrampqUP+69Y+m50zVVdRlfleV7lfrT4xabD1PwESAYIQD5bU0wAAAABJRU5ErkJggg==); width: 20px;}
+            .block {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADX0lEQVQ4y52UXUxbZRjHq5mtF6RK0SuvdsnNYjQkemOCfKhLlsVlF4uJH0gi0UUYcS5sMZ3TqdEEYrZMal22KSIJDEZWqpbAgqEMwgYF7Ce0a08/zlffntPTruvhtOzvuxo7CaSIT/LLeT9/55wn7/PqdBVCUZS9xWKxb2NjY4E+ewkhT/8z19PT86huNyHLci0VsYqkYc1zF7lsAVTqkSTpxUKhYKdzWdoPaZr2WSgUeryijG6qpYtZkctjbCCB0b44fhtikZbWQUX3JaLi1nQKnsU01HwRVDpJ47FtZb0Wi0HTCgyfyGHoUhgD34fKjPwUgUTyGL8WL4/ZB2NQ1QKUTOboFlkymXyKYZjX1XUaWgEZRaWSEC52e8v09wYwYF3dNOZbTiGbvTu+SSYmk7Wqup5Y1zREo9Gx2dnZ9kwmE5+dSuD8566KLM0LoDmfpppHSjJBEGvv5fNsKJACl1DAC8K3hKQO5VW1OHjZh69Pzm3LL1YPpn6PIJfLIxgMdpVk4XDkmVzuXiLgFXH2+DTmnTFQeZEC540ITrf/AfOH2/PNqZuIMRL93WzW4XDs/TtvhHwRj0n45INJfNw6jpNtE7D23EK3eabU34kznVOI3CEPcujx+vxP6jie/9E1H8PRI7b/TVebAxwrQxDFU7pFl+uNtJLB+a9m0HLgaonjrXac+9KJjjdt5bGdmHOGwXL8FZ3BYNjj9ngskqyg+9MpvHtwEDwvQZLTBUGUcfbEBI409FfE3OEAIWlQz/ulPJpMJv2K220hKRmXL8xBSivo+7l/f2B1bSjKiDj00hUceOHStpx47zo4LoW1YPB6XV3dwxI0mWr0yyt/WpJERkqSwbJ8fzB0x/yg3XJwAPvrLm7ho9ZRuo6AvtjW3NxctaVSjMYn9BOTN9rCTNTD8YQmOYXxMTfd/ANee966ic6Wa4gnRPgDq7bGpqaqipeDa2m5ixcITnf+ilees27h2DsjiMUE+PwBW319fdWOV5fRaNQvuJYsHJ+E+Zgdzc9ayrS/NUxLkwc9c/9N9jCnJv3txSVLghPpl9rRuK8XHW8Pg2E4uL1+28sNDVW63UZ1dbV+/vbCd5wg3vf7YmB5EStu72hDY9PuZf+KPfQIvTrtnDlzdXjkcE1NjaHS4r8Ak4w9TF2VwqYAAAAASUVORK5CYII=); width: 20px;}
+            .c {height: 10px;}
+            .e {border-right: 1px solid #808080; height: 10px; width: 10px;}
+            .gap {background-color: transparent; height: 10px;}
+            .generator {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADAUlEQVQ4y52U20tUURTG95CmkG++ONB/INhboOiDIIXggz30pIalecOU7IIWlaSVaRcrNZWEvOSFIEorJCFHRBmijDBvTdk4Oo5zxpmjjuPoOJ6vtTwjBWNqbfg4m72+73fWXgeOEDssl8t1yOv1Vm1sbHxg8Z7PxP8st9t9RlEUj96moOQzUPIJ0M8p4DOu/RNMluUjXmopf0iBpgkQDaTHgOYRkK8DuMaevfI0K253f9uUAtFOoGYfsJZEQHEXaBtTwB727kqrqKgI8dBK0BGwhQCNpCdqh+Ih6Q6Q8FwBe9i7K7Cjo0O75vEg+i0Bn/q6qyNVkSpJ5UB0kwL2sHdXYFBQ0P4l57KUO+CFqPddtZr0QL2uKANyu70gj5W9exqiyWSqN8yvIrRBUee2BbsNhN5XYJBWwZ49wfR6faBt3t6y7FpB8eA6xD11bgwTN4Fi3Tq4xh727giLiorSOGS50exwIa7duzmvTdAt0g3SddJVBXENazDbXWAvZ/4KNM9ajstLTsQ0elUAq9QHKiZd2YC4RF1fdCOmygl50QnObAsLDg7W0DWGqgdXIK7R7IoV9cli0GV6SeEawahesASRL6NGt8BXH+KsH7C3V3fQIS8okTVutYstFXl+g84vQ5xdhMhzQOTYEFkmgTPvKesHHBv/Fj/vWMCBIicFXRAXfGLIOacKoq5Erh0iW4LImEVIzjTslBkdGz/qBxweGU202R0IKnCowT/FHeXOU1cEypyDOG2GOGVCcNpPcGb460iCH7Cz63W4ZLMjolRSO8jxKdsKkUWQDAtEOoOmIVKNECk/EFE4Cc50dr0J9wNqtdpA49T0SOuAhIDMGTWcTs+0GRVy0qSCTkxCJBkQkDSB1r5ZcIaz237pFy9fxc7MWpa7h6xIrJxBWJ4R+1IJkEJK/o59yQaEZRlwrHwS3R8tYC9ndvx11dbVH/4yPNJD5lWLVYLRLGHCyLJu7vmMa+xh755+YbQCYmNjtc0tz+K73/Vk6/r6C1m85zOusWe74C9pcqjzrQok3wAAAABJRU5ErkJggg==); width: 20px;}
+            .height {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACOElEQVQ4T5WPT2iSYRzHnxWMoAi6dMhLh1Ed+kNddutYQRA77BBBLjoWHnZph0mjbh2KYEuJmEV16BhEg2BrOqnlPOTr2kqmqWtMXjV1Ov80n9dvz5foQS+69wcfXpHv5/OqEG1Xq9XOSynfWJYVURg9iHBLp72hr1qt3mi1LNkqvAPW3YrxHrjBLR26HbFQKHRIva3cSk0AC+IfgTa6fEeHLhs6aJrmFSn/APMHgFlhD+XQzWQyl3UwnU4PN3fqwId9wIywh3LoJpOpIR30+XxH6vVGXS6PAm+FLejQZUMH1fWtrK5ONBp17CR8kOGbkEvO7qgNt3SUe5eN9qAoFkueeiULGXLBmjmH1vszsBR8tn/WT7Xhlg7djlgkYhzdrtYsOTsEPBe2oEOXDR1c/7VxbbtcBJ7tBZ4KeyinUikilUoP66BhRC+Wy1toTR8GJoUt6NA1otELOuhyuQ5mc/nNqvECeNwPPBS7Q23p0GVDB3mfF7+MFIolbG18Q3VpCrXFR13hhls6ynV2xK47nXvMbD5QSoQgvSeB+2JXSO8p0KHLhg4a0eWzud8FyMnTgFvYgg5dNnQwthYfyZmbwFgfcEfYQzk5M4PvP2JXdXDuo39Q/Ww0H6i/OypsQYfu3Lx/UAcHBgb64z+T4fxKEM17J4DbanyrB2rDLZ14IhlmQwd5Ux7v8dha4mvGzMJMx5FNxbrCDbd0nni8xzpi/8/hcOx/+er1JX8gOLYQ/DTeDW64pdPe+AsBHNmE8zpKHQAAAABJRU5ErkJggg==); width: 20px;}
+            .n {border-top: 1px solid #808080; height: 10px;}
+            .ne {border-top: 1px solid #808080; border-right: 1px solid #808080; height: 10px; width: 10px;}
+            .nw {border-top: 1px solid #808080; border-left: 1px solid #808080; height: 10px; width: 10px;}
+            .payloadLength {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAD/0lEQVR4Xp2TW2wUZRzFlxZEquWhUhIiCSEaq0FTCiUBiagQ+yAkpsTyYoKXl8bES7GamABBI61gJVChld4wNLUlpVZRdNlutxSltAV6g7bbbrvd62V2Zmdnd2d3bjvzHT95IGkEpJ7kn/lnZr7fnHOSMS1EkiRt1nX9lGEYg3SG6d6sKMquxqamRQsC2e32pZqmfU+orkYIDtuBQ5PAb0GCtEEnnb7g8XiyHwpmNpsXq6r6c0QxsPNPILsT2N1H8NYAwapfgUIr4EsRUKcd+fn5D3ZaVFS0SJLlk3HVQKEZeK2HICQZUFVNlRVFEjUDb/5F8GIXkNZ1hMPhlx8ITIhiuaylsdNGsOUPgoSSRjKZ5Lu7bSUFBQUr3W73GV5O4/FWoD+sIxaLHb0vTBCEEupEL71q4OnzBP6EhutMGmNcGqqmEQqu6u3tfZ7uWNdJ0D6rIyoILfeEsRy39Z9IlcM6VpwFLrrSeIFCl/8ALGsCii0GJEVFLB7vDiVUPNoI3GA0BILBI/+CBQLBZ1IpiWuxa3isHmib1rCmmeA9mw4hKcMbU5BDATaPCtov9lp1vNRp3NkHBgbmd+icc60UxaSj26UgqwZouKWhoJUWf1GHmJIQYhh/VJSQUwd0zSk4cl1Dbj3BJCvD5/f/npGRsfgubGR0LItG6BsJ0AM1BBX9Kl7/SccWCozEU3C53WPxhKh9ellD3hkDbRP0o9WA1SmDVjRXVVX15F1Ye/v5TD4qdDjZJNaeJnj/koZSs4an6gy4uCQ8Xu8kH43GG4YUZB8nqLtzBRqGFdD7Qmtb28Z5UZkweyjEJ7CpSceuc2lUXFHwxDGCIW+SRgk4Q0w4aJlOIesoQXW/jNXfEXxmVREVYprF0vXGPNjo6Nga+kB5t1PGhjoNDYP0YKUOs11EIBgKerw+x4gngRXf6DjYLaGQvlPcpoIXYuRa/8A+ipj/d7i9vg/sgRiWfKGgZzqO7K8UNA6KCIVZwTHrvDnHxJB3QsY7HSkUt6SwsVaGn43h1u3xWgrIpDNfXp+/4ZdRAasqRUT4KCa8AsJsRBmfmLzMcFG8UpfAq/UJlF2IY/XXIiZ8AhwzTsv69QXLTPfSlGPmy2sOHks/FzDl40FjihR2heUixts/RpF3VMBMgMeGEwJ67TxcHu/4J+Xluab7qctq20odkR01HLZVc+ibimBoNoK9zRxyD3K4MRNBMBRWw1wEtB5P7em6Z03/oUzq6JzDy2F3PYMlZUFkfBTEtuMM+qdYuNze2Y/L9j1XffLU5u3bd+SYHkYle/Ysvzk8cjbIhHV3gMWcn0WIYcntiUnr4YrKtab/qcz9+w+su2SxllptPR9WfXtsEwU8slDI32bhNqyJ144jAAAAAElFTkSuQmCC); width: 20px;}
+            .s {border-bottom: 1px solid #808080; height: 10px;}
+            .se {border-bottom: 1px solid #808080; border-right: 1px solid #808080; height: 10px; width: 10px;}
+            .sw {border-bottom: 1px solid #808080; border-left: 1px solid #808080; height: 10px; width: 10px;}
+            .target {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAEhklEQVR4XpVUeWwUdRSebXfbLVjTIki5xC4IhXhQFGKkJlIwETVaLQERExMEWjXRRDQWoxw1YjGRK9DGA8RwCKWt9i62aSkt9nDZdqttt9s9u8fs0XZ3O7OdPWbm87ez6R8k4vElX+b7vfney3svvxnqbmBZdnU0Gi0SBKGasI+wn7COxD4NBoOPyeVy6j/B7/erSFKNGIPRAPHcWeDgAeDAZ8B330LUDUMkIJ7mqampVf9YjGHZF3ie94tqNbB5EyCTAcnJgEoFLF8GKJXxWE4OxM5O8IIQZIPB7Xfr7Nkoz4eEslJAoYD4+FoIFdfAMwx4XogzGIRQUwNxw1NAYiLEoyXgCQJTU6/eUcxoNN0fDofdwg/npA6ED/chGgohOu6FUFoKce8eiLvfgnDqJKI0jWg4AqH4cNx7/DjCkYjfZrMtpWZAdnEmYjAA98yGUFgYMyBKusOcOQBFAXI5oJDHdWoq+PPnJY+wvwhITkJUqwXDMJelYrV1danTHMfwBXshLlmMkM+HSGODVERcpkKkqgqhQAAhhkGkvh7i6tVAQgIiV68gxLIQs1ZC2L4NXCgU6enpzaBsNvvzHDHjvnREDx8CR/YkPrQc4oIMcGYzOK8XkdOnETl5AhxNg3M6IaoyIS5cAC4QkOKYpQQ3Pg6apndSLrfn4LRGAz6BAtfeDq7jJkSiw18eQZBhIKx7Ij4qobhqFYJkgnBZqeQJ1dZgWtsv5U63tcLj9Z6g3B7POaapEUwiBUavB0vuHUs0e70JbFcXOKJDhDNPtqkJTHdX3HPsazBuNxi5DEz5VZDmLlJ2h/OMv6UFHgWFwIAWvis/gSZ6khj8o6PQp8gxkkTFmSyDj0zj+/V63PNNGQJWq5Trr6qEw0n/SOlHDe/5jEaMJcngvXwJkwYDRlISYX1tK/yBKRhOn0LL/DQ0z02FvuSIFBsr2I0R4p/o68N4Qz2sseJEG03mA1RzS8vaSZ8fxnVrYNmWj5jWv/kG1EoZLCeOSefJiUnCCUlbz34P9axE6PJejJ/37IJhRaaku7p7NlHp6ekKu4PWjZFF95PO6LY2eK1j6F6/Bq1KCj0bczD0+SEMfVGM3udy0Zoiw2+PrISbrMPV2wttajIspHOny23fmJubQsVAKu/yerzof/pJqFcsBT04CLfNDs2+91GfkY7qFJnEunn3Qv1uAVxmC1yjBtx+NAua7IfhpV1Qa/o+oGaQlpamGNGPNjhJoVtZKnSoFsH0cxU83gm4XR5Y1WpYe3+Hm3ZLMUtjIzpjvsyFcNzWwGA0d2ZnZyvv+J6L9n8y32AyaxzDOtzashn1KRTac9ajv/ggdBcvQHfpIrRk7Ju5OeSdDB3PbIBdOwCTZWy45OhXD1B/h8K335nXP/BnJblPoq6iHO35L6F68VxUzE6QWL1gDm68vAXDly7ARTr/Y3C48eOi/Yuof4HiWmVVPjF3OGhXhCaJdpMZdqMJMe2g3dHBIV33LzW1O8lfO4n6H1Dk5eUtKb9W8UprW/u+1hvtH1VUVm3dseP1B4nhroX+Auens2aBhGcNAAAAAElFTkSuQmCC); width: 20px;}
+            .text {cursor: default; padding: 0 10px 0 5px; white-space: nowrap;}
+            .timestamp {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADq0lEQVQ4y6XUXUxbZRgH8JdF4xZNBDVk3kxvvPFSTfAr9YJlZovGRUfcZGbL0GzKjPEjToZmsc6pF8ZMTQZbSdBTSlm3USgIyBjQgi77kBUKDbSHnn6fnu9z+Grjur9vT+SEeYXuTX7vefo85/+eNmkOIXTZbDaSz+d3FotFL3WDCq5T6d6eQqGwx263l5HVtbKycrx46y9weReCS42m6eUvrfrf1s7m8624easA+oV+qqioKCM8zz9Fn1L0G7vxs0hMXerjKKIAr/KY1VvlkTfT2Qr6tGes3kV9O4rFm5AkqZpoum6XCkGczhGLQ7gbF7UaOHJ3/dMrWzPfgEHtNbQIm27LZPKj0A3jJNF1neGWe/FjlpiG9f3UPgxptQgYhzCiH4DfeAtXFz/B5NI3mKLGjHpz5jfetnJzSx6omuYkqqr+wi0NoilbaWoTnoRX3o5+9Q2cFZ+HR7TBJ7+MPuV12t+GAbUW3fJLtH4RbvFpKxdZ7IKiKAyRJLlJWJ5FQD1xR7LLIYiS5CCSLDNhvQfH4uSOBLWO0oFOQjdmWvOhIUYsdq4cnbmDGBA/gyNdbfVPp1/Ab+IxOjuEL7j7b8v8qbohiKKT5ASBmVR8+JAlpiPzG8HpE1hYXIC6INDrItzZOrSma8yaN+ZhLBqIar/jI3aDlbsqu8Hnck5CN2ZC7sbhCDF9F38WhrGAjsz7OMI+VPorYELyYVRoNvsNbCX8whmzPsputnKXxXZks7yTZLI8c03owsEpYqoP3YMz83txOLQRrVwdNN1Ab+pb/BDdYdZxJQxZlxEUBq1MyTjvQjqTdRK6MVcyXhy4QtYow7nY51BUFVP8KOqvl6M/fpJ+1nAp4QArTiKnZPDxxBYrE0i5kEqlnSSZyjB/JL14c5RYOqNfQ1Y0jHBO1AXuNXuz/HXExYhZt0y/Q+cqvg++amVGuDYkkvTARDLFjMc6sbufmD4dewKirJhiuTmwfBh9kSb8OnfK7F2aZxDhQ+ClHN4bftTKDUXbEE8knSTGxR3jbDd2eYlpf88D6J1pxtBsm8Vx7QPs9d0H1w07LrN9tNeOxmGblSkZmnUhxiUYEpwKvRvPxrDHU45XXOR/qenYhEhqBqGZ8FFy/KsTlfS3Z0bCndjXvgU7Wsh/Uut6GANTbaBHKKeamh8xX7CudvdzbCwey/A5sKkoNbdOEWR4HrF4Iu05f2EbWbuqqqrKO856do76xxr8gfHG9Sjde+78hV3VW7c+uHrO34jpb2MZ2Gv9AAAAAElFTkSuQmCC); width: 20px;}
+            .numberOfTransactions {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADEElEQVQ4y6WUSWhTQRjH0xptwOhFRBDFrYhHBWm9FtFSLy7oQU+CYBVxvyguiKAeBNGAJyloq4VS9/WillrX2tombdTWvrw2yduXecskTV9e/Dt1KYI2dRn4w/tmvvl9831v5gsEigzbthf5vn+zUCg8NE1zXuB/huM4lQykKiM+iFcApTTyzzDXddf4hYLbn/EQSVN8pB7y+bzsed7FXC63gef50B+BysrKAi6lW/O+77XbOZwccnFi0EGjkkWblcNogBHfH4UnaSazbkIgsayNXj5feKhnsT9hfxP3Xd+/j7MAz8gwmN9nSjNHQ6FQ0bq1PidZbPtEJlSdRDHieZ8JIVvGBYqSVC9kctjJEWzqMyfULY0iOzysR2M9M34LjEQiczVNi6dpFtsZdPUH46vWfjSwi9kHeYLdCYKNDPZjXskMQzeMQ7/AJFmebTvOrqctLVWCKL5SaAa1nIkVvRruqw4y2eyYKFOMUOxNmLgqO2C1fxMMBkvGYOFwuJRYdpfmUjiuq9Y3NCzh+cEHBrN3cwbuKTbeExecRaHput7a+uwgl0g8Mtl6o2TBJJZUXl4eHANWVVWFGJAeSBjoNR2wkxrslM0sFYsFYLaLSwLB0h4V7boNy3aSz1+8qEymUi8txyn0xuNnGabk54xL04LYdkUwMbtLwj5OR5NI8Fqz0KVbaFMtbB/QEO6Uvq4/kglL0zZev2lfVVNTM4ftD/5Sw+5obIdCLCyOSpjcIRbVtE4RDWljNFU6OJRc/ts/vG79+qmptBB/IBoIsQ2TOoprCtOoryDKzePew6bm5hWyorqNKR3TWXolb8VxNYul3qkY+MRxdcVeX8n1GzerU4KoxGQdtf0K5nTLCDD4z1oYlfFW0jGUTHPnz1+YP+GbPnL02IKOd12X04LkKKqOfkXH4QEVgQ4Jy2Iy4izYQILvPnXq9IK/6WKlFRUVM69ea1zD8UPxc7yKlXEZnKzhQ19/S+2OnTP/uT/GeuJnBhlIUDR0R3uaqqurp/1X92Z3Lfz4Scue23fubmbtakox3y/ae+aNI45X8AAAAABJRU5ErkJggg==); width: 20px;}
+            .version {background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADA0lEQVQ4y71UW0gUYRgddQkyiy6Q9FRCgbeHLg/1WnkBteghewqD7DWT6CHCbk8VlYpl3spCtCiziNAykHJXsofcnYIeNnW9rLvrzurOOqvjujszp++brSCim0UfHDic75wzw1x+Qfifk56eLrjd7uWKoqxnMGftj8Zut1sikUhRTNOadV0fMgxDx+dhTjPIO/aIomj5YVF+fr6gquo+TdOcUd1At8/AcRHI6QU2vwC2EHKJs8Y79rCXM8XFxd+WuUZGkumKd2KajpuDBjY8BoTWOCxtwNqHQGpHnH/R2dNEXs5wdtjlSjbLnE5nCgk2TziGnZ0GhFvAihagrF9Hr0/D7EIMsVgcc8StpPFuOXnYu4syXspSh5W6lgmyHDrtnoliYyuV1QIHunVMKFGMh6K4+FZHwVMDWffiKCR+ibRx8rOHvZzZRNkJ0qirQpCkQPPLsSgs1cD5fg1hNYIzfRqW1tAdVAKJpKc2GlhHYM4a79jD3rOvNSSR/oo6qKtJsFqtu8Ph2UhAmYccVlFwn656AUirM1A/EIUnNI85VTXhJc5a2g3D9BSSN0QZibLcYbXZcvgxJtTV12/1S5Kz9k0EwjkDe+/G4A/Nof39PPJaNKReNkwwZ21SnkNRW8z0csYvBT42NDRu466vb3po2FU1Ks3iWp+KgBzG4QcqhJMLSDq1gKyqCDIJzFk70h731NhUjEphDA+7qr/7Do+Wla10iO/qpoNy5ErPDITjCnZUKxDHFMihGROOUQXbqxRzV0ke8i5Qpv5YefmqH33fSRMer721P4i8mimM+GSILhklt6dwiCCOyKaWSzv2sJczP/31nne/KPL6JoNT00EEpmVkVngglLpNZBFnjXdenz9I3j2/8zsnZGRmru612k54/FOwlAxBOBiH5dAQWONddnb2mm9ewq+mveNRxqQU0IuvuiDs/2DiAHHWHrR3pC/m9EocsIu1nkkJbT1uE8wH7I7rvFvUeZiSkrKks+t56YBDfMLo7HpWytq/OGsTF31XfzufAEZ/zvaif2IeAAAAAElFTkSuQmCC); width: 20px;}
+            .w {border-left: 1px solid #808080; height: 10px; width: 10px;}
+        </style>
+        <script type="text/javascript">
+            var deadline = 0;
+
+            function addBlock(block, insert) {
+                var blocks = document.getElementById("blocks"), row = blocks.insertRow(insert ? 1 : blocks.rows.length), element;
+                row.id = "block" + block.index + "_0";
+                element = row.insertCell(0);
+                element.className = "gap";
+                element.colSpan = 8;
+                row = blocks.insertRow(insert ? 2 : blocks.rows.length);
+                row.id = "block" + block.index + "_1";
+                element = row.insertCell(0);
+                element.className = "nw";
+                element = row.insertCell(1);
+                element.className = "n";
+                element.colSpan = 6;
+                element = row.insertCell(2);
+                element.className = "ne";
+                row = blocks.insertRow(insert ? 3 : blocks.rows.length);
+                row.id = "block" + block.index + "_2";
+                element = row.insertCell(0);
+                element.className = "w";
+                element = row.insertCell(1);
+                element.className = "height";
+                element.title = "Height";
+                element = row.insertCell(2);
+                element.className = "text";
+                element.innerHTML = block.height;
+                element = row.insertCell(3);
+                element.className = "generator";
+                element.title = "Generator";
+                element = row.insertCell(4);
+                element.className = "text";
+                element.innerHTML = block.generator;
+                element = row.insertCell(5);
+                element.className = "timestamp";
+                element.title = "Timestamp";
+                element = row.insertCell(6);
+                element.className = "text";
+                element.innerHTML = formatTimestamp(block.timestamp);
+                element = row.insertCell(7);
+                element.className = "e";
+                row = blocks.insertRow(insert ? 4 : blocks.rows.length);
+                row.id = "block" + block.index + "_3";
+                element = row.insertCell(0);
+                element.className = "w";
+                element = row.insertCell(1);
+                element.className = "c";
+                element.colSpan = 6;
+                element = row.insertCell(2);
+                element.className = "e";
+                row = blocks.insertRow(insert ? 5 : blocks.rows.length);
+                row.id = "block" + block.index + "_4";
+                element = row.insertCell(0);
+                element.className = "w";
+                element = row.insertCell(1);
+                element.className = "numberOfTransactions";
+                element.title = "Number of transactions";
+                element = row.insertCell(2);
+                element.className = "text";
+                element.innerHTML = block.numberOfTransactions;
+                element = row.insertCell(3);
+                element.className = "amount";
+                element.title = "Total amount and fee";
+                element = row.insertCell(4);
+                element.className = "text";
+                element.innerHTML = formatAmount(block.totalAmountNQT) + " + " + formatAmount(block.totalFeeNQT);
+                element = row.insertCell(5);
+                element.className = "payloadLength";
+                element.title = "Payload length";
+                element = row.insertCell(6);
+                element.className = "text";
+                element.innerHTML = formatVolume(block.payloadLength);
+                element = row.insertCell(7);
+                element.className = "e";
+                row = blocks.insertRow(insert ? 6 : blocks.rows.length);
+                row.id = "block" + block.index + "_5";
+                element = row.insertCell(0);
+                element.className = "w";
+                element = row.insertCell(1);
+                element.className = "c";
+                element.colSpan = 6;
+                element = row.insertCell(2);
+                element.className = "e";
+                row = blocks.insertRow(insert ? 7 : blocks.rows.length);
+                row.id = "block" + block.index + "_6";
+                element = row.insertCell(0);
+                element.className = "w";
+                element = row.insertCell(1);
+                element.className = "version";
+                element.title = "Version";
+                element = row.insertCell(2);
+                element.className = "text";
+                element.innerHTML = block.version;
+                element = row.insertCell(3);
+                element.className = "block";
+                element.title = "Block";
+                element = row.insertCell(4);
+                element.className = "text";
+                element.innerHTML = block.block;
+                element = row.insertCell(5);
+                element.className = "target";
+                element.title = "Base target";
+                element = row.insertCell(6);
+                element.className = "text";
+                element.innerHTML = (block.baseTarget >= 100000 ? Math.round(block.baseTarget / 1000) : (block.baseTarget >= 10000 ? Math.round(block.baseTarget / 100) / 10 : (block.baseTarget >= 1000 ? Math.round(block.baseTarget / 10) / 100 : block.baseTarget / 1000))) + " %";
+                element = row.insertCell(7);
+                element.className = "e";
+                row = blocks.insertRow(insert ? 8 : blocks.rows.length);
+                row.id = "block" + block.index + "_7";
+                element = row.insertCell(0);
+                element.className = "sw";
+                element = row.insertCell(1);
+                element.className = "s";
+                element.colSpan = 6;
+                element = row.insertCell(2);
+                element.className = "se";
+                if (blocks.rows.length <= 61 * 8) {
+                    element = parent.document.getElementById("recentBlocksCounter");
+                    element.innerHTML = parseInt(element.innerHTML) + 1;
+                } else {
+                    for (i = 0; i < 8; i++) {
+                        blocks.deleteRow(insert ? blocks.rows.length - 1 : 0);
+                    }
+                }
+            }
+
+            function addBlocks(blocks, insert) {
+                var i;
+                for (i = 0; i < blocks.length; i++) {
+                    addBlock(blocks[i], insert);
+                }
+            }
+
+            function formatAmount(amount) {
+                var digits=[], formattedAmount = "", i;
+                var wholePart = Math.floor(amount / 100000000);
+                var fractionalPart = amount % 100000000;
+                do {
+                    digits[digits.length] = wholePart % 10;
+                    wholePart = Math.floor(wholePart / 10);
+                } while (wholePart > 0);
+                for (i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 3 == 0) {
+                        formattedAmount = "'" + formattedAmount;
+                    }
+                    formattedAmount = digits[i] + formattedAmount;
+                }
+                if (fractionalPart != 0) {
+                    formattedAmount += ".";
+                    for (i = ("" + fractionalPart).length; i < 8; i++) {
+                        formattedAmount += "0";
+                    }
+                    formattedAmount += fractionalPart;
+                }
+                return formattedAmount;
+            }
+
+            function formatDeadline(deadline) {
+                if (deadline <= 3) {
+                    return "a few seconds";
+                }
+                var d, h, m, s;
+                s = deadline % 60;
+                m = ((deadline - s) / 60) % 60;
+                h = ((deadline - s - m * 60) / 3600) % 24;
+                d = (deadline - s - m * 60 - h * 3600) / 86400;
+                s = s > 0 ? (s + " second" + (s > 1 ? "s" : "")) : "";
+                m = m > 0 ? (m + " minute" + (m > 1 ? "s" : "")) : "";
+                h = h > 0 ? (h + " hour" + (h > 1 ? "s" : "")) : "";
+                d = d > 0 ? (d + " day" + (d > 1 ? "s" : "")) : "";
+                deadline = d + " " + h + " " + m + " " + s;
+                while (deadline.indexOf("  ") >= 0) {
+                    deadline = deadline.replace("  ", " ");
+                }
+                while (deadline.charAt(0) == " ") {
+                    deadline = deadline.substr(1);
+                }
+                while (deadline.charAt(deadline.length - 1) == " ") {
+                    deadline = deadline.substr(0, deadline.length - 1);
+                }
+                return deadline;
+            }
+
+            function formatTimestamp(timestamp) {
+                return (new Date(Date.UTC(2013, 10, 24, 12, 0, 0, 0) + timestamp * 1000)).toLocaleString();
+            }
+
+            function formatVolume(volume) {
+                var digits=[], formattedVolume = "", i;
+                do {
+                    digits[digits.length] = volume % 10;
+                    volume = Math.floor(volume / 10);
+                } while (volume > 0);
+                for (i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 3 == 0) {
+                        formattedVolume = "'" + formattedVolume;
+                    }
+                    formattedVolume = digits[i] + formattedVolume;
+                }
+                return formattedVolume + " B";
+            }
+
+            function initialize() {
+                setInterval(function() {
+                    var i = deadline - (new Date()).getTime();
+                    document.getElementById("generationTime").innerHTML = i > 0 ? ("You can generate the next block in <b>" + formatDeadline(Math.round(i / 1000))) : "</b>";
+                }, 1000);
+            }
+
+            function removeBlock(block) {
+                var i, element;
+                for (i = 0; i < 8; i++) {
+                    element = document.getElementById("block" + block.index + "_" + i);
+                    if (element != null) {
+                        document.getElementById("blocks").deleteRow(element.rowIndex);
+                    }
+                }
+                var element = parent.document.getElementById("recentBlocksCounter");
+                element.innerHTML = parseInt(element.innerHTML) - 1;
+            }
+
+            function removeBlocks(blocks) {
+                var i;
+                for (i = 0; i < blocks.length; i++) {
+                    removeBlock(blocks[i]);
+                }
+            }
+
+            function setDeadline(deadline) {
+                this.deadline = (new Date()).getTime() + deadline * 1000;
+            }
+        </script>
+    </head>
+    <body onload="initialize();">
+        <table id="blocks">
+            <tr>
+                <td id="generationTime" class="text" colspan="8" style="background-color: transparent; padding: 0;"></td>
+            </tr>
+        </table>
+    </body>
+</html>
