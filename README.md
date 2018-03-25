@@ -2,7 +2,7 @@
 Create your own Proof of Stake cryptocurrency with its own blockchain based on "Nxt Blockchain Creation Kit". It should satisfy the requirements of the Jelurida Public License version 1.1 for the Nxt Public Blockchain Platform.
 Basically 10% of your tokens should be given to the owners of the Nxt Cryptocurrency.
 
-# Step 1 - Download the Nxt blockchain and create the genesis block
+## Step 1 - Download the Nxt blockchain and create the genesis block
 1. Download and install the last Nxt package from https://bitbucket.org/Jelurida/nxt/downloads
 2. Copy the conf/nxt-default.properties to conf/nxt.properties and put this setting: nxt.addOns=nxt.addons.JPLSnapshot
 3. Run the node, running run.sh or run.bat (for windows), create a wallet, and run the node, it will download the full blockchain it can take a few hours.
@@ -25,11 +25,11 @@ Basically 10% of your tokens should be given to the owners of the Nxt Cryptocurr
  Each public key should math each account, you can have only one if you feel like, but the total should be 90000000000000000.
  5. Once the Nxt blockchain is sync go to http://localhost:7876/test?requestTag=ADDONS and upload your file. It will generate the genesis block, just save it.
 
-# Step 2 - Create your own Cryptocurrency
+## Step 2 - Create your own Cryptocurrency
 * Todo
 
-# Step 3 - Create the executable wallet files (optionnal)
+## Step 3 - Create the executable wallet files (optionnal)
 * Todo
 
-# Step 4 - Host your nodes in some servers
+## Step 4 - Host your nodes in some servers
 * Todo
