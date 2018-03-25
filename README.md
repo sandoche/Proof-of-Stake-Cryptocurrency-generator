@@ -28,9 +28,9 @@ If you are an advanced user follow directly the official tutorial:
      ]
  }
 ```
-6. Go to http://localhost:7876/test?requestTag=ADDONS click on "downloadJPLSnapshot" then upload your file "newGenesisAccounts.json" and copy paste the height you can see in your wallet as in the screenshot below, then submit. A file will be generated after a few minutes, save it as "genesisAccounts.json" in the `conf/data` folder.
+6. Go to http://localhost:7876/test?requestTag=ADDONS click on "downloadJPLSnapshot" then upload your file "newGenesisAccounts.json" and copy paste the height you can see in your wallet as in the screenshot below, then submit. A file will be generated after a few minutes, save it as "genesisAccounts.json" in the `templates/conf/data` folder.
 --- SCREENSHOT ---
-7. Create another account, and save its public address in `conf/data/genesisParameter.json`
+7. Create another account, and save its public address in the file `templates/conf/data/genesisParameter.json`, also edit the epochBeginning with the current date.
 8. Now (or later) delete the nxt blockchain with `npm run step-1:nxt:delete` after closing the wallet
 
 ## Step 2 - Create your own Cryptocurrency

@@ -97,6 +97,16 @@ inquirer.prompt(questions).then(answers => {
         from: '7876',
         to: answers.api_server_port
       });
+      const changes9 = replace.sync({
+        files: folderName + '/conf/nxt-default.properties',
+        from: '47874',
+        to: answers.default_peer_port
+      });
+      const changes10 = replace.sync({
+        files: folderName + '/conf/nxt-default.properties',
+        from: '7876',
+        to: answers.api_server_port
+      });
       console.log('Modified files:', changes1.join(', '));
       console.log('Modified files:', changes2.join(', '));
       console.log('Modified files:', changes3.join(', '));
@@ -105,11 +115,22 @@ inquirer.prompt(questions).then(answers => {
       console.log('Modified files:', changes6.join(', '));
       console.log('Modified files:', changes7.join(', '));
       console.log('Modified files:', changes8.join(', '));
+      console.log('Modified files:', changes8.join(', '));
+      console.log('Modified files:', changes9.join(', '));
+      console.log('Modified files:', changes10.join(', '));
 
-      // Copy nxt.proprities and change the ports
       // Copying conf files & images and replace the old ones
       // Copying the wallet
       // Setting up the wallet
+
+      console.log('3. Copying assets, and genesis files');
+      getAsync('rm -rf ' + folderName + '/conf/data && cp -R  templates/conf/data ' + folderName + '/conf/').then(data => {
+        console.log('Genesis files copied');
+      }).catch(error => {
+        console.log('An error occured', error)
+      })
+
+
     }
     catch (error) {
       console.error('An error occurred:', error);
