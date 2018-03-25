@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "step-1:nxt:run": "sh ./nxt/run.sh",
     "step-1:nxt:delete": "rm -rf nxt",
-    "step-2:start": "node index.js"
+    "step-2:generate": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/sandoche/Proof-of-Stake-Cryptocurrency-generator#readme",
   "dependencies": {
-    "inquirer": "^5.1.0"
+    "bluebird": "^3.5.1",
+    "inquirer": "^5.1.0",
+    "node-cmd": "^3.0.0"
   }
 }

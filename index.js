@@ -4,8 +4,13 @@
 
 'use strict';
 const inquirer = require('inquirer');
+const cmd = require('node-cmd');
+const Promise = require('bluebird');
 
+console.log('*****************************************************************');
 console.log('Hi, welcome to Nxt clone Proof of Stake Cryptocurrency generator');
+console.log('*****************************************************************');
+console.log(' ')
 
 var questions = [
   {
@@ -36,8 +41,18 @@ var questions = [
 ];
 
 inquirer.prompt(questions).then(answers => {
-  console.log(JSON.stringify(answers, null, '  '));
-  // Clone the nxt starter
   // Rename the different files (check the commits)
   // copy the genesis block & other parameters
+
+  // git clone https://bitbucket.org/Jelurida/nxt-clone-starter answers.application
+
+  console.log('1. Cloning the nxt-clone-starter')
+
+  const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
+
+  getAsync('git clone https://bitbucket.org/Jelurida/nxt-clone-starter ' + answers.application).then(data => {
+    console.log('Repository cloned successfully');
+  }).catch(err => {
+    console.log('An error occured', err)
+  })
 });
