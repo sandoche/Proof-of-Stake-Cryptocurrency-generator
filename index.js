@@ -44,11 +44,8 @@ var questions = [
 ];
 
 inquirer.prompt(questions).then(answers => {
-  // Rename the different files (check the commits)
-  // copy the genesis block & other parameters
-
-  // git clone https://bitbucket.org/Jelurida/nxt-clone-starter answers.application
   const folderName = answers.application;
+  const appName = answers.application;
 
   console.log('1. Cloning the nxt-clone-starter')
   const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
@@ -119,10 +116,6 @@ inquirer.prompt(questions).then(answers => {
       console.log('Modified files:', changes9.join(', '));
       console.log('Modified files:', changes10.join(', '));
 
-      // Copying conf files & images and replace the old ones
-      // Copying the wallet
-      // Setting up the wallet
-
       console.log('3. Copying assets, and genesis files');
       getAsync('rm -rf ' + folderName + '/conf/data && cp -R  templates/conf/data ' + folderName + '/conf/').then(data => {
         console.log('Genesis files copied');
@@ -130,6 +123,35 @@ inquirer.prompt(questions).then(answers => {
         console.log('An error occured', error)
       })
 
+      getAsync('rm -rf ' + folderName + '/html/www/img && cp -R  templates/img ' + folderName + '/html/www/').then(data => {
+        console.log('Images files copied');
+      }).catch(error => {
+        console.log('An error occured', error)
+      })
+
+      console.log('4. Compiling, renaming complation files');
+
+  		const changes11 = replace.sync({
+  		  files: folderName + '/*.sh',
+  		  from: 'nxt-clone',
+  		  to: appName
+  		});
+  		console.log('Modified files:', changes11.join(', '));
+
+  		getAsync('cd ' + folderName + ' && sh ./compile.sh').then(data => {
+  		    console.log('Compilation done');
+  		  getAsync('cd ' + folderName + ' && sh ./jar.sh').then(data => {
+  			     console.log('Jar files created');
+
+             // Copy the wallet
+
+  		  }).catch(error => {
+  			     console.log('An error occured', error)
+  		  })
+
+  		}).catch(error => {
+  		  console.log('An error occured', error)
+  		})
 
     }
     catch (error) {
