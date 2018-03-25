@@ -87,14 +87,25 @@ inquirer.prompt(questions).then(answers => {
         from: 'TESTNET_PEER_PORT = 46874',
         to: 'TESTNET_PEER_PORT = ' + answers.testnet_peer_port
       });
+      const changes7 = replace.sync({
+        files: folderName + '/contrib/Dockerfile',
+        from: '7876',
+        to: answers.api_server_port
+      });
+      const changes8 = replace.sync({
+        files: folderName + '/Wallet.url',
+        from: '7876',
+        to: answers.api_server_port
+      });
       console.log('Modified files:', changes1.join(', '));
       console.log('Modified files:', changes2.join(', '));
       console.log('Modified files:', changes3.join(', '));
       console.log('Modified files:', changes4.join(', '));
       console.log('Modified files:', changes5.join(', '));
       console.log('Modified files:', changes6.join(', '));
+      console.log('Modified files:', changes7.join(', '));
+      console.log('Modified files:', changes8.join(', '));
 
-      // Change the docker file
       // Copy nxt.proprities and change the ports
       // Copying conf files & images and replace the old ones
       // Copying the wallet
