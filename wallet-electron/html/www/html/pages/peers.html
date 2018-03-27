@@ -1,0 +1,90 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="peers_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="peers">Peers</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button id="add_peer_button" type="button" class="btn btn-default" data-toggle="modal" data-target="#add_peer_modal" data-i18n="add_peer">Add Peer</button>
+        </div>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner inner-smaller">
+                        <h3><span id="peers_uploaded_volume" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="uploaded_volume">Uploaded Volume</p>
+                    </div>
+                    <div class="icon-smaller"><i class="fa fa-upload"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner inner-smaller">
+                        <h3><span id="peers_downloaded_volume" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="downloaded_volume">Downloaded Volume</p>
+                    </div>
+                    <div class="icon-smaller" style="bottom:-12px"><i class="fa fa-download"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner inner-smaller">
+                        <h3><span id="peers_connected" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="connected_peers">Connected Peers</p>
+                    </div>
+                    <div class="icon-smaller" style="bottom:-12px"><i class="fa fa-cloud"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner inner-smaller">
+                        <h3><span id="peers_up_to_date" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                        <p data-i18n="up_to_date_peers">Up-to-date Peers</p>
+                    </div>
+                    <div class="icon-smaller"><i class="ion ion-pie-graph"></i></div>
+                    <div class="small-box-footer"></div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="data-container data-loading">
+            <table class="table table-striped table-hover" id="peers_table">
+                <thead>
+                <tr>
+                    <th data-i18n="address">Address</th>
+                    <th data-i18n="weight">Weight</th>
+                    <th data-i18n="downloaded">Downloaded</th>
+                    <th data-i18n="uploaded">Uploaded</th>
+                    <th data-i18n="application">Application</th>
+                    <th data-i18n="platform">Platform</th>
+                    <th data-i18n="services">Services</th>
+                    <th data-i18n="actions" style="text-align:right;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_peers_found">No peers found.</p></div>
+        </div>
+    </section>
+</div>

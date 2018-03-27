@@ -1,0 +1,395 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="dgs_search_page" class="paginated page">
+    <section id="dgs_disabled" class="content">
+        <h2 data-i18n="dgs_welcome">Welcome to the Marketplace</h2>
+        <div data-i18n="dgs_greeting_1">Here you may find various goods and services at your disposal.</div>
+        <div data-i18n="dgs_greeting_2">In order to find what you need, you can search through them or use the tags of interest.</div>
+        <br>
+        <div data-i18n="dgs_greeting_3">You can further open a store to list your goods and services, receive feedback and give a discount.</div>
+        <div data-i18n="dgs_greeting_4">When using this functionality, please respect the privacy and dignity of other users.</div>
+        <br>
+        <div data-i18n="dgs_greeting_5">The decentralized nature of the blockchain, allows listing of any inappropriate material.</div>
+        <div data-i18n="dgs_greeting_6">Please, make sure to comply with local legislation when using the Marketplace.</div>
+        <br>
+        <a href="#" id="accept_dgs_link" data-i18n="accept_dgs">Accept</a>
+    </section>
+
+    <section id="dgs_top" class="content-header">
+        <h1>
+            <span data-i18n="marketplace">Marketplace</span>
+            <span class="dgs_search_pageheader_addon dgs_search_pageheader_addon_seller">
+                | <span data-i18n="seller">Seller</span> <span class="dgs_search_pageheader_addon_seller_text"></span>
+            </span>
+            <span class="dgs_search_pageheader_addon dgs_search_pageheader_addon_fulltext">
+                | <span data-i18n="search">Search</span> <span class="dgs_search_pageheader_addon_fulltext_text"></span>
+            </span>
+            <span class="dgs_search_pageheader_addon dgs_search_pageheader_addon_tag">
+                | <span data-i18n="tag">Tag</span> <span class="dgs_search_pageheader_addon_tag_text"></span>
+            </span>
+        </h1>
+        <div style="position:absolute;top:9px;right:9px;display:none;" id="dgs_search_top">
+            <button id="dgs_clear_results" type="button" class="btn btn-default" data-i18n="clear_results">Clear Results</button>
+        </div>
+    </section>
+
+    <section class="content">
+        <div  id="dgs_search_center" class="row">
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><span id="dgs_user_purchase_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                            <p><span data-i18n="purchased_products">Purchased Products</span></p>
+                        </div>
+                        <div class="icon"><i class="ion ion-images"></i></div>
+                        <a href="#" class="small-box-footer dgs_my_purchases_link"><span data-i18n="my_purchases">My Purchases</span> <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3><span id="dgs_product_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                            <p><span data-i18n="products_available">Products available</span></p>
+                        </div>
+                        <div class="icon"><i class="fa fa-cubes"></i></div>
+                        <span class="small-box-footer">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3><span id="dgs_total_purchase_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                            <p data-i18n="total_purchases">Total Purchases</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-truck"></i></div>
+                        <span class="small-box-footer">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3><span id="dgs_tag_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+                            <p data-i18n="total_tags">Total Tags</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-tags"></i></div>
+                        <span class="small-box-footer">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="text-align:center">
+                <div class="col-xs-12 col-sm-6">
+                    <div style=";padding:12px;background-color:#fff;border:1px solid #f2f2f2;">
+                        <p style="text-align:center;font-size:16px;" data-i18n="dgs_search_description">Enter the seller's Account ID below to view their store.</p>
+                        <form action="#" method="get" class="dgs_search sidebar-form" style="width:300px;margin:0 auto;" autocomplete="off">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Seller's Account ID" data-i18n="[placeholder]seller_account_id" style="height:auto;" id="dgs_search_account_center" />
+                                <span class="input-group-btn">
+                                    <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div style="padding:12px;background-color:#fff;border:1px solid #f2f2f2;">
+                        <p style="text-align:center;font-size:16px;" data-i18n="dgs_fulltext_search_description">Search for a product.</p>
+                        <form action="#" method="get" class="dgs_fulltext_search sidebar-form" style="width:300px;margin:0 auto;" autocomplete="off">
+                            <div class="input-group">
+                                <input type="text" name="fs_q" class="form-control" placeholder="Title, Description or Tag" data-i18n="[placeholder]title_description_tag" style="height:auto;" id="dgs_fulltext_search_center" />
+                                <span class="input-group-btn">
+                                    <button type="submit" name="fulltext_search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:25px;margin-bottom:30px;">
+                <div class="col-xs-12">
+                    <div id="dgs_tag_list" style="text-align:center;">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dgs_search_results" class="data-container data-loading" style="display:none">
+            <div id="dgs_search_contents" class="dgs_page_contents">
+
+            </div>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_products_found">No products found.</p></div>
+        </div>
+        <div id="dgs_pagination" class="data-pagination"></div>
+    </section>
+
+    <section id="dgs_listings" class="content">
+        <div class="col-xs-6">
+            <div class="box box-primary">
+                <p class = "box-title" style="text-align:center;font-size:16px;" data-i18n="recent_listings">Recent Listings</p>
+                <div class="box-body no-padding" id="recent_listings">
+                    <script type="text/x-handlebars-template">
+                        <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                            <table class="table table-striped" id="recent_listings_table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{i18n "timestamp_listing"}}</th>
+                                    <th>{{i18n "product"}}</th>
+                                    <th class="numeric" >{{i18n "price"}}</th>
+                                    <th>{{i18n "seller"}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each data}}
+                                <tr>
+                                    <td style="vertical-align:middle; text-align:center;height:100px;width:100px;">{{{image}}}</td>
+                                    <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                    <td style="vertical-align:middle;">{{{good}}}</td>
+                                    <td class="numeric"  style="vertical-align:middle;">{{{price}}}</td>
+                                    <td style="vertical-align:middle;">{{{account}}}</td>
+                                </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                            <div class="data-empty-container">
+                                <p>
+                                    <span>{{i18n "no_listings"}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </script>
+                </div>
+            </div>
+            <div class="box-footer"><button class="btn btn-primary goto-page" data-page="recent_listings"><i class="fa fa-caret-right"></i> <span data-i18n="view_more">View More</span></button></div>
+        </div>
+        <div class="col-xs-6">
+            <div class="box box-primary">
+                <p class = "box-title" style="text-align:center;font-size:16px;" data-i18n="recent_purchases">Recent Purchases</p>
+                <div class="box-body no-padding" id="recent_purchases">
+                    <script type="text/x-handlebars-template">
+                        <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                            <table class="table table-striped" id="recent_purchases_table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{i18n "timestamp_buy"}}</th>
+                                    <th>{{i18n "product"}}</th>
+                                    <th class="numeric" >{{i18n "price"}}</th>
+                                    <th>{{i18n "buyer"}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each data}}
+                                <tr>
+                                    <td style="vertical-align:middle; text-align:center;height:100px;width:100px;">{{{image}}}</td>
+                                    <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                    <td style="vertical-align:middle;">{{{good}}}</td>
+                                    <td class="numeric"  style="vertical-align:middle;">{{{price}}}</td>
+                                    <td style="vertical-align:middle;">{{{account}}}</td>
+                                </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                            <div class="data-empty-container">
+                                <p>
+                                    <span>{{i18n "no_purchases"}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </script>
+                </div>
+            </div>
+            <div class="box-footer"><button class="btn btn-primary goto-page" data-page="recent_purchases"><i class="fa fa-caret-right"></i> <span data-i18n="view_more">View More</span></button></div>
+        </div>
+    </section>
+</div>
+
+<div id="purchased_dgs_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="purchased_products">Purchased Products</h1>
+    </section>
+
+    <section class="content">
+        <div class="data-container data-loading">
+            <div id="purchased_dgs_contents" class="dgs_page_contents">
+
+            </div>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_purchased_products_found">No purchased products found.</p></div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="my_dgs_listings_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="my_products_for_sale">My Products For Sale</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button id="add_dgs_listing_button" type="button" class="btn btn-default" data-toggle="modal" data-target="#dgs_listing_modal" data-i18n="list_product_for_sale">List Product For Sale</button>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="my_dgs_listings_table">
+                <thead>
+                <tr>
+                    <th data-i18n="name">Name</th>
+                    <th data-i18n="quantity" class="numeric">Quantity</th>
+                    <th data-i18n="price" class="numeric">Price</th>
+                    <th data-i18n="actions" style="width:10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container">
+                <p >
+                    <span data-i18n="no_products_listed_yet">You haven't listed any products for sale yet</span>,
+                    <a href="#" data-toggle="modal" data-target="#dgs_listing_modal" data-i18n="add_one_product">add one</a>.
+                </p>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="pending_orders_dgs_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="my_pending_orders">My Pending Orders</h1>
+    </section>
+
+    <section class="content">
+        <div class="data-container data-loading">
+            <div id="pending_orders_dgs_contents" class="dgs_page_contents">
+
+            </div>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_pending_orders_found">No pending orders found.</p></div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="completed_orders_dgs_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="my_completed_orders">My Completed Orders</h1>
+    </section>
+
+    <section class="content">
+        <div class="data-container data-loading">
+            <div id="completed_orders_dgs_contents" class="dgs_page_contents">
+
+            </div>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_completed_orders_found">No completed orders found.</p></div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+<div id="recent_purchases_page" class="paginated page">
+    <section id="dgs_recent_purchases_full" class="content">
+        <div class="box box-primary">
+            <h3 class="box-title" data-i18n="recent_purchases">Recent Purchases</h3>
+            <div class="box-body no-padding" id="recent_purchases_full">
+                <script type="text/x-handlebars-template">
+                    <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                        <table class="table table-striped" id="recent_purchases_full_table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{i18n "timestamp_buy"}}</th>
+                                <th>{{i18n "product"}}</th>
+                                <th class="numeric">{{i18n "price"}}</th>
+                                <th>{{i18n "buyer"}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each data}}
+                            <tr>
+                                <td style="vertical-align:middle; text-align:center;height:100px;width:100px;">{{{image}}}</td>
+                                <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                <td style="vertical-align:middle;">{{{good}}}</td>
+                                <td class="numeric" style="vertical-align:middle;">{{{price}}}</td>
+                                <td style="vertical-align:middle;">{{{account}}}</td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                        <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                        <div class="data-empty-container">
+                            <p>
+                                <span>{{i18n "no_purchases"}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </script>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+<div id="recent_listings_page" class="paginated page">
+    <section id="dgs_recent_listings_full" class="content">
+        <div class="box box-primary">
+            <h3 class="box-title" data-i18n="recent_listings">Recent Listings</h3>
+            <div class="box-body no-padding" id="recent_listings_full">
+                <script type="text/x-handlebars-template">
+                    <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                        <table class="table table-striped" id="recent_listings_full_table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{i18n "timestamp_listing"}}</th>
+                                <th>{{i18n "product"}}</th>
+                                <th class="numeric">{{i18n "price"}}</th>
+                                <th>{{i18n "seller"}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each data}}
+                            <tr>
+                                <td style="vertical-align:middle; text-align:center;height:100px;width:100px;">{{{image}}}</td>
+                                <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                <td style="vertical-align:middle;">{{{good}}}</td>
+                                <td class="numeric" style="vertical-align:middle;">{{{price}}}</td>
+                                <td style="vertical-align:middle;">{{{account}}}</td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                        <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                        <div class="data-empty-container">
+                            <p>
+                                <span>{{i18n "no_listings"}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </script>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>

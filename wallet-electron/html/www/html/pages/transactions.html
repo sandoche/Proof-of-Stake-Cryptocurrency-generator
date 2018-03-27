@@ -1,0 +1,167 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="ledger_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="account_ledger">Account Ledger</h1>
+    </section>
+
+    <section class="content">
+        <div style="display: none" class="alert alert-info" role="alert" id="account_ledger_message"></div>
+        <div class="panel panel-default">
+            <div class="data-container data-loading panel-body">
+                <table class="table table-striped" id="ledger_table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th data-i18n="type">TYPE</th>
+                        <th class="numeric" data-i18n="change">CHANGE</th>
+                        <th class="numeric" data-i18n="balance">BALANCE</th>
+                        <th data-i18n="holding">HOLDING</th>
+                        <th class="numeric" data-i18n="change">CHANGE</th>
+                        <th class="numeric" data-i18n="balance">BALANCE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container" style="text-align:center;">
+                    <p style="padding-top:80px;padding-bottom:100px;"><span data-i18n="no_account_ledger">No account ledger entries found</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="transactions_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="my_transactions">My Transactions</h1>
+    </section>
+
+    <section class="content">
+        <div class="panel panel-default" style="margin-bottom:4px;" id="transactions_type_navi_box">
+            <div class="panel-body">
+                <div style="float:right;padding-top:3px;">
+                    <a href="#" data-i18n="show_type_menu" class="btn btn-default" id="transactions_sub_type_show_hide_btn" role="button">Show Type Menu</a>
+                </div>
+                <ul class="nav nav-pills" id="transactions_type_navi"></ul>
+            </div>
+        </div>
+        <div class="panel panel-default" style="display:none;margin-bottom:10px;" id="transactions_sub_type_navi_box">
+            <div class="panel-body">
+                <ul class="nav nav-pills" id="transactions_sub_type_navi"></ul>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="data-container data-loading panel-body">
+                <table class="table table-striped" id="transactions_table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th style="width:60px;text-align:center;"><i class="fa fa-envelope-o"></i></th>
+                        <th data-i18n="type">Type</th>
+                        <th class="numeric" data-i18n="amount">Amount</th>
+                        <th class="numeric" data-i18n="fee">Fee</th>
+                        <th data-i18n="account">Account</th>
+                        <th style="text-align:center;"><i class="fa fa-gavel"></i></th>
+                        <th style="text-align:center;" data-i18n="height">Height</th>
+                        <th style="text-align:center;" data-i18n="confirmations">Confirmations</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container" style="text-align:center;">
+                    <p style="padding-top:80px;padding-bottom:100px;"><span data-i18n="no_transactions_found">No transactions found</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="approval_requests_account_page" class="paginated page">
+    <section class="content-header">
+        <h1><span data-i18n="approval_requests">Approval Requests</span> (<span data-i18n="account">Account</span>)</h1>
+    </section>
+
+    <section class="content" style="margin-top:40px;">
+        <div class="panel panel-default">
+            <div class="data-container data-loading panel-body">
+                <table class="table table-striped" id="approval_requests_account_table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th style="width:60px;text-align:center;"><i class="fa fa-envelope-o"></i></th>
+                        <th data-i18n="type">Type</th>
+                        <th class="numeric" data-i18n="amount">Amount</th>
+                        <th class="numeric" data-i18n="fee">Fee</th>
+                        <th data-i18n="account">Account</th>
+                        <th style="text-align:center;"><i class="fa fa-gavel"></i></th>
+                        <th style="text-align:center;" data-i18n="height">Height</th>
+                        <th style="text-align:center;" data-i18n="confirmations">Confirmations</th>
+                        <th data-i18n="actions" style="text-align:right;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container" style="text-align:center;">
+                    <p style="padding-top:80px;padding-bottom:100px;"><span data-i18n="no_current_approval_requests">No current approval requests</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>
+
+<div id="scheduled_transactions_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="scheduled_transactions">Scheduled Transactions</h1>
+    </section>
+
+    <section class="content">
+        <div id="scheduled_transactions_error_message" class="callout callout-danger" style="display:none"></div>
+        <div class="panel panel-default">
+            <div class="data-container data-loading panel-body">
+                <table class="table table-striped" id="scheduled_transactions_table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="date">Date</th>
+                        <th style="width:60px;text-align:center;"><i class="fa fa-envelope-o"></i></th>
+                        <th data-i18n="type">Type</th>
+                        <th class="numeric" data-i18n="amount">Amount</th>
+                        <th class="numeric" data-i18n="fee">Fee</th>
+                        <th data-i18n="account">Account</th>
+                        <th data-i18n="actions" style="text-align:right;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container" style="text-align:center;">
+                    <p style="padding-top:80px;padding-bottom:100px;"><span data-i18n="no_transactions_found">No transactions found</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>

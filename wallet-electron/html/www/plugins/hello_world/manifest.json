@@ -1,0 +1,10 @@
+{
+  "pluginVersion": 1,
+  "name": "Hello World",
+  "myVersion": "v.1.0",
+  "shortDescription": "This plugin is for demonstration purposes only",
+  "infoUrl": "https://nxtwiki.org/wiki/Plugins",
+  "startPage": "p_hello_world",
+  "nrsVersion": "1.5.0",
+  "deactivated": true
+}

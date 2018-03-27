@@ -1,0 +1,115 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="tagged_data_search_page" class="paginated page">
+    <section id="tagged_data_top" class="content-header">
+        <h1>
+            <span data-i18n="tagged_data">Data Cloud</span>
+            <span class="tagged_data_search_pageheader_addon tagged_data_search_pageheader_addon_account">
+                | <span data-i18n="account">Account</span> <span class="tagged_data_search_pageheader_addon_account_text"></span>
+            </span>
+            <span class="tagged_data_search_pageheader_addon tagged_data_search_pageheader_addon_fulltext">
+                | <span data-i18n="search">Search</span> <span class="tagged_data_search_pageheader_addon_fulltext_text"></span>
+            </span>
+            <span class="tagged_data_search_pageheader_addon tagged_data_search_pageheader_addon_tag">
+                | <span data-i18n="tag">Tag</span> <span class="tagged_data_search_pageheader_addon_tag_text"></span>
+            </span>
+        </h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button id="tagged_data_reset" type="button" class="btn btn-default" data-i18n="reset">Reset</button>
+            <button id="tagged_data_upload" type="button" class="btn btn-default" data-i18n="upload_file">File Upload</button>
+        </div>
+    </section>
+
+    <section class="content">
+        <div  id="tagged_data_center" class="row">
+            <div class="row" style="text-align:center">
+                <div class="col-xs-12 col-sm-6">
+                    <div style=";padding:12px;background-color:#fff;border:1px solid #f2f2f2;">
+                        <p style="text-align:center;font-size:16px;" data-i18n="search_by_account_id">Search By Account ID</p>
+                        <form action="#" method="get" class="tagged_data_search sidebar-form" style="width:300px;margin:0 auto;" autocomplete="off">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Account ID" data-i18n="[placeholder]account_id" style="height:auto;" id="tagged_data_search_account_center" />
+                                <span class="input-group-btn">
+                                    <button type="submit" name="search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div style="padding:12px;background-color:#fff;border:1px solid #f2f2f2;">
+                        <p style="text-align:center;font-size:16px;" data-i18n="free_text_search">Free Text Search</p>
+                        <form action="#" method="get" class="tagged_data_fulltext_search sidebar-form" style="width:300px;margin:0 auto;" autocomplete="off">
+                            <div class="input-group">
+                                <input type="text" name="fs_q" class="form-control" placeholder="Name, Description or Tag" data-i18n="[placeholder]name_description_tag" style="height:auto;" id="tagged_data_fulltext_search_center" />
+                                <span class="input-group-btn">
+                                    <button type="submit" name="fulltext_search" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:25px;margin-bottom:30px;">
+                <div class="col-xs-12">
+                    <div id="tagged_data_tag_list" style="text-align:center;">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content" id="tagged_data_search_results_section">
+            <script type="text/x-handlebars-template">
+                <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                    <table class="table table-striped" id="tagged_data_search_results_table">
+                        <thead>
+                        <tr>
+                            <th>{{i18n "name"}}</th>
+                            <th>{{i18n "account"}}</th>
+                            <th>{{i18n "mime_type"}}</th>
+                            <th>{{i18n "channel"}}</th>
+                            <th>{{i18n "filename"}}</th>
+                            <th>{{i18n "data"}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                                <tr>
+                                    <td>{{{nameFormatted}}}</td>
+                                    <td>{{{accountFormatted}}}</td>
+                                    <td>{{type}}</td>
+                                    <td>{{channel}}</td>
+                                    <td>{{filename}}</td>
+                                    <td>{{{dataFormatted}}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                    <div class="data-empty-container">
+                        <p>
+                            <span>{{i18n "no_data"}}</span>
+                        </p>
+                    </div>
+                    <div class="data-pagination"></div>
+                </div>
+            </script>
+        </section>
+    </section>
+</div>

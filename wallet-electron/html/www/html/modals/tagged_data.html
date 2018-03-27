@@ -1,0 +1,125 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="upload_data_modal" data-transaction-type="6" data-transaction-subtype="0" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="upload_data">Upload Data</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" enctype="multipart/form-data" method="post" id="upload_data_form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="tagged_data_name" data-i18n="name">NAME</label>
+                        <input type="text" class="form-control" name="name" id="tagged_data_name" placeholder="Entity Name" data-i18n="[placeholder]entity_name" autofocus tabindex="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tagged_data_description" data-i18n="description">DESCRIPTION</label>
+                        <textarea class="form-control" id="tagged_data_description" name="description" rows="3" tabindex="2" placeholder="Enter a description" data-i18n="[placeholder]enter_a_description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tagged_data_tags"><span data-i18n="tags">TAGS</span> <i class="fa fa-question-circle show_popover" data-content="Choose up to 5 tags, separate them with comma's." data-i18n="[data-content]data_tags_help" data-container="body" style="color:#4CAA6E" ></i></label>
+                        <input type="text" class="form-control" name="tags" id="tagged_data_tags" placeholder="Tags (categories)" data-i18n="[placeholder]tags_categories" tabindex="3" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tagged_data_channel" data-i18n="channel">CHANNEL</label>
+                        <input type="text" class="form-control" id="tagged_data_channel" name="channel" placeholder="Channel Classification" data-i18n="[placeholder]channel_placeholder" tabindex="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="upload_file" data-i18n="file">File</label>
+                        <input type="file" id="upload_file" class="form-control" name="upload" tabindex="6">
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="uploadTaggedData" data-default="uploadTaggedData" />
+                    <input type="hidden" name="isText" value="false" />
+                    <input type="hidden" name="filename" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="upload_file_button;[data-loading-text]submitting">Upload File</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="extend_data_modal" data-transaction-type="6" data-transaction-subtype="1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="extend_data">Extend Data</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" id="extend_data_form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="extend_data_transaction" data-i18n="transaction">TRANSACTION</label>
+                        <input type="text" class="form-control" name="transaction" id="extend_data_transaction" readonly/>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="extendTaggedData" data-default="extendTaggedData" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="extend_data_button;[data-extend-text]submitting">Extend Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="tagged_data_view_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="data_content">DATA CONTENT</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="form-group">
+                        <label for="tagged_data_content" data-i18n="content">CONTENT</label>
+                        <textarea class="form-control" id="tagged_data_content" rows="10" readonly></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <a class="btn btn-default" id="tagged_data_download" data-i18n="download" href=''>DOWNLOAD</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="close">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>

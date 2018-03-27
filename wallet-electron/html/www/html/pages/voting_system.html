@@ -1,0 +1,341 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="polls_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="active_polls">Active Polls</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_poll_modal" data-i18n="create_poll">Create Poll</button>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="polls_table">
+                <thead>
+                <tr>
+                    <th data-i18n="title">Title</th>
+                    <th data-i18n="description">Description</th>
+                    <th data-i18n="sender">Sender</th>
+                    <th data-i18n="start_date">Start Date</th>
+                    <th data-i18n="blocks_left_no_param" style="text-align:center;min-width:110px;"><nobr>Blocks Left</nobr></th>
+                    <th data-i18n="actions" style="text-align:center;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_polls_found">No polls found.</p></div>
+        </div>
+        <div class="data-pagination"></div>
+
+        <h3 class="box-title" data-i18n="finished_polls">Finished Polls</h3>
+        <div class="box-body no-padding" id="finished_polls">
+            <script type="text/x-handlebars-template">
+                <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                    <table class="table table-striped" id="finished_polls_table">
+                        <thead>
+                            <tr>
+                                <th>{{i18n "title"}}</th>
+                                <th>{{i18n "description"}}</th>
+                                <th>{{i18n "sender"}}</th>
+                                <th>{{i18n "start_date"}}</th>
+                                <th>{{i18n "actions"}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                                <tr>
+                                    <td style="vertical-align:middle;">{{{title}}}</td>
+                                    <td style="vertical-align:middle;">{{{description}}}</td>
+                                    <td style="vertical-align:middle;">{{{sender}}}</td>
+                                    <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                    <td style="vertical-align:middle;">{{{actions}}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                    <div class="data-empty-container">
+                        <p>
+                            <span>{{i18n "no_my_polls_found"}}</span>
+                        </p>
+                    </div>
+                </div>
+            </script>
+        </div>
+        <div class="box-footer">
+            <button class="btn btn-primary goto-page" data-page="finished_polls">
+                <i class="fa fa-caret-right"></i>&nbsp;<span data-i18n="view_more">View More</span>
+            </button>
+        </div>
+    </section>
+</div>
+
+<div id="relevant_polls_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="relevant_polls">Relevant Polls</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_poll_modal" data-i18n="create_poll">Create Poll</button>
+        </div>
+    </section>
+    
+    <section class="content">
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="relevant_polls_table">
+                <thead>
+                <tr>
+                    <th data-i18n="title">Title</th>
+                    <th data-i18n="description">Description</th>
+                    <th data-i18n="sender">Sender</th>
+                    <th data-i18n="start_date">Start Date</th>
+                    <th data-i18n="blocks_left_no_param">Blocks Left</th>
+                    <th data-i18n="vote">Vote</th>
+                    <th data-il8n="actions" style="text-align:center;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_polls_found">No polls found.</p></div>
+        </div>
+    </section>
+</div>
+
+<div id="my_polls_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="my_polls">My Polls</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_poll_modal" data-i18n="create_poll">Create Poll</button>
+        </div>
+    </section>
+    
+    <section class="content">
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="my_polls_table">
+                <thead>
+                <tr>
+                    <th data-i18n="title">Title</th>
+                    <th data-i18n="description">Description</th>
+                    <th data-i18n="sender">Sender</th>
+                    <th data-i18n="start_date">Start Date</th>
+                    <th data-i18n="blocks_left_no_param" style="text-align:center;min-width:110px;">Blocks Left</th>
+                    <th data-il8n="actions" style="text-align:center;">Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_my_polls_found">No polls found.</p></div>
+        </div>
+    </section>
+</div>
+
+
+<div id="voted_polls_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="polls_i_voted_in">My Votes</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_poll_modal" data-i18n="create_poll">Create Poll</button>
+        </div>
+    </section>
+    
+    <section class="content">
+        <div class="data-container data-loading">
+            <table class="table table-striped" id="voted_polls_table">
+                <thead>
+                <tr>
+                    <th data-i18n="title">Title</th>
+                    <th data-i18n="description">Description</th>
+                    <th data-i18n="sender">Sender</th>
+                    <th data-i18n="start_date">Start Date</th>
+                    <th data-i18n="blocks_left_no_param" style="text-align:center;min-width:110px;">Blocks Left</th>
+                    <th data-i18n="results">Results</th>
+                    <th data-il8n="actions" style="text-align:center;">Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p data-i18n="no_my_polls_found">No polls found.</p></div>
+        </div>
+    </section>
+</div>
+
+
+<div id="followed_polls_page" class="page">
+    <section class="content-header">
+        <h1 data-i18n="followed_polls">Followed Polls</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-sm btn-default" id="followed_polls_add_poll" data-toggle="modal" data-target="#add_followed_poll_modal" data-i18n="add_poll">Add Poll</button>
+            <button type="button" class="btn btn-sm btn-default bookmark_button" id="followed_polls_bookmark_poll" style="display:none" data-i18n="bookmark_this_poll">Bookmark This Poll</button>
+        </div>
+    </section>
+    <section class="content content-stretch" style="position:fixed;margin-top:3px;padding:0; width:100%; height:100%; height: calc(100% - 101px);overflow:hidden;">
+        <div class="content-spliter">
+            <div class="content-splitter-inner">
+                <div class="content-splitter-sidebar" style="width:200px">
+                    <div class="content-splitter-sidebar-inner">
+                        <div class="list-group unselectable sidebar_context" id="followed_polls_sidebar">
+                            <div id="followed_polls_sidebar_content">
+                                <div style="text-align:center;padding-top:10px;"><span data-i18n="loading_please_wait">Loading, please wait</span><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></div>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+                 <div class="content-splitter-right">
+                    <div class="content-splitter-right-inner">
+                        <div id="no_followed_polls_available" style="padding-top: 150px;text-align:center;display:none;" data-i18n="no_followed_polls_available">You aren't following any polls right now. Click on "Add poll" in the top right corner to add one.</div>
+                        <div id="no_poll_selected" style="padding-top: 150px;text-align:center;" data-i18n="no_poll_selected">Please select a poll in the left sidebar.</div>
+                        <div id="loading_poll_data" style="padding-top: 150px;text-align:center;display: none;"><span data-i18n="poll_data_loading">Poll data loading, please wait...</span><br /><br /><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                        <div id="poll_details" style="display:none;">
+                            <div style="float:right;margin-bottom:7px;">
+                                <div style="color: #999999;background:white;padding:5px;border:1px solid #ccc;border-radius:3px">
+                                    <strong data-i18n="account">Account</strong>: <span id="poll_account"></span><br />
+                                    <strong data-i18n="poll_id">Poll Id</strong>: <span id="poll_id"></span><br />
+                                </div>
+                                <div id="vote_poll_link" style="margin-top:7px;text-align:right;">
+                                    <a href="#" class="vote_button btn btn-default" data-poll="" data-i18n="vote_in_poll">Vote in Poll</a>
+                                </div>
+                            </div>
+                            <h3 id="followed_polls_poll_name" style="margin-top:0;">
+                            </h3>
+
+                            <div id="poll_description" style="margin-top:5px;"></div>
+
+                            <hr style="clear:both;"/>
+                                  
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="box box-danger" style="min-height:400px;overflow: auto;">
+                                        <div class="box-header">
+                                            <h3 class="box-title"><span data-i18n="poll_results">Poll  Results</span></h3>
+                                        </div>
+                                        <div class="box-body no-padding">
+                                            <div class="data-container data-loading" data-no-padding="true">
+                                                <table class="table table-striped" id="followed_polls_poll_results">
+                                                    <thead>
+                                                    <tr>
+                                                        <th data-i18n="option">Option</th>
+                                                        <th data-i18n="result" style="text-align:right;">Result</th>
+                                                        <th data-i18n="weight" style="text-align:right;">Weight</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    
+                                                    </tbody>
+                                                </table>
+                                                <div class="data-loading-container"><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                                                <div class="data-empty-container"><p data-i18n="poll_results_not_available">Poll results not available.</p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="box box-danger" style="min-height:400px;overflow: auto;">
+                                        <div class="box-header">
+                                            <h3 class="box-title"><span data-i18n="chart">Chart</span></h3>
+                                        </div>
+                                        <div class="box-body no-padding">
+                                            <div id="followed_polls_poll_chart" style="text-align:center;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    
+                                    <div class="box box-success" style="min-height:400px;overflow: auto;">
+                                        <div class="box-header">
+                                            <h3 class="box-title"><span data-i18n="votes_cast">Votes Cast</span> <span id="votes_cast_count"></span></h3>
+                                        </div>
+                                        <div class="box-body no-padding">
+                                            <div class="data-container data-loading" data-no-padding="true">
+                                                <table class="table table-striped" id="followed_polls_votes_cast">
+                                                    <thead>
+                                                    
+                                                    </thead>
+                                                    <tbody>
+                                                    
+                                                    </tbody>
+                                                </table>
+                                                <div class="data-loading-container"><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                                                <div class="data-empty-container"><p data-i18n="poll_votes_cast_not_available">Poll votes cast not available.</p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="finished_polls_page" class="paginated page">
+    <section id="polls_finished_polls_full" class="content">
+        <h3 class="box-title" data-i18n="finished_polls">Finished Polls</h3>
+        <div class="box-body no-padding" id="finished_polls_full">
+            <script type="text/x-handlebars-template">
+                <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                    <table class="table table-striped" id="finished_polls_full_table">
+                        <thead>
+                            <tr>
+                                <th>{{i18n "title"}}</th>
+                                <th>{{i18n "description"}}</th>
+                                <th>{{i18n "sender"}}</th>
+                                <th>{{i18n "start_date"}}</th>
+                                <th>{{i18n "actions"}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data}}
+                                <tr>
+                                    <td style="vertical-align:middle;">{{{title}}}</td>
+                                    <td style="vertical-align:middle;">{{{description}}}</td>
+                                    <td style="vertical-align:middle;">{{{sender}}}</td>
+                                    <td style="vertical-align:middle;">{{{timestamp}}}</td>
+                                    <td style="vertical-align:middle;">{{{actions}}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                    <div class="data-empty-container">
+                        <p>
+                            <span>{{i18n "no_my_polls_found"}}</span>
+                        </p>
+                    </div>
+                </div>
+            </script>
+        </div>
+        <div class="data-pagination"></div>
+    </section>
+</div>

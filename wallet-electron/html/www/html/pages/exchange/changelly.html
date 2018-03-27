@@ -1,0 +1,129 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="exchange_changelly_page" class="page" xmlns="http://www.w3.org/1999/html">
+    <section class="exchange_disabled content">
+        <h2 data-i18n="exchange_welcome">Welcome to the Coin Exchange</h2>
+        <div data-i18n="exchange_greeting_1">The coin exchange functionality is based on a 3rd party service.</div>
+        <div data-i18n="exchange_greeting_2">Using it may reveal your client IP to this service.</div>
+        <br>
+        <a href="#" id="changelly_accept_exchange_link" data-i18n="accept_exchange">Accept</a>
+    </section>
+
+    <section class="exchange_page_header content-header">
+        <h1><img src="img/changelly_logo.png" height="32px"><span> </span><span data-i18n="changelly_exchange">CHANGELLY EXCHANGE</span></h1>
+    </section>
+
+    <section class="exchange_page_content content">
+        <div style="color:#838383;margin-bottom:5px">
+            <p data-i18n="exchange_using_changelly">Exchange coins using Changelly</p>
+            <div style="float:right;padding:5px;border:1px solid #ccc;border-radius:3px">
+                <select id="changelly_search_key">
+                    <option value="currency" data-i18n="source_currency"></option>
+                    <option value="address" data-i18n="deposit_address"></option>
+                </select>
+                <input id="changelly_search_id">
+                <button id="changelly_search">Search</button>
+            </div>
+            <strong data-i18n="status">STATUS</strong>: <span id="changelly_status"></span>
+        </div>
+        <div class="form-inline">
+            <div class="form-group col-lg-12">
+                <label data-i18n="coins">COINS</label>
+                <select id="changelly_coin0" class="form-control coin-select changelly"></select>
+                <select id="changelly_coin1" class="form-control coin-select changelly"></select>
+                <select id="changelly_coin2" class="form-control coin-select changelly"></select>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header"><h3 class="box-title" data-i18n="exchange_nxt_to_coin">Exchange NXT to Coin</h3></div>
+            <div class="box-body no-padding">
+                <div class="data-container data-loading">
+                    <table class="table table-striped" id="p_changelly_buy_nxt">
+                        <thead>
+                        <tr>
+                            <th data-i18n="symbol">Symbol</th>
+                            <th data-i18n="minimum_amount">Minimum Amount</th>
+                            <th data-i18n="rate">Rate</th>
+                            <th data-i18n="action">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                    <div class="data-empty-container" data-i18n="no_trading_pairs">No trading pairs.</div>
+                </div>
+                <div class="data-pagination"></div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header"><h3 class="box-title" data-i18n="exchange_coin_to_nxt">Exchange Coin to NXT</h3></div>
+            <div class="box-body no-padding">
+                <div class="data-container data-loading">
+                    <table class="table table-striped" id="p_changelly_sell_nxt">
+                        <thead>
+                        <tr>
+                            <th data-i18n="symbol">Symbol</th>
+                            <th data-i18n="minimum_amount">Minimum Amount</th>
+                            <th data-i18n="rate">Rate</th>
+                            <th data-i18n="action">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                    <div class="data-empty-container" data-i18n="no_trading_pairs">No trading pairs.</div>
+                </div>
+                <div class="data-pagination"></div>
+            </div>
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header"><h3 class="box-title" data-i18n="my_exchanges">My Exchanges</h3></div>
+            <a href="#" id="changelly_clear_my_exchanges" data-i18n="clear_results">CLEAR RESULTS</a>
+            <div class="box-body no-padding">
+                <div class="data-container data-loading">
+                    <table class="table table-striped" id="p_changelly_my_table">
+                        <thead>
+                        <tr>
+                            <th data-i18n="date">Date</th>
+                            <th data-i18n="status">Status</th>
+                            <th data-i18n="deposit_address">Deposit Address</th>
+                            <th data-i18n="amount">Amount</th>
+                            <th data-i18n="type">Type</th>
+                            <th data-i18n="withdrawal_address">Withdrawal Address</th>
+                            <th data-i18n="amount">Amount</th>
+                            <th data-i18n="type">Type</th>
+                            <th data-i18n="transaction">Transaction</th>
+                            <th data-i18n="action">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32"/></div>
+                    <div class="data-empty-container" data-i18n="no_recent_transactions_found">No recent transactions found.</div>
+                </div>
+                <div class="data-pagination"></div>
+            </div>
+        </div>
+    </section>
+</div>

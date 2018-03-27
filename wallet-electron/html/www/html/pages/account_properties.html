@@ -1,0 +1,65 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="account_properties_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="account_properties">ACCOUNT PROPERTIES</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <div class="btn-group" data-toggle="buttons" id="account_properties_page_type">
+                <label class="btn btn-default active" data-type="incoming">
+                    <input type="radio" name="account_properties_page_type"> <span data-i18n="incoming">INCOMING</span>
+                </label>
+                <label class="btn btn-default" data-type="outgoing">
+                    <input type="radio" name="account_properties_page_type"> <span data-i18n="outgoing">OUTGOING</span>
+                </label>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#set_account_property_modal" data-i18n="set">SET</button>
+            </div>
+        </div>
+    </section>
+    <section class="content" id="account_properties_section">
+        <script type="text/x-handlebars-template">
+            <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                <table class="table table-striped" id="account_properties_table">
+                    <thead>
+                    <tr>
+                        <th>{{header}}</th>
+                        <th>{{i18n "property"}}</th>
+                        <th>{{i18n "value"}}</th>
+                        <th>{{i18n "action"}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{#each properties}}
+                            <tr>
+                                <td>{{{accountFormatted}}}</td>
+                                <td>{{{property}}}</td>
+                                <td>{{{value}}}</td>
+                                <td>{{{action_update}}}{{{action_delete}}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container">
+                    <p>
+                        <span>{{i18n "no_properties"}}</span>
+                    </p>
+                </div>
+                <div class="data-pagination"></div>
+            </div>
+        </script>
+    </section>
+</div>

@@ -1,0 +1,44 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="p_hello_world_page" class="page">
+    <section class="content-header">
+        <h1>Hello World Plugin</h1>
+    </section>
+    <section class="content">       
+        <p>Plugin for demonstration purposes. Shows the current status of the blockchain.</p>
+
+        <div class="data-container data-loading">
+            <table class="table table-striped table-hover" id="p_hello_world_table">
+                <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+            <div class="data-empty-container"><p>Blockchain status could not be loaded.</p></div>
+        </div>
+
+        <p style="font-size:12px;">
+            <b>Client startup date and time:</b>&nbsp; <span id="p_hello_world_startup_date_time" style="font-style:italic;"></span>
+        </p>
+    </section>
+</div>

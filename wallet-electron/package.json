@@ -1,0 +1,44 @@
+{
+  "name": "GTD-Wallet",
+  "version": "1.0.0",
+  "description": "A wrapper for GTD wallet",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+	  "dist": "electron-builder -mwl",
+    "dist:win": "electron-builder -w",
+	  "dist:lin": "electron-builder -l",
+	  "dist:mac": "electron-builder -m",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "repository": "https://github.com/sandoche/GTD-PoS-Cryptocurrency",
+  "keywords": [
+    "Electron",
+    "wallet",
+    "gtd",
+    "blockchain",
+    "nxt",
+    "cryptocurrency"
+  ],
+  "author": "Sandoche ADITTANE",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "~1.8.2",
+    "electron-builder": "^20.5.1"
+  },
+  "build": {
+    "appId": "gtd.wallet",
+    "mac": {
+      "category": "finance"
+    },
+	"extraFiles": [
+		"conf/**",
+		"html/**",
+		"lib/**",
+		"logs/**",
+		"nxt_db/**",
+		"GTD-Cryptocurrency.jar"
+	]
+  }
+}

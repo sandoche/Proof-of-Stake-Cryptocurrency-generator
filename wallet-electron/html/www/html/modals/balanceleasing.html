@@ -1,0 +1,62 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of the Nxt software, including this file, may be copied, modified,~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="lease_balance_modal" data-transaction-type="4" data-transaction-subtype="0" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="lease_your_balance">Lease Your Balance</h4>
+            </div>
+            <div class="modal-body">            
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger never_hide" id="lease_balance_warning">
+                        <strong><span data-i18n="remember">Remember</span>:</strong>
+                        <span  data-i18n="lease_balance_warning">Once submitted the lease cannot be cancelled.</span>
+                    </div>
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div data-replace-with-modal-template="recipient_modal_template"></div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <label for="lease_balance_period"><span data-i18n="period">PERIOD</span></label>
+                            <input type="number" name="period" id="lease_balance_period" class="form-control" step="any" placeholder="Period" data-i18n="[placeholder]period" data-default="65535" value="65535" tabindex="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="help-block" id="lease_balance_help"></p>
+                    </div>
+                    <div data-replace-with-modal-template="add_message_modal_template"></div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+                    
+                    <div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+                    <input type="hidden" name="request_type" value="leaseBalance" />
+                    <input type="hidden" name="converted_account_id" value="" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="lease_balance;[data-loading-text]submitting">Lease Balance</button>
+            </div>
+        </div>
+    </div>
+</div>
