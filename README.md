@@ -11,6 +11,16 @@ If you are an advanced user follow directly the official tutorial:
 ## Requirements
 * Java
 * NodeJS
+* Yarn
+
+### How to install Java
+* General - Java 8
+* Ubuntu - http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html
+* Debian - http://www.webupd8.org/2014/03/how-to-install-oracle-java-8-in-debian.html
+* FreeBSD - pkg install openjdk8
+
+### How to install NodeJS
+* General - https://nodejs.org/en/download/
 
 ## Step 1 - Download the Nxt blockchain and create the genesis block
 1. Clone this repository with `git clone https://github.com/sandoche/Proof-of-Stake-Cryptocurrency-generator`, also feel free to fork this repository!
@@ -34,18 +44,26 @@ If you are an advanced user follow directly the official tutorial:
 8. Now (or later) delete the nxt blockchain with `npm run step-1:nxt:delete` after closing the wallet
 
 ## Step 2 - Create your own Cryptocurrency
-* Todo
-* Tell the user to put the icons in the icons folders
-* Tell the user where are the settings
+1. Update the images from `templates/img` according to your blockchain images
+2. If you want the experimental wallet electron update the images that you can find in `templates/wallet-electron` and `templates/wallet-electron/build`
+3. Then just run `npm run step-2:generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
+4. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 
 ## Step 3 - Create the executable wallet files (optionnal)
-* Todo
+The wallet-electron is a wrapper, that allows you to quickly create an executable file for your wallet.
+It's experimental and does not work very well. Feel free to improve it.
+* To start development mode: `yarn start` after indeed `yarn install`
+* To build run: `yarn dist:mac`, `yarn dist:win`, `yarn dist:linux` or `yarn dist` (to create all the build)
 
 ## Step 4 - Host your nodes in some servers
-* Todo
-
-## Todo
-- [ ] How to install NodeJS
-- [ ] How to install Java
-- [ ] How to use the generator
-- [ ] Write a line about how to forge (and the use of VNC)
+Once your cryptocurrency ready for deployement, you need to host some nodes online. These nodes will share the transactions with other nodes, validates transactions, and forge blocks.
+You can do that in any virtual machine, you can use for example Amazon Web Services, or OVH. Once you have your virtual machine. Here is how to do:
+1. Connect to the machine, I recommend Ubuntu or Debian
+2. Clone your cryptocurrency
+3. Install java
+4. Open as an Inboud TCP Port the "Peer port" that you chose when you run the generator, you can find it also in the `<yourCrypto>/src/java/nxt/peer/Peers.java` as `DEFAULT_PEER_PORT`
+5. Run `screen` and run the node with `sh ./run.sh` after  `sh ./compile.sh` or just run `java -jar <yourCrypto>.jar`
+6. You now need to run the forging mode of your node, in order to do that you can either do in command line following this: https://bitcoin.stackexchange.com/questions/46628/set-a-public-node-to-auto-forge-mine-stake-in-nxt-ardor-without-login-via
+If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
+* https://medium.com/@Arafat./graphical-user-interface-using-vnc-with-amazon-ec2-instances-549d9c0969c5
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8
