@@ -59,20 +59,16 @@ var questions = [
 inquirer.prompt(questions).then(answers => {
   const folderName = answers.application;
   const appName = answers.application;
-  const repositoryOfficial = 'https://bitbucket.org/Jelurida/nxt-clone-starter'
-  const repositorySandoche = 'https://github.com/sandoche/nxt-clone-starter'
-
-  if(answers.source === 'v1.1.13') {
-    const source = repositorySandoche
-  } else {
-    const source = repositoryOfficial
-  }
+  const repositoryOfficial = 'https://bitbucket.org/Jelurida/nxt-clone-starter';
+  const repositorySandoche = 'https://github.com/sandoche/nxt-clone-starter';
+  const source = answers.source === 'v1.1.13' ? repositorySandoche : repositoryOfficial;
 
   console.log('1. Cloning the nxt-clone-starter')
   const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
   getAsync('git clone ' + source + ' ' + answers.application).then(data => {
     console.log('Repository cloned successfully');
 
+    console.log('');
     console.log('2. Setting up the parameters')
     try {
       const changes1 = replace.sync({
@@ -137,6 +133,7 @@ inquirer.prompt(questions).then(answers => {
       console.log('Modified files:', changes9.join(', '));
       console.log('Modified files:', changes10.join(', '));
 
+      console.log('');
       console.log('3. Copying assets, and genesis files');
       getAsync('rm -rf ' + folderName + '/conf/data && cp -R  templates/conf/data ' + folderName + '/conf/').then(data => {
         console.log('Genesis files copied');
@@ -150,6 +147,7 @@ inquirer.prompt(questions).then(answers => {
         console.log('An error occured', error)
       })
 
+      console.log('');
       console.log('4. Compiling, renaming complation files');
 
   		const changes11 = replace.sync({
@@ -164,11 +162,34 @@ inquirer.prompt(questions).then(answers => {
   		  getAsync('cd ' + folderName + ' && sh ./jar.sh').then(data => {
   			     console.log('Jar files created');
 
-             // rename the values of the wallet
-             // copy jar in wallet
-             // copy the icons in the wallet
-             // install dependencies of the wallet
-             // build the wallet
+             if(answers.wallet === 'Yes') {
+               console.log('');
+               console.log('5. Setting up the electron wallet');
+               const changes12 = replace.sync({
+                 files: 'wallet-electron/index.html',
+                 from: 'GTD Wallet',
+                 to: appName
+               });
+               const changes13 = replace.sync({
+                 files: 'wallet-electron/index.html',
+                 from: '37876',
+                 to: answers.api_server_port
+               });
+               console.log('Modified files:', changes12.join(', '));
+               console.log('Modified files:', changes13.join(', '));
+
+               getAsync('cp ./' + folderName + '/' + appName + '.jar ./wallet-electron/blockchain.jar && cp -R ./' + folderName +'/lib ./wallet-electron/  && cp -R ./' + folderName +'/conf ./wallet-electron/   && cp -R ./' + folderName +'/html ./wallet-electron/ && cp -R ./templates/wallet-electron ./').then(data => {
+                 console.log('Files for the wallet copied');
+                 console.log('');
+                 console.log('The wallet is now ready to be built, go to wallet-electron folder, install the dependencies and run yarn:dist to get the wallet installer');
+               }).catch(error => {
+                 console.log('An error occured', error)
+               })
+             } else {
+               console.log('');
+             }
+
+             console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch run.sh or the jar file.');
 
 
   		  }).catch(error => {
@@ -187,4 +208,5 @@ inquirer.prompt(questions).then(answers => {
   }).catch(error => {
     console.log('An error occured', error)
   })
+
 });
