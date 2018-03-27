@@ -164,7 +164,12 @@ inquirer.prompt(questions).then(answers => {
   		  getAsync('cd ' + folderName + ' && sh ./jar.sh').then(data => {
   			     console.log('Jar files created');
 
-             // Copy the wallet
+             // rename the values of the wallet
+             // copy jar in wallet
+             // copy the icons in the wallet
+             // install dependencies of the wallet
+             // build the wallet
+
 
   		  }).catch(error => {
   			     console.log('An error occured', error)
