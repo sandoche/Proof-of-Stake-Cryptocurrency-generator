@@ -45,6 +45,8 @@ If you are an advanced user follow directly the official tutorial:
 * Todo
 
 ## Todo
-- [] How to install NodeJS
-- [] How to install Java
-- [] How to use the generator
+- [ ] How to install NodeJS
+- [ ] How to install Java
+- [ ] How to use the generator
+- [ ] Write a line about how to forge (and the use of VNC)
+- [ ] Write a line about the private keys 0, 1, 2
