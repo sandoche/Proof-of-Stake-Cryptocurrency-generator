@@ -167,12 +167,12 @@ inquirer.prompt(questions).then(answers => {
                console.log('5. Setting up the electron wallet');
                const changes12 = replace.sync({
                  files: 'wallet-electron/index.html',
-                 from: 'GTD Wallet',
+                 from: /GTD Wallet/g,
                  to: appName
                });
                const changes13 = replace.sync({
                  files: 'wallet-electron/index.html',
-                 from: '37876',
+                 from: /37876/g,
                  to: answers.api_server_port
                });
                console.log('Modified files:', changes12.join(', '));
