@@ -54,6 +54,7 @@ The wallet-electron is a wrapper, that allows you to quickly create an executabl
 It's experimental and does not work very well. Feel free to improve it.
 * To start development mode: `yarn start` after indeed `yarn install`
 * To build run: `yarn dist:mac`, `yarn dist:win`, `yarn dist:linux` or `yarn dist` (to create all the build)
+You can also package it yourself using some Java packing tools.
 
 ## Step 4 - Host your nodes in some servers
 Once your cryptocurrency ready for deployement, you need to host some nodes online. These nodes will share the transactions with other nodes, validates transactions, and forge blocks.
@@ -70,7 +71,7 @@ If the command line to launch forging does not work you can do it with the GUI a
 
 ## Buy me a beer
 If you like this project, feel free to donate:
-Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
-Ethereum: 0xded81fa4624e05339924355fe3504ba9587d5419
-Monero: 43jqzMquW2q989UKSrB2YbeffhmJhbYb2Yxu289bv7pLRh4xVgMKj5yTd52iL6x1dvCYs9ERg5biHYxMjGkpSTs6S2jMyJn
-Paypal: https://www.paypal.me/kanbanote
+* Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
+* Ethereum: 0xded81fa4624e05339924355fe3504ba9587d5419
+* Monero: 43jqzMquW2q989UKSrB2YbeffhmJhbYb2Yxu289bv7pLRh4xVgMKj5yTd52iL6x1dvCYs9ERg5biHYxMjGkpSTs6S2jMyJn
+* Paypal: https://www.paypal.me/kanbanote
