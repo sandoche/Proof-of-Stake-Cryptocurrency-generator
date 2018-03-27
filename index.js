@@ -10,6 +10,7 @@ const cmd = require('node-cmd');
 const Promise = require('bluebird');
 const replace = require('replace-in-file');
 
+
 console.log('*****************************************************************');
 console.log('Hi, welcome to Nxt clone Proof of Stake Cryptocurrency generator');
 console.log('*****************************************************************');
@@ -19,37 +20,57 @@ var questions = [
   {
     type: 'input',
     name: 'application',
-    message: "What is the name of your blockchain (example: SuperCoin)"
+    message: 'What is the name of your blockchain (example: SuperCoin)',
   },
   {
     type: 'input',
     name: 'coin_symbol',
-    message: "What is the name the symbol of your coin (example: SPC)"
+    message: 'What is the name the symbol of your coin (example: SPC)'
   },
   {
     type: 'input',
     name: 'default_peer_port',
-    message: "What is the port that you want to use for the peer node (example: 97874)"
+    message: 'What is the port that you want to use for the peer node (example: 97874)',
   },
   {
     type: 'input',
     name: 'testnet_peer_port',
-    message: "What is the port that you want to use for the peer testnet node (example: 96874)"
+    message: 'What is the port that you want to use for the peer testnet node (example: 96874)',
   },
   {
     type: 'input',
     name: 'api_server_port',
-    message: "What is the port that you want to use for the api server port (example: 97876)"
+    message: 'What is the port that you want to use for the api server port (example: 97876)',
+  },
+  {
+    type: 'list',
+    name: 'source',
+    message: 'Which version of the starter do you want to clone',
+    choices: ['v1.1.13', 'latest (may not be compatible with the generator)']
+  },
+  {
+    type: 'list',
+    name: 'wallet',
+    message: 'Do you want to add the Wallet executable installer (experimental)',
+    choices: ['Yes', 'No']
   }
 ];
 
 inquirer.prompt(questions).then(answers => {
   const folderName = answers.application;
   const appName = answers.application;
+  const repositoryOfficial = 'https://bitbucket.org/Jelurida/nxt-clone-starter'
+  const repositorySandoche = 'https://github.com/sandoche/nxt-clone-starter'
+
+  if(answers.source === 'v1.1.13') {
+    const source = repositorySandoche
+  } else {
+    const source = repositoryOfficial
+  }
 
   console.log('1. Cloning the nxt-clone-starter')
   const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
-  getAsync('git clone https://bitbucket.org/Jelurida/nxt-clone-starter ' + answers.application).then(data => {
+  getAsync('git clone ' + source + ' ' + answers.application).then(data => {
     console.log('Repository cloned successfully');
 
     console.log('2. Setting up the parameters')
