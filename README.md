@@ -39,7 +39,7 @@ If you are an advanced user follow directly the official tutorial:
  }
 ```
 6. Go to http://localhost:7876/test?requestTag=ADDONS click on "downloadJPLSnapshot" then upload your file "newGenesisAccounts.json" and copy paste the height you can see in your wallet as in the screenshot below, then submit. A file will be generated after a few minutes, save it as "genesisAccounts.json" in the `templates/conf/data` folder.
---- SCREENSHOT ---
+![screenshot](docs/assets/height.png)
 7. Create another account, and save its public address in the file `templates/conf/data/genesisParameter.json`, also edit the epochBeginning with the current date.
 8. Now (or later) delete the nxt blockchain with `npm run step-1:nxt:delete` after closing the wallet
 
@@ -67,3 +67,10 @@ You can do that in any virtual machine, you can use for example Amazon Web Servi
 If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
 * https://medium.com/@Arafat./graphical-user-interface-using-vnc-with-amazon-ec2-instances-549d9c0969c5
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8
+
+## Buy me a beer
+If you like this project, feel free to donate:
+Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
+Ethereum: 0xded81fa4624e05339924355fe3504ba9587d5419
+Monero: 43jqzMquW2q989UKSrB2YbeffhmJhbYb2Yxu289bv7pLRh4xVgMKj5yTd52iL6x1dvCYs9ERg5biHYxMjGkpSTs6S2jMyJn
+Paypal: https://www.paypal.me/kanbanote
