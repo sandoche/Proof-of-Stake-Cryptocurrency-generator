@@ -43,6 +43,11 @@ var questions = [
     message: 'What is the port that you want to use for the api server port (example: 97876)',
   },
   {
+    type: 'input',
+    name: 'website',
+    message: 'What is your website address',
+  },
+  {
     type: 'list',
     name: 'source',
     message: 'Which version of the starter do you want to clone',
@@ -154,8 +159,89 @@ inquirer.prompt(questions).then(answers => {
   		getAsync('cd ' + folderName + ' && sh ./compile.sh').then(data => {
   		    console.log('Compilation done');
           console.log('');
+          console.log('5. Adding the build tools, mobile app source and tests to the project');
 
-          console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch run.sh');
+          const changes12 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt.exe/g,
+            to: appName + '.exe'
+          });
+          const changes13 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt.jar/g,
+            to: appName + '.jar'
+          });
+          const changes14 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxtservice.exe/g,
+            to: appName + 'service.exe'
+          });
+          const changes15 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxtservice.jar/g,
+            to: appName + 'service.jar'
+          });
+          const changes16 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt-client/g,
+            to: answers.coin_symbol + '-client'
+          });
+          const changes17 = replace.sync({
+            files: 'build_tools/installer/RegistrySpec.xml',
+            from: 'https://nxtforum.org/nxt-helpdesk',
+            to: answers.website
+          });
+          const changes18 = replace.sync({
+            files: 'build_tools/installer/RegistrySpec.xml',
+            from: 'nxt.org',
+            to: answers.website
+          });
+          const changes19 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'NXT',
+            to: appName
+          });
+          const changes20 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'NXT',
+            to: appName
+          });
+          const changes21 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'nxt.app',
+            to: appName '.app'
+          });
+          const changes22 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxt.exe/g,
+            to: appName + '.exe'
+          });
+          const changes23 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxt.jar/g,
+            to: appName + '.jar'
+          });
+          const changes24 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxtservice.exe/g,
+            to: appName + 'service.exe'
+          });
+          const changes25 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxtservice.jar/g,
+            to: appName + 'service.jar'
+          });
+          const changes26 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'MacOS/nxt',
+            to: 'MacOS/' + answers.coin_symbol
+          });
+
+
+
+          // update the XML files
+          // copy the content of the folder in the other one
+          // console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch compile.sh then run.sh');
 
 
   		}).catch(error => {

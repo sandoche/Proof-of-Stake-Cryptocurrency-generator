@@ -83,7 +83,7 @@
     </locale>
 
     <resources>
-        <res id="InfoPanel.info" src="changelogs/nxt-client-@{runtime.nxt.version}.changelog.txt" parse="yes"/>
+        <res id="InfoPanel.info" src="changelog.txt" parse="yes"/>
         <res id="LicencePanel.licence" src="LICENSE.txt"/>
         <res id="Installer.image" src="html/www/img/installer_left_pane.png"/>
         <res id="shortcutSpec.xml" src="../installer/shortcutSpec.xml"/>
@@ -135,11 +135,13 @@
             <fileset dir="contrib" targetdir="${INSTALL_PATH}/contrib" override="true" excludes=".gitignore"/>
             <fileset dir="logs" targetdir="${INSTALL_PATH}/logs" override="true" excludes=".gitignore"/>
             <fileset dir="addons" targetdir="${INSTALL_PATH}/addons" override="true" excludes=".gitignore"/>
+            <fileset dir="conf" targetdir="${INSTALL_PATH}/conf" override="true" excludes=".gitignore"/>
             <updatecheck>
                 <include name="*.desktop" />
                 <include name="lib/**" />
                 <include name="classes/**" />
                 <include name="html/**" />
+                <include name="conf/**" />
                 <exclude name="html/www/plugins/**" />
             </updatecheck>
         </pack>
@@ -193,9 +195,9 @@
 
         <pack name="server.mac" os="mac_osx" required="yes" uninstall="false">
             <description>Mac Specific Resources</description>
-            <fileset dir="resource/mac/Contents" targetdir="${INSTALL_PATH}/Contents" override="true"/>		
+            <fileset dir="resource/mac/Contents" targetdir="${INSTALL_PATH}/Contents" override="true"/>
 			<parsable targetfile="${INSTALL_PATH}/Contents/MacOS/nxt"/>
-			<executable targetfile="${INSTALL_PATH}/Contents/MacOS/nxt"/>		
+			<executable targetfile="${INSTALL_PATH}/Contents/MacOS/nxt"/>
 		</pack>
 
         <pack name="jre.mac" os="mac_osx" required="yes" uninstall="false">
