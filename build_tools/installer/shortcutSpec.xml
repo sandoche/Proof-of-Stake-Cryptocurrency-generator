@@ -1,0 +1,36 @@
+<shortcuts>
+	<skipIfNotSupported/>
+	<defaultCurrentUser/>
+	<programGroup defaultName="NXT" location="startMenu"/>
+	<shortcut
+		name="Nxt Server"
+		target="$INSTALL_PATH\nxt.exe"
+		commandLine=""
+		workingDirectory="$INSTALL_PATH"
+        description="Start NXT server"
+		iconFile="$INSTALL_PATH\html\www\favicon.ico"
+        iconIndex="0"
+        initialState="normal"
+        programGroup="yes"
+		desktop="yes"
+        applications="no"
+        startMenu="no"
+		startup="no"
+		runAsAdministrator="true">
+	</shortcut>	
+	<shortcut
+		name="Nxt Wallet"
+		target="http://localhost:7876/index.html"
+		commandLine=""
+		workingDirectory="$INSTALL_PATH"
+        description="Launch NXT wallet in browser"
+		iconFile="$INSTALL_PATH\html\www\favicon.ico"
+        iconIndex="0"
+        initialState="normal"
+        programGroup="yes"
+		desktop="yes"
+        applications="no"
+        startMenu="no"
+		startup="no">
+	</shortcut>	
+</shortcuts>

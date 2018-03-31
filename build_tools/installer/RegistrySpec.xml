@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<registry version="5.0">
+
+    <pack name="UninstallStuff">
+        <!-- Special "pack", if not defined an uninstall key will be generated automatically -->
+        <!-- The variable $UNINSTALL_NAME can be only used if CheckedHelloPanel will be used
+               because there the variable will be declared. With that variabel it is possible
+               to install more as one instances of the product on one machine each with an
+               unique uninstall key. -->
+        <value name="DisplayName"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="$UNINSTALL_NAME"/>
+        <value name="UninstallString"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="&quot;$INSTALL_PATH\jre\bin\javaw.exe&quot; -jar &quot;$INSTALL_PATH\uninstaller\uninstaller.jar&quot;"/>
+        <value name="UninstallString"
+               keypath="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="&quot;$INSTALL_PATH\jre\bin\javaw.exe&quot; -jar &quot;$INSTALL_PATH\uninstaller\uninstaller.jar&quot;"/>
+        <value name="DisplayIcon"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="$INSTALL_PATH\html\ui\favicon.ico"/>
+        <value name="HelpLink"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="https://nxtforum.org/nxt-helpdesk"/>
+        <value name="URLInfoAbout"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="$APP_URL"/>
+       <value name="Publisher"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="nxt.org"/>
+       <value name="Version"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="$APP_VER"/>
+       <value name="DisplayVersion"
+               keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$UNINSTALL_NAME"
+               root="HKLM"
+               string="$APP_VER"/>
+    </pack>
+</registry>
+

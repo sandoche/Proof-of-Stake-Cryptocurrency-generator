@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"  ?>
+<installation version="5.0">
+    <properties>
+        <property file="conf/nxt-default.properties" prefix="runtime"/>
+    </properties>
+    <info>
+        <appname>NXT</appname>
+        <appversion>@{runtime.nxt.version}</appversion>
+        <url>https://nxt.org</url>
+        <run-privileged condition="izpack.windowsinstall"/>
+    </info>
+
+    <listeners>
+        <listener classname="SummaryLoggerInstallerListener" stage="install"/>
+        <listener classname="RegistryInstallerListener" stage="install" >
+            <os family="windows"/>
+        </listener>
+        <listener classname="RegistryUninstallerListener" stage="uninstall" >
+            <os family="windows"/>
+        </listener>
+    </listeners>
+
+    <natives>
+        <native type="izpack" name="ShellLink.dll" stage="both">
+            <os family="windows"/>
+        </native>
+        <native type="izpack" name="ShellLink_x64.dll" stage="both">
+            <os family="windows"/>
+        </native>
+        <native type="izpack" name="WinSetupAPI.dll" stage="both">
+            <os family="windows"/>
+        </native>
+        <native type="izpack" name="WinSetupAPI_x64.dll" stage="both">
+            <os family="windows"/>
+        </native>
+        <native type="3rdparty" name="COIOSHelper.dll" stage="uninstall">
+            <os family="windows"/>
+        </native>
+        <native type="3rdparty" name="COIOSHelper_x64.dll" stage="uninstall">
+            <os family="windows"/>
+        </native>
+    </natives>
+
+    <guiprefs height="700" resizable="yes" width="870">
+        <!-- GUI adaption for more information see "Modifying the GUI" in the documentation -->
+        <modifier key="langDisplayType" value="default"/>
+        <modifier key="layoutAnchor" value="CENTER"/>
+        <modifier key="headingPanelCounter" value="progressbar"/>
+        <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+        <modifier key="allYGap" value="4"/>
+        <modifier key="paragraphYGap" value="10"/>
+        <modifier key="filler1YGap" value="5"/>
+        <modifier key="filler3XGap" value="10"/>
+    </guiprefs>
+
+    <locale>
+        <langpack iso3="eng"/>
+        <langpack iso3="fra"/>
+        <langpack iso3="deu"/>
+        <langpack iso3="ita"/>
+        <langpack iso3="jpn"/>
+        <langpack iso3="spa"/>
+        <langpack iso3="dan"/>
+        <langpack iso3="ell"/>
+        <langpack iso3="cat"/>
+        <langpack iso3="nld"/>
+        <langpack iso3="fin"/>
+        <langpack iso3="swe"/>
+        <langpack iso3="prt"/>
+        <langpack iso3="pol"/>
+        <langpack iso3="rus"/>
+        <langpack iso3="ukr"/>
+        <langpack iso3="hun"/>
+        <langpack iso3="slk"/>
+        <langpack iso3="ron"/>
+        <langpack iso3="msa"/>
+        <langpack iso3="nor"/>
+        <langpack iso3="chn"/>
+        <langpack iso3="srp"/>
+        <langpack iso3="ces"/>
+        <langpack iso3="kor"/>
+        <langpack iso3="glg"/>
+    </locale>
+
+    <resources>
+        <res id="InfoPanel.info" src="changelogs/changelog.txt" parse="yes"/>
+        <res id="LicencePanel.licence" src="LICENSE.txt"/>
+        <res id="Installer.image" src="html/www/img/installer_left_pane.png"/>
+        <res id="shortcutSpec.xml" src="../installer/shortcutSpec.xml"/>
+        <res id="Unix_shortcutSpec.xml" src="../installer/Unix_shortcutSpec.xml"/>
+        <res id="RegistrySpec.xml" src="../installer/RegistrySpec.xml"/>
+    </resources>
+
+    <variables>
+        <variable name="$InstallerFrame.logfilePath" value="default"/>
+        <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+        <variable name="TargetPanel.dir.mac" value="/Applications/nxt.app"/>
+    </variables>
+
+    <panels>
+        <panel classname="CheckedHelloPanel" id="hellopanel"/>
+        <panel classname="LicencePanel"/>
+        <panel classname="InfoPanel"/>
+        <panel classname="TargetPanel"/>
+        <panel classname="ShortcutPanel" condition="!izpack.macinstall"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+    <packs>
+        <pack name="server" required="yes">
+            <description>Common Server Files</description>
+            <file src="nxt.jar" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="README.txt" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="Wallet.url" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="3RD-PARTY-LICENSES.txt" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="AUTHORS.txt" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="COPYING.txt" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="LICENSE.txt" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="DEVELOPERS-GUIDE.md" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="OPERATORS-GUIDE.md" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="README.md" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="USERS-GUIDE.md" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="nxt.policy" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="nxtdesktop.policy" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="conf/nxt-default.properties" targetdir="${INSTALL_PATH}/conf" override="true"/>
+            <file src="conf/logging-default.properties" targetdir="${INSTALL_PATH}/conf" override="true"/>
+            <fileset dir="lib" targetdir="${INSTALL_PATH}/lib" override="true" excludes=".gitignore"/>
+            <fileset dir="changelogs" targetdir="${INSTALL_PATH}/changelogs" override="true" excludes=".gitignore"/>
+            <fileset dir="classes" targetdir="${INSTALL_PATH}/classes" override="true" excludes=".gitignore"/>
+            <fileset dir="html" targetdir="${INSTALL_PATH}/html" override="true" excludes=".gitignore"/>
+            <fileset dir="src" targetdir="${INSTALL_PATH}/src" override="true" excludes=".gitignore nxt-private.iml"/>
+            <fileset dir="contrib" targetdir="${INSTALL_PATH}/contrib" override="true" excludes=".gitignore"/>
+            <fileset dir="logs" targetdir="${INSTALL_PATH}/logs" override="true" excludes=".gitignore"/>
+            <fileset dir="addons" targetdir="${INSTALL_PATH}/addons" override="true" excludes=".gitignore"/>
+            <fileset dir="conf" targetdir="${INSTALL_PATH}/conf" override="true" excludes=".gitignore"/>
+            <updatecheck>
+                <include name="*.desktop" />
+                <include name="lib/**" />
+                <include name="classes/**" />
+                <include name="html/**" />
+                <include name="conf/**" />
+                <exclude name="html/www/plugins/**" />
+            </updatecheck>
+        </pack>
+
+        <pack name="server.windows" os="windows" required="yes">
+            <description>Windows Specific Resources</description>
+            <os family="windows"/>
+            <file src="nxt.exe" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="nxtservice.exe" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="nxtservice.jar" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="run.bat" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="mint.bat" targetdir="${INSTALL_PATH}" override="true"/>
+            <file src="compact.bat" targetdir="${INSTALL_PATH}" override="true"/>
+            <parsable targetfile="${INSTALL_PATH}/run.bat"/>
+            <singlefile src="resource/nxt.properties" target="${INSTALL_PATH}/resource/nxt.properties" override="true"/>
+            <singlefile src="resource/nxtservice.properties" target="${INSTALL_PATH}/resource/nxtservice.properties" override="true"/>
+        </pack>
+
+        <pack name="server.unix" os="unix" required="yes">
+            <description>Unix Specific Resources</description>
+            <file src="run.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/run.sh"/>
+            <file src="run-tor.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/run-tor.sh"/>
+            <file src="run-desktop.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/run-desktop.sh"/>
+            <file src="start.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/start.sh"/>
+            <file src="stop.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/stop.sh"/>
+            <file src="mint.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/mint.sh"/>
+            <file src="compile.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/compile.sh"/>
+            <file src="jar.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/jar.sh"/>
+            <file src="javadoc.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/javadoc.sh"/>
+            <file src="package.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/package.sh"/>
+            <file src="compact.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/compact.sh"/>
+            <file src="sign.sh" targetdir="${INSTALL_PATH}" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/sign.sh"/>
+        </pack>
+
+        <pack name="jre.win" os="windows" required="yes" uninstall="false">
+            <description>Java 64 bit for Windows</description>
+            <fileset dir="../jre" targetdir="${INSTALL_PATH}/jre" override="true"/>
+        </pack>
+
+        <pack name="server.mac" os="mac_osx" required="yes" uninstall="false">
+            <description>Mac Specific Resources</description>
+            <fileset dir="resource/mac/Contents" targetdir="${INSTALL_PATH}/Contents" override="true"/>
+			<parsable targetfile="${INSTALL_PATH}/Contents/MacOS/nxt"/>
+			<executable targetfile="${INSTALL_PATH}/Contents/MacOS/nxt"/>
+		</pack>
+
+        <pack name="jre.mac" os="mac_osx" required="yes" uninstall="false">
+            <description>Java 64 bit for Mac</description>
+            <fileset dir="../jre" targetdir="${INSTALL_PATH}/jre" override="true"/>
+            <executable targetfile="${INSTALL_PATH}/jre/bin/java" failure="warn" keep="true"/>
+        </pack>
+
+    </packs>
+</installation>

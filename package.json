@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "step-1:nxt:run": "sh ./nxt/run.sh",
-    "step-1:nxt:delete": "rm -rf nxt",
+    "step-1:nxt:run": "cd nxt ; sh ./compile.sh ; sh ./run.sh",
     "step-2:generate": "node index.js"
   },
   "repository": {

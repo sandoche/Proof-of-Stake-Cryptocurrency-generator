@@ -11,48 +11,83 @@ const Promise = require('bluebird');
 const replace = require('replace-in-file');
 
 
-console.log('*****************************************************************');
-console.log('Hi, welcome to Nxt clone Proof of Stake Cryptocurrency generator');
-console.log('*****************************************************************');
+console.log('*************************************************************');
+console.log('Welcome to Nxt clone Proof of Stake Cryptocurrency generator');
+console.log('*************************************************************');
 console.log(' ')
 
 var questions = [
   {
     type: 'input',
     name: 'application',
-    message: 'What is the name of your blockchain (example: SuperCoin)',
+    message: 'Name of the Blockchain (example: SuperCoin)',
+    validate: function(value) {
+      var pass = value.match(
+        /^\S[A-Za-z]*$/g
+      );
+      if (pass) {
+        return true;
+      }
+      return 'Please enter a name without space or numbers';
+    }
   },
   {
     type: 'input',
     name: 'coin_symbol',
-    message: 'What is the name the symbol of your coin (example: SPC)'
+    message: 'Symbol of the coin (example: SPC)',
+    validate: function(value) {
+      var pass = value.match(
+        /^[A-Z]{3}$/g
+      );
+      if (pass) {
+        return true;
+      }
+      return 'Please enter only 3 capital letters';
+    }
   },
   {
     type: 'input',
     name: 'default_peer_port',
-    message: 'What is the port that you want to use for the peer node (example: 97874)',
+    message: 'Peer port (example: 6874)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
   },
   {
     type: 'input',
     name: 'testnet_peer_port',
-    message: 'What is the port that you want to use for the peer testnet node (example: 96874)',
+    message: 'Testnet peer port (example: 5874)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
   },
   {
     type: 'input',
     name: 'api_server_port',
-    message: 'What is the port that you want to use for the api server port (example: 97876)',
+    message: 'API server port (example: 6876)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
+  },
+  {
+    type: 'input',
+    name: 'website',
+    message: 'Website of the project (or a github)',
   },
   {
     type: 'list',
     name: 'source',
-    message: 'Which version of the starter do you want to clone',
+    message: 'Version of NXT Clone Starter',
     choices: ['v1.1.13', 'latest (may not be compatible with the generator)']
-  },
-  {
-    type: 'list',
-    name: 'wallet',
-    message: 'Do you want to add the Wallet executable installer (experimental)',
-    choices: ['Yes', 'No']
   }
 ];
 
@@ -147,6 +182,12 @@ inquirer.prompt(questions).then(answers => {
         console.log('An error occured', error)
       })
 
+      getAsync('cp -R  templates/favicon.ico ' + folderName + '/html/www/').then(data => {
+        console.log('Favicon copied');
+      }).catch(error => {
+        console.log('An error occured', error)
+      })
+
       console.log('');
       console.log('4. Compiling, renaming complation files');
 
@@ -159,42 +200,141 @@ inquirer.prompt(questions).then(answers => {
 
   		getAsync('cd ' + folderName + ' && sh ./compile.sh').then(data => {
   		    console.log('Compilation done');
-  		  getAsync('cd ' + folderName + ' && sh ./jar.sh').then(data => {
-  			     console.log('Jar files created');
+          console.log('');
+          console.log('5. Updating the build tools');
 
-             if(answers.wallet === 'Yes') {
-               console.log('');
-               console.log('5. Setting up the electron wallet');
-               const changes12 = replace.sync({
-                 files: 'wallet-electron/index.html',
-                 from: /GTD Wallet/g,
-                 to: appName
-               });
-               const changes13 = replace.sync({
-                 files: 'wallet-electron/index.html',
-                 from: /37876/g,
-                 to: answers.api_server_port
-               });
-               console.log('Modified files:', changes12.join(', '));
-               console.log('Modified files:', changes13.join(', '));
+          const changes12 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt.exe/g,
+            to: appName + '.exe'
+          });
+          const changes13 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt.jar/g,
+            to: appName + '.jar'
+          });
+          const changes14 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxtservice.exe/g,
+            to: appName + 'service.exe'
+          });
+          const changes15 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxtservice.jar/g,
+            to: appName + 'service.jar'
+          });
+          const changes16 = replace.sync({
+            files: 'build_tools/*.sh',
+            from: /nxt-client/g,
+            to: answers.coin_symbol + '-client'
+          });
+          const changes17 = replace.sync({
+            files: 'build_tools/installer/RegistrySpec.xml',
+            from: 'https://nxtforum.org/nxt-helpdesk',
+            to: answers.website
+          });
+          const changes18 = replace.sync({
+            files: 'build_tools/installer/RegistrySpec.xml',
+            from: 'nxt.org',
+            to: answers.website
+          });
+          const changes19 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'NXT',
+            to: appName
+          });
+          const changes20 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'NXT',
+            to: appName
+          });
+          const changes21 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'nxt.app',
+            to: appName + '.app'
+          });
+          const changes22 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxt.exe/g,
+            to: appName + '.exe'
+          });
+          const changes23 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxt.jar/g,
+            to: appName + '.jar'
+          });
+          const changes24 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxtservice.exe/g,
+            to: appName + 'service.exe'
+          });
+          const changes25 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: /nxtservice.jar/g,
+            to: appName + 'service.jar'
+          });
+          const changes26 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'MacOS/nxt',
+            to: 'MacOS/' + answers.coin_symbol
+          });
+          const changes27 = replace.sync({
+            files: 'build_tools/installer/shortcutSpec.xml',
+            from: '7876',
+            to: answers.api_server_port
+          });
+          const changes28 = replace.sync({
+            files: 'build_tools/installer/shortcutSpec.xml',
+            from: [/NXT/g, /Nxt/g, /nxt/g],
+            to: appName
+          });
+          const changes29 = replace.sync({
+            files: 'build_tools/installer/Unix_shortcutSpec.xml',
+            from: /NXT/g,
+            to: appName
+          });
+          const changes30 = replace.sync({
+            files: 'build_tools/installer/Unix_shortcutSpec.xml',
+            from: /Nxt/g,
+            to: appName
+          });
+          const changes31 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'https://nxt.org',
+            to: answers.website
+          });
 
-               getAsync('cp ./' + folderName + '/' + appName + '.jar ./wallet-electron/blockchain.jar && cp -R ./' + folderName +'/lib ./wallet-electron/  && cp -R ./' + folderName +'/conf ./wallet-electron/   && cp -R ./' + folderName +'/html ./wallet-electron/ && cp -R ./templates/wallet-electron ./').then(data => {
-                 console.log('Files for the wallet copied');
-                 console.log('');
-                 console.log('The wallet is now ready to be built, go to wallet-electron folder, install the dependencies and run yarn:dist to get the wallet installer');
-               }).catch(error => {
-                 console.log('An error occured', error)
-               })
-             } else {
-               console.log('');
-             }
 
-             console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch run.sh or the jar file.');
+          console.log('Modified files:', changes12.join(', '));
+          console.log('Modified files:', changes13.join(', '));
+          console.log('Modified files:', changes14.join(', '));
+          console.log('Modified files:', changes15.join(', '));
+          console.log('Modified files:', changes16.join(', '));
+          console.log('Modified files:', changes17.join(', '));
+          console.log('Modified files:', changes18.join(', '));
+          console.log('Modified files:', changes18.join(', '));
+          console.log('Modified files:', changes19.join(', '));
+          console.log('Modified files:', changes20.join(', '));
+          console.log('Modified files:', changes21.join(', '));
+          console.log('Modified files:', changes22.join(', '));
+          console.log('Modified files:', changes23.join(', '));
+          console.log('Modified files:', changes24.join(', '));
+          console.log('Modified files:', changes25.join(', '));
+          console.log('Modified files:', changes26.join(', '));
+          console.log('Modified files:', changes27.join(', '));
+          console.log('Modified files:', changes28.join(', '));
+          console.log('Modified files:', changes28.join(', '));
+          console.log('Modified files:', changes29.join(', '));
+          console.log('Modified files:', changes30.join(', '));
+          console.log('Modified files:', changes31.join(', '));
 
-
-  		  }).catch(error => {
-  			     console.log('An error occured', error)
-  		  })
+          getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
+            console.log('Files edited and moved');
+            console.log(' ')
+            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd ' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
+          }).catch(error => {
+            console.log('An error occured', error)
+          })
 
   		}).catch(error => {
   		  console.log('An error occured', error)
