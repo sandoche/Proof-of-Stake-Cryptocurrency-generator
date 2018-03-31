@@ -161,7 +161,7 @@ inquirer.prompt(questions).then(answers => {
   		getAsync('cd ' + folderName + ' && sh ./compile.sh').then(data => {
   		    console.log('Compilation done');
           console.log('');
-          console.log('5. Adding the build tools, mobile app source and tests to the project');
+          console.log('5. Updating the build tools');
 
           const changes12 = replace.sync({
             files: 'build_tools/*.sh',
