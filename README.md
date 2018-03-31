@@ -57,7 +57,7 @@ You can do that in any virtual machine, you can use for example Amazon Web Servi
 1. Connect to the machine, I recommend Ubuntu or Debian
 2. Clone your cryptocurrency
 3. Install java
-4. Open as an Inboud TCP Port the "Peer port" that you chose when you run the generator, you can find it also in the `<yourCrypto>/src/java/nxt/peer/Peers.java` as `DEFAULT_PEER_PORT`
+4. Open as an Inboud and Outbound TCP Port the "Peer port" that you chose when you run the generator, you can find it also in the `<yourCrypto>/src/java/nxt/peer/Peers.java` as `DEFAULT_PEER_PORT`
 5. Run `screen` and run the node with `sh ./run.sh` after  `sh ./compile.sh`
 6. You now need to run the forging mode of your node, in order to do that you can either do in command line following this do it also inside  `screen` to let it forge: `curl -d requestType=startForging -d secretPhrase="<passphrase>" http://localhost:<port>/nxt` don't forget of course to replace the <port> of the API port, and the <passphrase> with the passphrase of an account that has enough effective balance to forge.
 If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
