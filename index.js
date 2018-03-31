@@ -47,12 +47,6 @@ var questions = [
     name: 'source',
     message: 'Which version of the starter do you want to clone',
     choices: ['v1.1.13', 'latest (may not be compatible with the generator)']
-  },
-  {
-    type: 'list',
-    name: 'wallet',
-    message: 'Do you want to add the Wallet executable installer (experimental)',
-    choices: ['Yes', 'No']
   }
 ];
 
@@ -159,42 +153,10 @@ inquirer.prompt(questions).then(answers => {
 
   		getAsync('cd ' + folderName + ' && sh ./compile.sh').then(data => {
   		    console.log('Compilation done');
-  		  getAsync('cd ' + folderName + ' && sh ./jar.sh').then(data => {
-  			     console.log('Jar files created');
+          console.log('');
 
-             if(answers.wallet === 'Yes') {
-               console.log('');
-               console.log('5. Setting up the electron wallet');
-               const changes12 = replace.sync({
-                 files: 'wallet-electron/index.html',
-                 from: /GTD Wallet/g,
-                 to: appName
-               });
-               const changes13 = replace.sync({
-                 files: 'wallet-electron/index.html',
-                 from: /37876/g,
-                 to: answers.api_server_port
-               });
-               console.log('Modified files:', changes12.join(', '));
-               console.log('Modified files:', changes13.join(', '));
+          console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch run.sh');
 
-               getAsync('cp ./' + folderName + '/' + appName + '.jar ./wallet-electron/blockchain.jar && cp -R ./' + folderName +'/lib ./wallet-electron/  && cp -R ./' + folderName +'/conf ./wallet-electron/   && cp -R ./' + folderName +'/html ./wallet-electron/ && cp -R ./templates/wallet-electron ./').then(data => {
-                 console.log('Files for the wallet copied');
-                 console.log('');
-                 console.log('The wallet is now ready to be built, go to wallet-electron folder, install the dependencies and run yarn:dist to get the wallet installer');
-               }).catch(error => {
-                 console.log('An error occured', error)
-               })
-             } else {
-               console.log('');
-             }
-
-             console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch run.sh or the jar file.');
-
-
-  		  }).catch(error => {
-  			     console.log('An error occured', error)
-  		  })
 
   		}).catch(error => {
   		  console.log('An error occured', error)

@@ -63,7 +63,7 @@ You can do that in any virtual machine, you can use for example Amazon Web Servi
 2. Clone your cryptocurrency
 3. Install java
 4. Open as an Inboud TCP Port the "Peer port" that you chose when you run the generator, you can find it also in the `<yourCrypto>/src/java/nxt/peer/Peers.java` as `DEFAULT_PEER_PORT`
-5. Run `screen` and run the node with `sh ./run.sh` after  `sh ./compile.sh` or just run `java -jar <yourCrypto>.jar`
+5. Run `screen` and run the node with `sh ./run.sh` after  `sh ./compile.sh`
 6. You now need to run the forging mode of your node, in order to do that you can either do in command line following this: https://bitcoin.stackexchange.com/questions/46628/set-a-public-node-to-auto-forge-mine-stake-in-nxt-ardor-without-login-via
 If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
 * https://medium.com/@Arafat./graphical-user-interface-using-vnc-with-amazon-ec2-instances-549d9c0969c5
