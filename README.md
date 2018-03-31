@@ -43,7 +43,7 @@ If you are an advanced user follow directly the official tutorial:
 7. Create another account (like in Step 1.4), and save its public address in the file `templates/conf/data/genesisParameter.json`, also edit the epochBeginning with the current date.
 
 ## Step 2 - Create your own Cryptocurrency
-1. Update the images from `templates/img` according to your blockchain images
+1. Update the images from `templates/img` according to your blockchain images and the favicon in `templates`
 2. Then just run `npm run step-2:generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
 3. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 4. Run it ! Go to `<yourCrypto>` folder compile with  `sh ./compile.sh` (or win-compile.sh for Windows) then run with `sh ./run.sh` (or run.bat for windows). Note that you can delete all the other folders they are now useless.

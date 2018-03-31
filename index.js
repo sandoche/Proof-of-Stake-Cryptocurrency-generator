@@ -148,6 +148,12 @@ inquirer.prompt(questions).then(answers => {
         console.log('An error occured', error)
       })
 
+      getAsync('cp -R  templates/favicon.ico ' + folderName + '/html/www/').then(data => {
+        console.log('Favicon copied');
+      }).catch(error => {
+        console.log('An error occured', error)
+      })
+
       console.log('');
       console.log('4. Compiling, renaming complation files');
 
