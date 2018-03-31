@@ -45,7 +45,7 @@ var questions = [
   {
     type: 'input',
     name: 'website',
-    message: 'What is your website address',
+    message: 'What the URL of the website of the Cryptocurrency (or a github is enough)',
   },
   {
     type: 'list',
@@ -209,7 +209,7 @@ inquirer.prompt(questions).then(answers => {
           const changes21 = replace.sync({
             files: 'build_tools/installer/setup.xml',
             from: 'nxt.app',
-            to: appName '.app'
+            to: appName + '.app'
           });
           const changes22 = replace.sync({
             files: 'build_tools/installer/setup.xml',
@@ -256,6 +256,12 @@ inquirer.prompt(questions).then(answers => {
             from: /Nxt/g,
             to: appName
           });
+          const changes31 = replace.sync({
+            files: 'build_tools/installer/setup.xml',
+            from: 'https://nxt.org',
+            to: answers.website
+          });
+
 
           console.log('Modified files:', changes12.join(', '));
           console.log('Modified files:', changes13.join(', '));
@@ -278,8 +284,9 @@ inquirer.prompt(questions).then(answers => {
           console.log('Modified files:', changes28.join(', '));
           console.log('Modified files:', changes29.join(', '));
           console.log('Modified files:', changes30.join(', '));
+          console.log('Modified files:', changes31.join(', '));
 
-          getAsync('cp -R  build_tools/* ' + folderName + '/*').then(data => {
+          getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');
             console.log(' ')
             console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch compile.sh then run.sh');

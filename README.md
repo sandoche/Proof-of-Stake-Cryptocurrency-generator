@@ -45,12 +45,11 @@ If you are an advanced user follow directly the official tutorial:
 
 ## Step 2 - Create your own Cryptocurrency
 1. Update the images from `templates/img` according to your blockchain images
-2. If you want the experimental wallet electron update the images that you can find in `templates/wallet-electron` and `templates/wallet-electron/build`
-3. Then just run `npm run step-2:generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
-4. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
+2. Then just run `npm run step-2:generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
+3. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 
-## Step 3 - Create the executable wallet files (optionnal)
-* To update
+## Step 3 - Create the installer for the wallet (optionnal)
+* In order to build, please read the [build documentation](BUILD-README.md)
 
 ## Step 4 - Host your nodes in some servers
 Once your cryptocurrency ready for deployement, you need to host some nodes online. These nodes will share the transactions with other nodes, validates transactions, and forge blocks.
@@ -60,7 +59,7 @@ You can do that in any virtual machine, you can use for example Amazon Web Servi
 3. Install java
 4. Open as an Inboud TCP Port the "Peer port" that you chose when you run the generator, you can find it also in the `<yourCrypto>/src/java/nxt/peer/Peers.java` as `DEFAULT_PEER_PORT`
 5. Run `screen` and run the node with `sh ./run.sh` after  `sh ./compile.sh`
-6. You now need to run the forging mode of your node, in order to do that you can either do in command line following this: https://bitcoin.stackexchange.com/questions/46628/set-a-public-node-to-auto-forge-mine-stake-in-nxt-ardor-without-login-via
+6. You now need to run the forging mode of your node, in order to do that you can either do in command line following this do it also inside  `screen` to let it forge: `curl -d requestType=startForging -d secretPhrase="<passphrase>" http://localhost:<port>/nxt` don't forget of course to replace the <port> of the API port, and the <passphrase> with the passphrase of an account that has enough effective balance to forge.
 If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
 * https://medium.com/@Arafat./graphical-user-interface-using-vnc-with-amazon-ec2-instances-549d9c0969c5
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8
