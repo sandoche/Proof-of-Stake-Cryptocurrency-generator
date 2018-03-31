@@ -236,13 +236,56 @@ inquirer.prompt(questions).then(answers => {
             from: 'MacOS/nxt',
             to: 'MacOS/' + answers.coin_symbol
           });
+          const changes27 = replace.sync({
+            files: 'build_tools/installer/shortcutSpec.xml',
+            from: '7876',
+            to: answers.api_server_port
+          });
+          const changes28 = replace.sync({
+            files: 'build_tools/installer/shortcutSpec.xml',
+            from: /NXT/i,
+            to: appName
+          });
+          const changes29 = replace.sync({
+            files: 'build_tools/installer/Unix_shortcutSpec.xml',
+            from: /NXT/g,
+            to: appName
+          });
+          const changes30 = replace.sync({
+            files: 'build_tools/installer/Unix_shortcutSpec.xml',
+            from: /Nxt/g,
+            to: appName
+          });
 
+          console.log('Modified files:', changes12.join(', '));
+          console.log('Modified files:', changes13.join(', '));
+          console.log('Modified files:', changes14.join(', '));
+          console.log('Modified files:', changes15.join(', '));
+          console.log('Modified files:', changes16.join(', '));
+          console.log('Modified files:', changes17.join(', '));
+          console.log('Modified files:', changes18.join(', '));
+          console.log('Modified files:', changes18.join(', '));
+          console.log('Modified files:', changes19.join(', '));
+          console.log('Modified files:', changes20.join(', '));
+          console.log('Modified files:', changes21.join(', '));
+          console.log('Modified files:', changes22.join(', '));
+          console.log('Modified files:', changes23.join(', '));
+          console.log('Modified files:', changes24.join(', '));
+          console.log('Modified files:', changes25.join(', '));
+          console.log('Modified files:', changes26.join(', '));
+          console.log('Modified files:', changes27.join(', '));
+          console.log('Modified files:', changes28.join(', '));
+          console.log('Modified files:', changes28.join(', '));
+          console.log('Modified files:', changes29.join(', '));
+          console.log('Modified files:', changes30.join(', '));
 
-
-          // update the XML files
-          // copy the content of the folder in the other one
-          // console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch compile.sh then run.sh');
-
+          getAsync('cp -R  build_tools/* ' + folderName + '/*').then(data => {
+            console.log('Files edited and moved');
+            console.log(' ')
+            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch compile.sh then run.sh');
+          }).catch(error => {
+            console.log('An error occured', error)
+          })
 
   		}).catch(error => {
   		  console.log('An error occured', error)
