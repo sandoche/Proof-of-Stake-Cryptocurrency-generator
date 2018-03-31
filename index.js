@@ -11,48 +11,82 @@ const Promise = require('bluebird');
 const replace = require('replace-in-file');
 
 
-console.log('*****************************************************************');
-console.log('Hi, welcome to Nxt clone Proof of Stake Cryptocurrency generator');
-console.log('*****************************************************************');
+console.log('*************************************************************');
+console.log('Welcome to Nxt clone Proof of Stake Cryptocurrency generator');
+console.log('*************************************************************');
 console.log(' ')
-
-// Port max is 65535
 
 var questions = [
   {
     type: 'input',
     name: 'application',
-    message: 'What is the name of your blockchain (example: SuperCoin)',
+    message: 'Name of the Blockchain (example: SuperCoin)',
+    validate: function(value) {
+      var pass = value.match(
+        /^\S[A-Za-z]*$/g
+      );
+      if (pass) {
+        return true;
+      }
+      return 'Please enter a name without space or numbers';
+    }
   },
   {
     type: 'input',
     name: 'coin_symbol',
-    message: 'What is the name the symbol of your coin (example: SPC)'
+    message: 'Symbol of the coin (example: SPC)',
+    validate: function(value) {
+      var pass = value.match(
+        /^[A-Z]{3}$/g
+      );
+      if (pass) {
+        return true;
+      }
+      return 'Please enter only 3 capital letters';
+    }
   },
   {
     type: 'input',
     name: 'default_peer_port',
-    message: 'What is the port that you want to use for the peer node (example: 6874)',
+    message: 'Peer port (example: 6874)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
   },
   {
     type: 'input',
     name: 'testnet_peer_port',
-    message: 'What is the port that you want to use for the peer testnet node (example: 5874)',
+    message: 'Testnet peer port (example: 5874)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
   },
   {
     type: 'input',
     name: 'api_server_port',
-    message: 'What is the port that you want to use for the api server port (example: 6876)',
+    message: 'API server port (example: 6876)',
+    validate: function(value) {
+      if(value >= 1000 && value <= 65535) {
+        return true;
+      }
+      return 'Please enter a number between 1000 and 65535';
+    }
   },
   {
     type: 'input',
     name: 'website',
-    message: 'What the URL of the website of the Cryptocurrency (or a github is enough)',
+    message: 'Website of the project (or a github)',
   },
   {
     type: 'list',
     name: 'source',
-    message: 'Which version of the starter do you want to clone',
+    message: 'Version of NXT Clone Starter',
     choices: ['v1.1.13', 'latest (may not be compatible with the generator)']
   }
 ];
