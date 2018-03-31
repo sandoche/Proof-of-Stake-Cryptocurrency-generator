@@ -15,7 +15,8 @@
 		desktop="yes"
         applications="no"
         startMenu="no"
-		startup="no">
+		startup="no"
+		runAsAdministrator="true">
 	</shortcut>	
 	<shortcut
 		name="Nxt Wallet"
