@@ -291,7 +291,7 @@ inquirer.prompt(questions).then(answers => {
           getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');
             console.log(' ')
-            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
+            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd ' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
           }).catch(error => {
             console.log('An error occured', error)
           })
