@@ -251,7 +251,7 @@ inquirer.prompt(questions).then(answers => {
           });
           const changes28 = replace.sync({
             files: 'build_tools/installer/shortcutSpec.xml',
-            from: /NXT/i,
+            from: [/NXT/g, /Nxt/g, /nxt/g],
             to: appName
           });
           const changes29 = replace.sync({
