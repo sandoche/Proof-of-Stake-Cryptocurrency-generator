@@ -1,0 +1,5 @@
+Updated to NRS 1.11.13.
+
+For instructions on how to create a custom genesis block, which is required in
+order to use this package, see the README.md file.
+
