@@ -16,6 +16,8 @@ console.log('Hi, welcome to Nxt clone Proof of Stake Cryptocurrency generator');
 console.log('*****************************************************************');
 console.log(' ')
 
+// Port max is 65535
+
 var questions = [
   {
     type: 'input',
@@ -30,17 +32,17 @@ var questions = [
   {
     type: 'input',
     name: 'default_peer_port',
-    message: 'What is the port that you want to use for the peer node (example: 97874)',
+    message: 'What is the port that you want to use for the peer node (example: 6874)',
   },
   {
     type: 'input',
     name: 'testnet_peer_port',
-    message: 'What is the port that you want to use for the peer testnet node (example: 96874)',
+    message: 'What is the port that you want to use for the peer testnet node (example: 5874)',
   },
   {
     type: 'input',
     name: 'api_server_port',
-    message: 'What is the port that you want to use for the api server port (example: 97876)',
+    message: 'What is the port that you want to use for the api server port (example: 6876)',
   },
   {
     type: 'input',
@@ -289,7 +291,7 @@ inquirer.prompt(questions).then(answers => {
           getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');
             console.log(' ')
-            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, launch compile.sh then run.sh');
+            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
           }).catch(error => {
             console.log('An error occured', error)
           })
