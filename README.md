@@ -50,11 +50,7 @@ If you are an advanced user follow directly the official tutorial:
 4. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 
 ## Step 3 - Create the executable wallet files (optionnal)
-The wallet-electron is a wrapper, that allows you to quickly create an executable file for your wallet.
-It's experimental and does not work very well. Feel free to improve it.
-* To start development mode: `yarn start` after indeed `yarn install`
-* To build run: `yarn dist:mac`, `yarn dist:win`, `yarn dist:linux` or `yarn dist` (to create all the build)
-You can also package it yourself using some Java packing tools.
+* To update
 
 ## Step 4 - Host your nodes in some servers
 Once your cryptocurrency ready for deployement, you need to host some nodes online. These nodes will share the transactions with other nodes, validates transactions, and forge blocks.
