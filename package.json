@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "step-1:nxt:run": "cd nxt ; sh ./compile.sh ; sh ./run.sh",
-    "step-2:generate": "node index.js"
+    "nxt": "cd nxt ; sh ./compile.sh ; sh ./run.sh",
+    "generate": "node index.js"
   },
   "repository": {
     "type": "git",
