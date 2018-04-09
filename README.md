@@ -76,4 +76,5 @@ If you like this project, feel free to donate:
 * Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
 * Ethereum: 0xded81fa4624e05339924355fe3504ba9587d5419
 * Monero: 43jqzMquW2q989UKSrB2YbeffhmJhbYb2Yxu289bv7pLRh4xVgMKj5yTd52iL6x1dvCYs9ERg5biHYxMjGkpSTs6S2jMyJn
+* GTD: GTD-25T5-SD65-V7LJ-BBWRD (Get GTD Now: https://gtd.network)
 * Paypal: https://www.paypal.me/kanbanote
