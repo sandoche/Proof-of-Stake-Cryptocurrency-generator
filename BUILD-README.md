@@ -20,10 +20,11 @@ Building the installer on Unix
 
 Building the installer on Mac
 ==============================
-* Update the icon in ./installer/AppIcon.icns
-* Copy the content of /Library/Java/JavaVirtualMachines/jdk<version>.jdk/Contents/Home/jre content to the ./jre folder
-* Edit ./mac-release-package.sh and replace /Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/bin/javapackager with your path of javapackager (you may have to update only the version)
-* Edit mac-release-package.sh and replace "Developer ID Application: Stichting NXT (YU63QW5EFW)" with your developer signature (you can also remove -Bmac.signing-key-developer-id-app="Developer ID Application: Stichting NXT (YU63QW5EFW)" to generate an unsigned package)
+1. Update the icon in ./installer/AppIcon.icns
+2. Copy the content of /Library/Java/JavaVirtualMachines/jdk<version>.jdk/Contents/Home/jre content to the ./jre folder
+3. Edit ./mac-release-package.sh and replace /Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/bin/javapackager with your path of javapackager (you may have to update only the version)
+4. Edit mac-release-package.sh and replace "Developer ID Application: Stichting NXT (YU63QW5EFW)" with your developer signature (you can also remove -Bmac.signing-key-developer-id-app="Developer ID Application: Stichting NXT (YU63QW5EFW)" to generate an unsigned package)
+5. Run ./compile.sh then ./mac-release-package.sh
 
 Building the installer on Windows
 =================================
