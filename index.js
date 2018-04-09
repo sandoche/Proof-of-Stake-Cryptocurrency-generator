@@ -303,7 +303,16 @@ inquirer.prompt(questions).then(answers => {
             from: 'https://nxt.org',
             to: answers.website
           });
-
+          const changes32 = replace.sync({
+            files: 'build_tools/mac-release-package.sh',
+            from: /nxt-installer/g,
+            to: answers.coin_symbol + '-installer'
+          });
+          const changes33 = replace.sync({
+            files: 'build_tools/mac-release-package.sh',
+            from: /Nxt-Installer/g,
+            to: answers.coin_symbol + '-Installer'
+          });
 
           console.log('Modified files:', changes12.join(', '));
           console.log('Modified files:', changes13.join(', '));
@@ -327,6 +336,8 @@ inquirer.prompt(questions).then(answers => {
           console.log('Modified files:', changes29.join(', '));
           console.log('Modified files:', changes30.join(', '));
           console.log('Modified files:', changes31.join(', '));
+          console.log('Modified files:', changes32.join(', '));
+          console.log('Modified files:', changes33.join(', '));
 
           getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');

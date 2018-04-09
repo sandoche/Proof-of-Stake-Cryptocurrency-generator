@@ -8,12 +8,13 @@ If you are an advanced user follow directly the official tutorial:
 * Nxt-clone-starter: https://bitbucket.org/Jelurida/nxt-clone-starter
 * Introduction to the NXT Blockchain Creation Kit: https://www.youtube.com/watch?v=6Wg3uv07GU4
 
-## What are the Cryptocurrency built with this generator?
+## What are the Cryptocurrency built with this generator?
+
 * GTD - https://gtd.network
 
 ## Requirements
 * Java
-* NodeJS
+* NodeJS (>= version 8.0)
 * Yarn
 
 ### How to install Java
@@ -28,7 +29,7 @@ If you are an advanced user follow directly the official tutorial:
 ## Step 1 - Download the Nxt blockchain and create the genesis block
 1. Clone this repository with `git clone https://github.com/sandoche/Proof-of-Stake-Cryptocurrency-generator`, also feel free to fork this repository!
 2. Go to the cloned folder and install the npm dependencies with `npm install`
-3. Run the Nxt Blockchain with `npm run step-1:nxt:run`
+3. Run the Nxt Blockchain with `npm run nxt`
 4. Then open http://localhost:7876/index.html in your favourite browser. Then create an account and save the private keys securely, wait until the full blockchain is synced, this can take a few hours. Copy your nxt address and also its public key.
 5. Open the file `docs/config/newGenesisAccounts.json`, this file will define the repartition of the coins your are creating. On the first block creation 1 billion of coins will be distributed, 10% of them will be distributed to the Nxt holders (this is part of the Jelurida Public License). You have to put the list of accounts you want to credit in the first block (the genesis block) and its matching public key. The total of the amounts should be 90000000000000000 if you don't know what to do, just put your NXT address your created (Step 1-4), and it's public key like this and save it. If you are not sure about what you are doing check this video: https://www.youtube.com/watch?v=6Wg3uv07GU4
 ```
@@ -47,7 +48,7 @@ If you are an advanced user follow directly the official tutorial:
 
 ## Step 2 - Create your own Cryptocurrency
 1. Update the images from `templates/img` according to your blockchain images and the favicon in `templates`
-2. Then just run `npm run step-2:generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
+2. Then just run `npm run generate` and answer the generator's questions. The generator will clone the nxt-clone-starter, change the port and name in the source code and then compile it
 3. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 4. Run it ! Go to `<yourCrypto>` folder compile with  `sh ./compile.sh` (or win-compile.sh for Windows) then run with `sh ./run.sh` (or run.bat for windows). Note that you can delete all the other folders they are now useless.
 
@@ -76,4 +77,5 @@ If you like this project, feel free to donate:
 * Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
 * Ethereum: 0xded81fa4624e05339924355fe3504ba9587d5419
 * Monero: 43jqzMquW2q989UKSrB2YbeffhmJhbYb2Yxu289bv7pLRh4xVgMKj5yTd52iL6x1dvCYs9ERg5biHYxMjGkpSTs6S2jMyJn
+* GTD: GTD-25T5-SD65-V7LJ-BBWRD (Get GTD Now: https://gtd.network)
 * Paypal: https://www.paypal.me/kanbanote
