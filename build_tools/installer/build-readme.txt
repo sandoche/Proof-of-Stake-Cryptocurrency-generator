@@ -18,6 +18,13 @@ Review results: vi installer/build-installer.log
 Test X11 installer: java -jar nxt-client-<version>.jar
 Test console installer: java -jar nxt-client-<version>.jar -console
 
+Building the installer on Mac
+==============================
+* Update the icon in ./installer/AppIcon.icns
+* Copy the content of /Library/Java/JavaVirtualMachines/jdk<version>.jdk/Contents/Home/jre content to the ./jre folder
+* Edit ./mac-release-package.sh and replace /Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home/bin/javapackager with your path of javapackager (you may have to update only the version)
+* Edit mac-release-package.sh and replace "Developer ID Application: Stichting NXT (YU63QW5EFW)" with your developer signature (you can also remove -Bmac.signing-key-developer-id-app="Developer ID Application: Stichting NXT (YU63QW5EFW)" to generate an unsigned package)
+
 Building the installer on Windows
 =================================
 Initial setup (perform once for each development workstation or whenever Java is updated)
@@ -29,8 +36,8 @@ Install the Microsoft Windows SDK for Windows 7 and .NET Framework 4, make sure 
 
 From a Cygwin shell invoke the command win-release-package.sh followed by the version number
 Review results in installer/build-installer.log, installer/build-exe.log
-Digitally sign the installer jar file and zip file using jarsigner 
-Digitally sign the installer exe file using signtool 
+Digitally sign the installer jar file and zip file using jarsigner
+Digitally sign the installer exe file using signtool
 Test the installer using Java: java -jar nxt-client-<version>.jar
 Test the windows executable: nxt-client-<version>.exe
 
