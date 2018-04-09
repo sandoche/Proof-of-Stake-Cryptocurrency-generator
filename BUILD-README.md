@@ -18,6 +18,12 @@ Building the installer on Unix
 * Test X11 installer: java -jar nxt-client-<version>.jar
 * Test console installer: java -jar nxt-client-<version>.jar -console
 
+Building the installer on Mac
+==============================
+* Update the icon
+* Copy the jre files and folder from your mac into the jre folder
+* Update the signature (or remove it) from the mac-release-package.sh
+
 Building the installer on Windows
 =================================
 1. Initial setup (perform once for each development workstation or whenever Java is updated)
@@ -28,8 +34,8 @@ Building the installer on Windows
 6. Install the Microsoft Windows SDK for Windows 7 and .NET Framework 4, make sure the signtool.exe command is in your path - needed to sign the installer executable
 7. From a Cygwin shell invoke the command win-release-package.sh followed by the version number
 8. Review results in installer/build-installer.log, installer/build-exe.log
-9. Digitally sign the installer jar file and zip file using jarsigner 
-10. Digitally sign the installer exe file using signtool 
+9. Digitally sign the installer jar file and zip file using jarsigner
+10. Digitally sign the installer exe file using signtool
 11. Test the installer using Java: java -jar nxt-client-<version>.jar
 12. Test the windows executable: nxt-client-<version>.exe
 
