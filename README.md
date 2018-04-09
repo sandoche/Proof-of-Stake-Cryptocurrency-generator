@@ -8,7 +8,8 @@ If you are an advanced user follow directly the official tutorial:
 * Nxt-clone-starter: https://bitbucket.org/Jelurida/nxt-clone-starter
 * Introduction to the NXT Blockchain Creation Kit: https://www.youtube.com/watch?v=6Wg3uv07GU4
 
-## What are the Cryptocurrency built with this generator?
+## What are the Cryptocurrency built with this generator?
+
 * GTD - https://gtd.network
 
 ## Requirements
