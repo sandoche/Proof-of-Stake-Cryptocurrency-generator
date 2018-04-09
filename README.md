@@ -13,7 +13,7 @@ If you are an advanced user follow directly the official tutorial:
 
 ## Requirements
 * Java
-* NodeJS
+* NodeJS (>= version 8.0)
 * Yarn
 
 ### How to install Java
