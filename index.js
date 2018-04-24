@@ -342,6 +342,60 @@ inquirer.prompt(questions).then(answers => {
           getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');
             console.log(' ')
+
+	          console.log('6. Generating the API documentation');
+            const changes34 = replace.sync({
+              files: 'doc/api_examples.html',
+              from: /7876/g,
+              to: answers.api_server_port
+            });
+            const changes35 = replace.sync({
+              files: 'doc/api.html',
+              from: /7876/g,
+              to: answers.api_server_port
+            });
+            const changes36 = replace.sync({
+              files: 'doc/api_examples.html',
+              from: /NXT /g,
+              to: answers.coin_symbol + ' '
+            });
+            const changes37 = replace.sync({
+              files: 'doc/api.html',
+              from: /NXT /g,
+              to: answers.coin_symbol + ' '
+            });
+            const changes38 = replace.sync({
+              files: 'doc/api_examples.html',
+              from: /NXT\-/g,
+              to: answers.coin_symbol + '-'
+            });
+            const changes39 = replace.sync({
+              files: 'doc/api_examples.html',
+              from: / NXT/g,
+              to: answers.coin_symbol + ' '
+            });
+            const changes40 = replace.sync({
+              files: 'doc/api.html',
+              from: / NXT/g,
+              to: ' ' + answers.coin_symbol
+            });
+            const changes41 = replace.sync({
+              files: 'doc/api.html',
+              from: / Nxt/g,
+              to: ' ' + answers.coin_symbol
+            });
+
+            console.log('Modified files:', changes34.join(', '));
+            console.log('Modified files:', changes35.join(', '));
+            console.log('Modified files:', changes36.join(', '));
+            console.log('Modified files:', changes37.join(', '));
+            console.log('Modified files:', changes38.join(', '));
+            console.log('Modified files:', changes39.join(', '));
+            console.log('Modified files:', changes40.join(', '));
+            console.log('Modified files:', changes41.join(', '));
+            console.log('Doc generated find it in ./doc');
+            console.log(' ');
+
             console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd ' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
           }).catch(error => {
             console.log('An error occured', error)
