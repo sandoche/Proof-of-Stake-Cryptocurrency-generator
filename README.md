@@ -50,6 +50,7 @@ If you are an advanced user follow directly the official tutorial:
 2. Then just run `npm run generate` and answer the generator's questions. The generator will automatically clone the nxt-clone-starter, change the port and name in the source code.
 3. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 4. Run it ! Go to `<yourCrypto>` folder compile with  `sh ./compile.sh` (or win-compile.sh for Windows) then run with `sh ./run.sh` (or run.bat for windows). Note that you can delete all the other folders they are now useless.
+5. Find the API doc in the `/doc` folder
 
 ## Step 3 - Create the installer for the wallet (optionnal)
 * In order to build, please read the [build documentation](BUILD-README.md)
