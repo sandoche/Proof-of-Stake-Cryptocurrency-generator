@@ -356,18 +356,28 @@ inquirer.prompt(questions).then(answers => {
             });
             const changes36 = replace.sync({
               files: 'doc/api_examples.html',
-              from: /NXT /g,
-              to: answers.coin_symbol
+              from: /NXT /i,
+              to: answers.coin_symbol + ' '
             });
             const changes37 = replace.sync({
               files: 'doc/api.html',
-              from: /NXT /g,
-              to: answers.coin_symbol
+              from: /NXT /i,
+              to: answers.coin_symbol + ' '
             });
             const changes38 = replace.sync({
               files: 'doc/api_examples.html',
               from: /NXT\-/g,
               to: answers.coin_symbol + '-'
+            });
+            const changes39 = replace.sync({
+              files: 'doc/api_examples.html',
+              from: / NXT/i,
+              to: ' ' + answers.coin_symbol
+            });
+            const changes40 = replace.sync({
+              files: 'doc/api.html',
+              from: / NXT/i,
+              to: ' ' + answers.coin_symbol
             });
 
             console.log('Modified files:', changes34.join(', '));
