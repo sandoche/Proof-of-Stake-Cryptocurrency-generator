@@ -41,7 +41,7 @@
         <p>All API calls can be viewed and tested at <a rel="nofollow" class="external free" href="http://localhost:7876/test">http://localhost:7876/test</a> while the local server node is running. For specific API calls, use <a rel="nofollow" class="external free"
             href="http://localhost:7876/test?requestType=">http://localhost:7876/test?requestType=</a><i>specificRequestType</i>.
         </p>
-        <p>This document corresponds to <a href="/wiki/Nxt_Software_Change_Log#Version_1.11.5" title="Nxt Software Change Log">Nxt Software Version 1.11.5</a>.
+        <p>This document is adapted from <a href="https://nxtwiki.org/wiki/Nxt_Software_Change_Log#Version_1.11.5" title="Nxt Software Change Log">Nxt Software Version 1.11.5</a>.
         </p>
         <h2><span class="mw-headline" id="Table_Of_Contents"><span class="mw-headline-number">2</span> Table Of Contents</span></h2>
         <div id="toc" class="toc">
@@ -485,7 +485,7 @@
           messages, selling aliases, and leasing balances to the Genesis account are no longer allowed since the Monetary System block.
         </p>
         <h3><span class="mw-headline" id="Flexible_Account_IDs"><span class="mw-headline-number">3.2</span> Flexible Account IDs</span></h3>
-        <p>All API requests that require an account ID accept either an account number or the corresponding <a href="/wiki/RS_Address_Format" title="RS Address Format">Reed-Solomon address</a>.
+        <p>All API requests that require an account ID accept either an account number or the corresponding <a href="https://nxtwiki.org/wiki/RS_Address_Format" title="RS Address Format">Reed-Solomon address</a>.
         </p>
         <h3><span class="mw-headline" id="Quantity_Units_NXT.2C_NQT_and_QNT"><span class="mw-headline-number">3.3</span> Quantity Units NXT, NQT and QNT</span></h3>
         <p>The Nxt system has a currency NXT used to quantify value in the system. Like all currencies, NXT circulates in the system, moving from one user to another by payments and purchases. Also, a small fee is required for every transaction, including
@@ -504,7 +504,7 @@
         <p>For example, the mgwBTC (multi-gateway Bitcoin) asset is divisible to eight decimal places, like the original bitcoin (BTC) it is a proxy for. Therefore a QNT of mgwBTC is equivalent to a Satoshi (10<sup>-8</sup> BTC). To place an order to sell
           25,000,000 QNT of the mgwBTC asset at a price of 20,000 NQT per QNT, use the API Call <a href="#Place_Order" title="The Nxt API">Place Order</a> with <i>requestType</i>=<i>placeAskOrder</i>, <i>quantityQNT</i>=25000000 and <i>priceNQT</i>=20000.
           If the entire quantity is sold on the Asset Exchange, the seller will receive 500,000,000,000 NQT (<i>quantityQNT</i> * <i>priceNQT</i>) from the buyer(s). This trade corresponds to selling 0.25 mgwBTC for 5,000 NXT, which is how the trade appears
-          in the <a href="/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a>. In this case, the price of 20,000 in NQT per QNT is also the price in NXT per mgwBTC, since both mgwBTC and NXT are divisible to eight decimal places.
+          in the <a href="https://nxtwiki.org/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a>. In this case, the price of 20,000 in NQT per QNT is also the price in NXT per mgwBTC, since both mgwBTC and NXT are divisible to eight decimal places.
         </p>
         <p>Currencies in the Nxt <a href="#Monetary_System_Operations" title="The Nxt API">Monetary System</a> are a special kind of asset with properties and exchange methods suitable for currencies. With respect to quantities, exchange
           rates and decimal places, the Monetary System API calls use NXT, NQT and QNT in exactly the same way as assets.
@@ -543,7 +543,7 @@
           not the prunable data itself. The non-prunable signed <i>transactionBytes</i> are used to verify the signature and to generate the transaction's <i>fullHash</i> and ID; when the prunable part of the transaction is removed at a later time, none
           of these operations are affected.
         </p>
-        <p>Prunable data has a predetermined minimum lifetime of two weeks (24 hours on the <a href="/wiki/Testnet" title="Testnet">Testnet</a>) from the timestamp of the transaction. Transactions and blocks received from peer nodes are not accepted if prunable
+        <p>Prunable data has a predetermined minimum lifetime of two weeks (24 hours on the <a href="https://nxtwiki.org/wiki/Testnet" title="Testnet">Testnet</a>) from the timestamp of the transaction. Transactions and blocks received from peer nodes are not accepted if prunable
           data is missing before this time has elapsed. After this time has elapsed, prunable data is no longer included with transactions and blocks transmitted to peer nodes, and is no longer included in the transaction JSON returned by general-purpose
           API calls such as Get Transaction; the only way to retrieve it, if still available, is through special-purpose API calls such as Get Prunable Message.
         </p>
@@ -562,7 +562,7 @@
         </p>
         <p>nxt.isTestnet=true
         </p>
-        <p>This causes the Nxt server to connect to the <a href="/wiki/Testnet" title="Testnet">Testnet</a> instead of the Mainnet.
+        <p>This causes the Nxt server to connect to the <a href="https://nxtwiki.org/wiki/Testnet" title="Testnet">Testnet</a> instead of the Mainnet.
         </p>
         <h3><span class="mw-headline" id="Admin_Password"><span class="mw-headline-number">3.8</span> Admin Password</span></h3>
         <p>Some API functions take an adminPassword parameter, which must match the nxt.adminPassword property unless the nxt.disableAdminPassword property is set to true or the API server only listens on the localhost interface (when the nxt.apiServerHost
@@ -989,7 +989,7 @@
         <p><b>Example:</b> Refer to <a href="api_examples.html#Get_Account_Public_Key" title="The Nxt API Examples">Get Account Public Key</a> example.
         </p>
         <h3><span class="mw-headline" id="Get_Account_Transaction_Ids"><span class="mw-headline-number">5.12</span> Get Account Transaction Ids</span></h3>
-        <p>Get the transaction IDs associated with an account in reverse block timestamp order. <i>This call only returns non-phased transactions as of <a href="/wiki/Nxt_Software_Change_Log#Version_1.5.7e" title="Nxt Software Change Log">Version 1.5.7e</a> and is deprecated, to be removed in version 1.6. Use <a href="#Get_Blockchain_Transactions" title="The Nxt API">Get Blockchain Transactions</a> instead.</i>
+        <p>Get the transaction IDs associated with an account in reverse block timestamp order. <i>This call only returns non-phased transactions as of <a href="https://nxtwiki.org/wiki/Nxt_Software_Change_Log#Version_1.5.7e" title="Nxt Software Change Log">Version 1.5.7e</a> and is deprecated, to be removed in version 1.6. Use <a href="#Get_Blockchain_Transactions" title="The Nxt API">Get Blockchain Transactions</a> instead.</i>
         </p>
         <p><b>Request:</b>
         </p>
@@ -1018,7 +1018,7 @@
         <p><b>Example:</b> Refer to <a href="api_examples.html#Get_Account_Transaction_Ids" title="The Nxt API Examples">Get Account Transaction Ids</a> example.
         </p>
         <h3><span class="mw-headline" id="Get_Account_Transactions"><span class="mw-headline-number">5.13</span> Get Account Transactions</span></h3>
-        <p>Get the transactions associated with an account in reverse block timestamp order. <i>This call only returns non-phased transactions as of <a href="/wiki/Nxt_Software_Change_Log#Version_1.5.7e" title="Nxt Software Change Log">Version 1.5.7e</a> and is depricated, to be removed in version 1.6. Use <a href="#Get_Blockchain_Transactions" title="The Nxt API">Get Blockchain Transactions</a> instead.</i>
+        <p>Get the transactions associated with an account in reverse block timestamp order. <i>This call only returns non-phased transactions as of <a href="https://nxtwiki.org/wiki/Nxt_Software_Change_Log#Version_1.5.7e" title="Nxt Software Change Log">Version 1.5.7e</a> and is depricated, to be removed in version 1.6. Use <a href="#Get_Blockchain_Transactions" title="The Nxt API">Get Blockchain Transactions</a> instead.</i>
         </p>
         <p><b>Request:</b>
         </p>
@@ -2766,7 +2766,7 @@
         <p><b>Example:</b> Refer to <a href="api_examples.html#Get_EC_Block" title="The Nxt API Examples">Get EC Block</a> example.
         </p>
         <h2><span class="mw-headline" id="Digital_Goods_Store_Operations"><span class="mw-headline-number">11</span> Digital Goods Store Operations</span></h2>
-        <p>In the <a href="/wiki/Nxt_client_interface" title="Nxt client interface">Nxt client interface</a>, the Digital Goods Store (DGS) is referred to as <a href="/wiki/Marketplace" title="Marketplace">Marketplace</a>.
+        <p>In the <a href="https://nxtwiki.org/wiki/Nxt_client_interface" title="Nxt client interface">Nxt client interface</a>, the Digital Goods Store (DGS) is referred to as <a href="https://nxtwiki.org/wiki/Marketplace" title="Marketplace">Marketplace</a>.
         </p>
         <h3><span class="mw-headline" id="DGS_Delisting"><span class="mw-headline-number">11.1</span> DGS Delisting</span></h3>
         <p>Delist a listed product. POST only.
@@ -2812,7 +2812,7 @@
           <li><i>message</i> is unencrypted (public) feedback text up to 1000 bytes</li>
         </ul>
         <p><b>Note</b>: The unencrypted <i>message</i> parameter is used for public feedback, but in addition or instead, an encrypted message can be used for private feedback to the seller and/or an encrypted message can be sent to self (buyer) although
-          the current <a href="/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> does not recognize non-public feedback messages.
+          the current <a href="https://nxtwiki.org/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> does not recognize non-public feedback messages.
         </p>
         <p><b>Response:</b> Refer to <a href="#Create_Transaction_Response" title="The Nxt API">Create Transaction Response</a>.
         </p>
@@ -3296,7 +3296,7 @@
         <p>Refer to <a href="#Start_.2F_Stop_.2F_Get_Forging" title="The Nxt API">Start / Stop / Get Forging</a>.
         </p>
         <h3><span class="mw-headline" id="Lease_Balance"><span class="mw-headline-number">12.2</span> Lease Balance</span></h3>
-        <p><a href="/wiki/Account_Leasing" title="Account Leasing">Lease</a> the entire guaranteed balance of NXT to another account, after 1440 confirmations. POST only.
+        <p><a href="https://nxtwiki.org/wiki/Account_Leasing" title="Account Leasing">Lease</a> the entire guaranteed balance of NXT to another account, after 1440 confirmations. POST only.
         </p>
         <p><b>Request:</b> Refer to <a href="#Create_Transaction_Request" title="The Nxt API">Create Transaction Request</a> for common parameters.
         </p>
@@ -3375,7 +3375,7 @@
           <li><i>weight</i> is the weight to assign to the node</li>
           <li><i>date</i> is the current date in YYYY-MM-DD format</li>
         </ul>
-        <p><b>Note:</b> Refer to <a href="/wiki/How-To:CreateHallmark" title="How-To:CreateHallmark">Create Hallmark</a> for details.
+        <p><b>Note:</b> Refer to <a href="https://nxtwiki.org/wiki/How-To:CreateHallmark" title="How-To:CreateHallmark">Create Hallmark</a> for details.
         </p>
         <p><b>Response:</b>
         </p>
@@ -3383,7 +3383,7 @@
           <li><i>hallmark</i> (S) is the hallmark hex string</li>
           <li><i>requestProcessingTime</i> (N) is the API request processing time (in millisec)</li>
         </ul>
-        <p><b>Note:</b> Refer to <a href="/wiki/How-To:CreateHallmark" title="How-To:CreateHallmark">Create Hallmark</a> for instructions for applying the hallmark to a public node.
+        <p><b>Note:</b> Refer to <a href="https://nxtwiki.org/wiki/How-To:CreateHallmark" title="How-To:CreateHallmark">Create Hallmark</a> for instructions for applying the hallmark to a public node.
         </p>
         <p><b>Example:</b> Refer to <a href="api_examples.html#Mark_Host" title="The Nxt API Examples">Mark Host</a> example.
         </p>
@@ -3603,7 +3603,7 @@
           <li><i>lastBlock</i> (S) is the last block ID on the blockchain (applies if <i>requireBlock</i> is provided but not <i>requireLastBlock</i>)</li>
           <li><i>requestProcessingTime</i> (N) is the API request processing time (in millisec)</li>
         </ul>
-        <p><b>Notes:</b> Even expired, unfilled requests will be retrieved. As of <a href="/wiki/Nxt_Software_Change_Log#Version_1.5.13" title="Nxt Software Change Log">Nxt Software Version 1.5.13</a> phased exchange requests that have not yet finished,
+        <p><b>Notes:</b> Even expired, unfilled requests will be retrieved. As of <a href="https://nxtwiki.org/wiki/Nxt_Software_Change_Log#Version_1.5.13" title="Nxt Software Change Log">Nxt Software Version 1.5.13</a> phased exchange requests that have not yet finished,
           or have not been approved, are now excluded if <i>requestType</i> is <i>getAccountExchangeRequests</i>.
         </p>
         <p><b>Example:</b> Refer to <a href="api_examples.html#Get_Account_Exchange_Requests" title="The Nxt API Examples">Get Account Exchange Requests</a> example.
@@ -6052,7 +6052,7 @@
         </ul>
         <p>⋮
         </p>
-        <p><b>Notes:</b> Up to 100 options (answers) can be specified, but there is an extra fee for each option beyond 20. Unlike the API, the <a href="/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> treats a vote of <i>0</i> as
+        <p><b>Notes:</b> Up to 100 options (answers) can be specified, but there is an extra fee for each option beyond 20. Unlike the API, the <a href="https://nxtwiki.org/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> treats a vote of <i>0</i> as
           a nonvote not contributing to the number answers (options) chosen. The NRS client uses checkboxes for selecting answers when <i>minRangeValue</i> = 0 and <i>maxRangeValue</i> = 1; otherwise sliding controls are used to select answers from the
           allowed range.
         </p>
@@ -6371,7 +6371,7 @@
           <li><i>longId</i> (S) is the signed long integer (8-bytes) representation of the ID used internally, returned as a string</li>
           <li><i>requestProcessingTime</i> (N) is the API request processing time (in millisec)</li>
         </ul>
-        <p><b>Note:</b> Java does not support unsigned integers, so any unsigned ID (such as a block ID) visible in the <a href="/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> is represented internally as a signed integer.
+        <p><b>Note:</b> Java does not support unsigned integers, so any unsigned ID (such as a block ID) visible in the <a href="https://nxtwiki.org/wiki/Nxt_client_interface" title="Nxt client interface">NRS client</a> is represented internally as a signed integer.
         </p>
         <p><b>Example:</b> Refer to <a href="api_examples.html#Long_Convert" title="The Nxt API Examples">Long Convert</a> example.
         </p>
