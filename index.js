@@ -356,12 +356,12 @@ inquirer.prompt(questions).then(answers => {
             });
             const changes36 = replace.sync({
               files: 'doc/api_examples.html',
-              from: /NXT /i,
+              from: /NXT /g,
               to: answers.coin_symbol + ' '
             });
             const changes37 = replace.sync({
               files: 'doc/api.html',
-              from: /NXT /i,
+              from: /NXT /g,
               to: answers.coin_symbol + ' '
             });
             const changes38 = replace.sync({
@@ -371,12 +371,17 @@ inquirer.prompt(questions).then(answers => {
             });
             const changes39 = replace.sync({
               files: 'doc/api_examples.html',
-              from: / NXT/i,
-              to: ' ' + answers.coin_symbol
+              from: / NXT/g,
+              to: answers.coin_symbol + ' '
             });
             const changes40 = replace.sync({
               files: 'doc/api.html',
-              from: / NXT/i,
+              from: / NXT/g,
+              to: ' ' + answers.coin_symbol
+            });
+            const changes41 = replace.sync({
+              files: 'doc/api.html',
+              from: / Nxt/g,
               to: ' ' + answers.coin_symbol
             });
 
@@ -385,8 +390,9 @@ inquirer.prompt(questions).then(answers => {
             console.log('Modified files:', changes36.join(', '));
             console.log('Modified files:', changes37.join(', '));
             console.log('Modified files:', changes38.join(', '));
-            console.log('Modified files:', changes32.join(', '));
-            console.log('Modified files:', changes33.join(', '));
+            console.log('Modified files:', changes39.join(', '));
+            console.log('Modified files:', changes40.join(', '));
+            console.log('Modified files:', changes41.join(', '));
             console.log('Doc generated find it in ./doc');
             console.log(' ');
 
