@@ -313,6 +313,17 @@ inquirer.prompt(questions).then(answers => {
             from: /Nxt-Installer/g,
             to: answers.coin_symbol + '-Installer'
           });
+          const changes42 = replace.sync({
+            files: 'build_tools/README.md',
+            from: /Nxt/g,
+            to: answers.coin_symbol
+          });
+          const changes43 = replace.sync({
+            files: 'build_tools/README.md',
+            from: /7876/g,
+            to: answers.api_server_port
+          });
+
 
           console.log('Modified files:', changes12.join(', '));
           console.log('Modified files:', changes13.join(', '));
@@ -338,6 +349,8 @@ inquirer.prompt(questions).then(answers => {
           console.log('Modified files:', changes31.join(', '));
           console.log('Modified files:', changes32.join(', '));
           console.log('Modified files:', changes33.join(', '));
+          console.log('Modified files:', changes42.join(', '));
+          console.log('Modified files:', changes43.join(', '));
 
           getAsync('cp -r  build_tools/* ' + folderName + '/').then(data => {
             console.log('Files edited and moved');
