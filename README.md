@@ -2,6 +2,8 @@
 Create your own Proof of Stake cryptocurrency with its own blockchain based on "Nxt Blockchain Creation Kit".
 It should satisfy the requirements of the Jelurida Public License version 1.1 for the Nxt Public Blockchain Platform.
 Basically 10% of your tokens should be given to the owners of the Nxt Cryptocurrency. Furthermore, the source needs to be disclosed and under the same license. Keep in mind that this generator is not perfect!
+* Website: https://coingenerator.sh
+* Read the story: https://medium.com/learning-lab/how-to-build-your-own-cryptocurrency-proof-of-stake-in-just-a-few-minutes-6d526bca4a91
 
 This generator will assist you building your NXT clone.
 If you are an advanced user follow directly the official tutorial:
