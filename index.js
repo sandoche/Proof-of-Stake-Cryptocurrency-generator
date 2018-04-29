@@ -37,7 +37,7 @@ var questions = [
     message: 'Symbol of the coin (example: SPC)',
     validate: function(value) {
       var pass = value.match(
-        /^[A-Z]{3}$/g
+        /^[A-Z]{5}$/g
       );
       if (pass) {
         return true;
