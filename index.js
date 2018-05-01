@@ -37,12 +37,12 @@ var questions = [
     message: 'Symbol of the coin (example: SPC)',
     validate: function(value) {
       var pass = value.match(
-        /^[A-Z]{5}$/g
+        /^[A-Z]{3,5}$/g
       );
       if (pass) {
         return true;
       }
-      return 'Please enter only 3 capital letters';
+      return 'Please enter between 3 and 5 capital letters';
     }
   },
   {
