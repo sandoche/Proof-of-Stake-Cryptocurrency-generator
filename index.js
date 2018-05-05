@@ -141,6 +141,11 @@ inquirer.prompt(questions).then(answers => {
         from: '7876',
         to: answers.api_server_port
       });
+      const changes7b = replace.sync({
+        files: folderName + '/contrib/Dockerfile',
+        from: '7874',
+        to: answers.default_peer_port
+      });
       const changes8 = replace.sync({
         files: folderName + '/Wallet.url',
         from: '7876',
@@ -163,6 +168,7 @@ inquirer.prompt(questions).then(answers => {
       console.log('Modified files:', changes5.join(', '));
       console.log('Modified files:', changes6.join(', '));
       console.log('Modified files:', changes7.join(', '));
+      console.log('Modified files:', changes7b.join(', '));
       console.log('Modified files:', changes8.join(', '));
       console.log('Modified files:', changes8.join(', '));
       console.log('Modified files:', changes9.join(', '));
