@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "nxt": "cd nxt ; sh ./compile.sh ; sh ./run.sh",
-    "generate": "node index.js",
-    "generate:docker": "docker run -it --rm --name coin-generator -v "$PWD":/usr/src/app -w /usr/src/app node:8 npm run generate"
+    "generate": "node index.js"
   },
   "repository": {
     "type": "git",
