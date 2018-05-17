@@ -415,7 +415,7 @@ inquirer.prompt(questions).then(answers => {
             console.log('Doc generated find it in ./doc');
             console.log(' ');
 
-            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd ' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh`');
+            console.log('Congratulations, your Cryptocurrency is now generated. You can now run it, with `cd ' + folderName + '` then run `sh ./compile.sh` then `sh ./run.sh` or for windows `sh ./win-compile.sh` then `run.bat`');
           }).catch(error => {
             console.log('An error occured', error)
           })

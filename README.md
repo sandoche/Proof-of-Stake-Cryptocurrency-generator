@@ -49,7 +49,7 @@ If you are an advanced user follow directly the official tutorial:
 
 ## Step 2 - Create your own Cryptocurrency
 1. Update the images from `templates/img` according to your blockchain images and the favicon in `templates`
-2. Then just run `npm run generate` and answer the generator's questions. The generator will automatically clone the nxt-clone-starter, change the port and name in the source code.
+2. Then just run `npm run generate` and answer the generator's questions. The generator will automatically clone the nxt-clone-starter, change the port and name in the source code. For Windows user you should use `npm run generate:docker` and have docker installed.
 3. Once the cryptocurrency generated you can of course edit the interface inside the `<yourCrypto>/html` folder and find the java source in `<yourCrypto>/src/java`, note that you can find many parameters that you can edit in the following file `<yourCrypto>/src/java/nxt/Constants.java`
 4. Run it ! Go to `<yourCrypto>` folder compile with  `sh ./compile.sh` (or win-compile.sh for Windows) then run with `sh ./run.sh` (or run.bat for windows). Note that you can delete all the other folders they are now useless. Also you need to start forging yourself if you want to try to make transactions.
 5. Find the API doc in the `doc` folder
@@ -69,6 +69,15 @@ You can do that in any virtual machine, you can use for example Amazon Web Servi
 If the command line to launch forging does not work you can do it with the GUI after, installing a vnc server check the following links:
 * https://medium.com/@Arafat./graphical-user-interface-using-vnc-with-amazon-ec2-instances-549d9c0969c5
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8
+
+## Troubleshooting
+### Mac & Linux
+* If step 1 doesn't work go to the `nxt` folder and run `sh ./compile.sh` then `sh ./run.sh`
+### Windows
+* If step 1 doesn't work go to the `nxt` folder and run `sh ./win-compile.sh` then open `run.bat`
+* For step 2 you need to use Docker, so first install docker and then run `npm run generate:docker` or `docker run -it --rm --name coin-generator -v "$PWD":/usr/src/app -w /usr/src/app node:8 npm run generate`
+### All OS
+* Sometime when running the wallet it's not logging in, open the wallet url in private navigation
 
 ## What is next?
 * You can find the source of the mobile app in the `mobile` folder
