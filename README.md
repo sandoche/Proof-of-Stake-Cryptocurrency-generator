@@ -76,6 +76,8 @@ If the command line to launch forging does not work you can do it with the GUI a
 ### Windows
 * If step 1 doesn't work go to the `nxt` folder and run `sh ./win-compile.sh` then open `run.bat`
 * For step 2 you need to use Docker, so first install docker and then run `npm run generate:docker` or `docker run -it --rm --name coin-generator -v "$PWD":/usr/src/app -w /usr/src/app node:8 npm run generate`
+### All OS
+* Sometime when running the wallet it's not logging in, open the wallet url in private navigation
 
 ## What is next?
 * You can find the source of the mobile app in the `mobile` folder
