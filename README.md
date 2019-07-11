@@ -82,6 +82,11 @@ If the command line to launch forging does not work you can do it with the GUI a
 ## What is next?
 * You can find the source of the mobile app in the `mobile` folder
 
+## ⭐️ Show your support
+Please ⭐️ this repository if this project helped you!
+
+<a href="https://www.patreon.com/sandoche">[![patreon.png](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/sandoche)</a>
+
 ## Buy me a beer
 If you like this project, feel free to donate:
 * Bitcoin: 19JiNZ1LkMaz57tewqJaTg2hQWH4RgW4Yp
