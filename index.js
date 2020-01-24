@@ -1,6 +1,6 @@
 /**
  * Proof of Stake Cryptocurrency generator
- * Author: Sandoche ADITTANE
+ * Author: Sandoche ADITTANE / update by tommy VILMEN
  */
 
 'use strict';
@@ -87,7 +87,7 @@ var questions = [
     type: 'list',
     name: 'source',
     message: 'Version of NXT Clone Starter',
-    choices: ['v1.1.13', 'latest (may not be compatible with the generator)']
+    choices: ['v1.1.15', 'latest (may not be compatible with the generator)']
   }
 ];
 
@@ -95,8 +95,8 @@ inquirer.prompt(questions).then(answers => {
   const folderName = answers.application;
   const appName = answers.application;
   const repositoryOfficial = 'https://bitbucket.org/Jelurida/nxt-clone-starter';
-  const repositorySandoche = 'https://github.com/sandoche/nxt-clone-starter';
-  const source = answers.source === 'v1.1.13' ? repositorySandoche : repositoryOfficial;
+  const repositorySandoche = 'https://bitbucket.org/Jelurida/nxt-clone-starter/src/master/';
+  const source = answers.source === 'v1.1.15' ? repositorySandoche : repositoryOfficial;
 
   console.log('1. Cloning the nxt-clone-starter')
   const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
