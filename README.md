@@ -27,6 +27,9 @@ If you are an advanced user follow directly the official tutorial:
 ### How to install NodeJS
 * General - https://nodejs.org/en/download/
 
+## Video tutorial
+* [Create your blockchain with that cryptocurrency](https://www.youtube.com/watch?v=_Ww5IZZB0WY) (French with English Subtitle)
+
 ## Step 1 - Download the Nxt blockchain and create the genesis block
 1. Clone this repository with `git clone https://github.com/sandoche/Proof-of-Stake-Cryptocurrency-generator`, also feel free to fork this repository!
 2. Go to the cloned folder and install the npm dependencies with `npm install`

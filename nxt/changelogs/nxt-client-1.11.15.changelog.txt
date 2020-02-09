@@ -1,0 +1,12 @@
+This is a critical bugfix release. IMMEDIATE update is mandatory for everyone.
+
+Fixed validation of string fields length in transaction attachments.
+
+Fixed locale issue affecting Turkish users.
+
+Allow setting the Content-Type header of the API responses to application/json
+instead of text/plain using the nxt.apiFixResponseContentType property. Default
+is still text/plain to preserve compatibility.
+
+Updated libraries to Jetty 9.3.24, Bouncy Castle 1.60, IzPack installer 5.1.3.
+

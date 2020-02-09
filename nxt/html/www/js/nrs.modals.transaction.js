@@ -1490,7 +1490,7 @@ var NRS = (function (NRS, $, undefined) {
     };
 
     NRS.formatCurrencyOffer = function (currency, transaction) {
-        var rateUnitsStr = " [" + currency.code + " " + $.t("per") + " NXT]";
+        var rateUnitsStr = " [NXT " + $.t("per") + " " + currency.code +"]";
         var buyOffer;
         var sellOffer;
         NRS.sendRequest("getOffer", {

@@ -191,7 +191,7 @@ class NxtDbVersion extends DbVersion {
             case 71:
                 apply("CREATE TABLE IF NOT EXISTS alias (db_id IDENTITY, id BIGINT NOT NULL, "
                         + "account_id BIGINT NOT NULL, alias_name VARCHAR NOT NULL, "
-                        + "alias_name_lower VARCHAR AS LOWER (alias_name) NOT NULL, "
+                        + "alias_name_lower VARCHAR NOT NULL, "
                         + "alias_uri VARCHAR NOT NULL, timestamp INT NOT NULL, "
                         + "height INT NOT NULL, latest BOOLEAN NOT NULL DEFAULT TRUE)");
             case 72:
@@ -366,7 +366,7 @@ class NxtDbVersion extends DbVersion {
                 apply(null);
             case 138:
                 apply("CREATE TABLE IF NOT EXISTS currency (db_id IDENTITY, id BIGINT NOT NULL, account_id BIGINT NOT NULL, "
-                        + "name VARCHAR NOT NULL, name_lower VARCHAR AS LOWER (name) NOT NULL, code VARCHAR NOT NULL, "
+                        + "name VARCHAR NOT NULL, name_lower VARCHAR NOT NULL, code VARCHAR NOT NULL, "
                         + "description VARCHAR, type INT NOT NULL, initial_supply BIGINT NOT NULL DEFAULT 0, "
                         + "reserve_supply BIGINT NOT NULL, max_supply BIGINT NOT NULL, creation_height INT NOT NULL, issuance_height INT NOT NULL, "
                         + "min_reserve_per_unit_nqt BIGINT NOT NULL, min_difficulty TINYINT NOT NULL, "
@@ -1188,6 +1188,13 @@ class NxtDbVersion extends DbVersion {
             case 489:
                 apply("CREATE INDEX IF NOT EXISTS asset_dividend_height_idx ON asset_dividend (height)");
             case 490:
+                apply("DELETE FROM unconfirmed_transaction");
+            case 491:
+                if (Nxt.getBlockchain().getHeight() > 0) {
+                    BlockchainProcessorImpl.getInstance().popOffTo(Nxt.getBlockchain().getHeight() - 1);
+                }
+                apply(null);
+            case 492:
                 return;
             default:
                 throw new RuntimeException("Blockchain database inconsistent with code, at update " + nextUpdate

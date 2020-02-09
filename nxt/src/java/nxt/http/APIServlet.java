@@ -129,6 +129,7 @@ public final class APIServlet extends HttpServlet {
     }
 
     private static final boolean enforcePost = Nxt.getBooleanProperty("nxt.apiServerEnforcePOST");
+    private static final boolean fixResponseContentType = Nxt.getBooleanProperty("nxt.apiFixResponseContentType");
     static final Map<String,APIRequestHandler> apiRequestHandlers;
     static final Map<String,APIRequestHandler> disabledRequestHandlers;
 
@@ -194,7 +195,11 @@ public final class APIServlet extends HttpServlet {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, private");
         resp.setHeader("Pragma", "no-cache");
         resp.setDateHeader("Expires", 0);
-        resp.setContentType("text/plain; charset=UTF-8");
+        if (fixResponseContentType) {
+            resp.setContentType("application/json");
+        } else {
+            resp.setContentType("text/plain; charset=UTF-8");
+        }
 
         JSONStreamAware response = JSON.emptyJSON;
         long startTime = System.currentTimeMillis();

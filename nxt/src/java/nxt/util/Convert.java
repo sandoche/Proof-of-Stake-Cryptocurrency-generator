@@ -242,12 +242,16 @@ public final class Convert {
     }
 
     public static String readString(ByteBuffer buffer, int numBytes, int maxLength) throws NxtException.NotValidException {
-        if (numBytes > 3 * maxLength) {
+        if (numBytes > getMaxStringSize(maxLength)) {
             throw new NxtException.NotValidException("Max parameter length exceeded");
         }
         byte[] bytes = new byte[numBytes];
         buffer.get(bytes);
         return Convert.toString(bytes);
+    }
+
+    public static int getMaxStringSize(int length) {
+        return 3 * length;
     }
 
     public static String truncate(String s, String replaceNull, int limit, boolean dots) {
