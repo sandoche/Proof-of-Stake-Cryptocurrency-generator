@@ -194,6 +194,16 @@ final class BlockchainProcessorImpl implements BlockchainProcessor {
                         -72, -49, 110, 104, -14, 9, 85, -108, 106, 78, -122, 13, -113, 123, -5, 56,
                         -30, 69, -90, -82, -70, -15, 75, -118, 64, -46, -59, 50, -75, 104, 82, 6
                 });
+        map.put(Constants.CHECKSUM_BLOCK_25, Constants.isTestnet ?
+                new byte[] {
+                        -121, -81, 72, -12, 7, 70, 80, -23, 47, -29, -3, 59, -45, -9, 81, -116,
+                        -88, 105, -99, 103, -64, 22, 103, 83, -97, -20, 7, -79, 68, -11, 19, -128
+                }
+                :
+                new byte[] {
+                        -88, 97, -21, -124, 25, 82, 121, -105, 97, -125, -83, 42, -79, -76, -23,
+                        1, 51, 75, 7, -23, 61, 96, 92, 101, -91, 55, 89, -71, -39, -50, -61, 36
+                });
         checksums = Collections.unmodifiableNavigableMap(map);
     }
 
@@ -1743,7 +1753,7 @@ final class BlockchainProcessorImpl implements BlockchainProcessor {
                 Db.db.clearCache();
                 Db.db.commitTransaction();
             } catch (RuntimeException e) {
-                Logger.logErrorMessage("Error popping off to " + commonBlock.getHeight() + ", " + e.toString());
+                Logger.logErrorMessage("Error popping off to " + commonBlock.getHeight() + ", " + e.toString(), e);
                 Db.db.rollbackTransaction();
                 BlockImpl lastBlock = BlockDb.findLastBlock();
                 blockchain.setLastBlock(lastBlock);

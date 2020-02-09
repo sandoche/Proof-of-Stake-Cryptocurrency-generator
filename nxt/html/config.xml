@@ -40,7 +40,6 @@
     </platform>
     <engine name="android" />
     <plugin name="cordova-plugin-android-permissions" spec="~0.10.0" />
-    <plugin name="cordova-plugin-compat" spec="~1.1.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.6" />
     <plugin name="cordova-plugin-device" spec="~1.1.5" />
     <plugin name="cordova-plugin-file" spec="~4.3.1" />

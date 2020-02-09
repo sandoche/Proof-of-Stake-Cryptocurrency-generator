@@ -552,8 +552,8 @@ public abstract class TransactionType {
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
                 Attachment.MessagingAliasAssignment attachment = (Attachment.MessagingAliasAssignment) transaction.getAttachment();
                 if (attachment.getAliasName().length() == 0
-                        || attachment.getAliasName().length() > Constants.MAX_ALIAS_LENGTH
-                        || attachment.getAliasURI().length() > Constants.MAX_ALIAS_URI_LENGTH) {
+                        || !Attachment.MessagingAliasAssignment.ALIAS_NAME_RW.validate(attachment.getAliasName())
+                        || !Attachment.MessagingAliasAssignment.ALIAS_URI_RW.validate(attachment.getAliasURI())) {
                     throw new NxtException.NotValidException("Invalid alias assignment: " + attachment.getJSONObject());
                 }
                 String normalizedAlias = attachment.getAliasName().toLowerCase(Locale.ROOT);
@@ -1273,8 +1273,8 @@ public abstract class TransactionType {
             @Override
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
                 Attachment.MessagingAccountInfo attachment = (Attachment.MessagingAccountInfo)transaction.getAttachment();
-                if (attachment.getName().length() > Constants.MAX_ACCOUNT_NAME_LENGTH
-                        || attachment.getDescription().length() > Constants.MAX_ACCOUNT_DESCRIPTION_LENGTH) {
+                if (!Attachment.MessagingAccountInfo.NAME_RW.validate(attachment.getName())
+                        || !Attachment.MessagingAccountInfo.DESCRIPTION_RW.validate(attachment.getDescription())) {
                     throw new NxtException.NotValidException("Invalid account info issuance: " + attachment.getJSONObject());
                 }
             }
@@ -1346,9 +1346,9 @@ public abstract class TransactionType {
             @Override
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
                 Attachment.MessagingAccountProperty attachment = (Attachment.MessagingAccountProperty)transaction.getAttachment();
-                if (attachment.getProperty().length() > Constants.MAX_ACCOUNT_PROPERTY_NAME_LENGTH
+                if (!Attachment.MessagingAccountProperty.PROPERTY_NAME_RW.validate(attachment.getProperty())
                         || attachment.getProperty().length() == 0
-                        || attachment.getValue().length() > Constants.MAX_ACCOUNT_PROPERTY_VALUE_LENGTH) {
+                        || !Attachment.MessagingAccountProperty.PROPERTY_VALUE_RW.validate(attachment.getValue())) {
                     throw new NxtException.NotValidException("Invalid account property: " + attachment.getJSONObject());
                 }
                 if (transaction.getAmountNQT() != 0) {
@@ -1528,8 +1528,8 @@ public abstract class TransactionType {
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
                 Attachment.ColoredCoinsAssetIssuance attachment = (Attachment.ColoredCoinsAssetIssuance)transaction.getAttachment();
                 if (attachment.getName().length() < Constants.MIN_ASSET_NAME_LENGTH
-                        || attachment.getName().length() > Constants.MAX_ASSET_NAME_LENGTH
-                        || attachment.getDescription().length() > Constants.MAX_ASSET_DESCRIPTION_LENGTH
+                        || !Attachment.ColoredCoinsAssetIssuance.NAME_RW.validate(attachment.getName())
+                        || !Attachment.ColoredCoinsAssetIssuance.DESCRIPTION_RW.validate(attachment.getName())
                         || attachment.getDecimals() < 0 || attachment.getDecimals() > 8
                         || attachment.getQuantityQNT() <= 0
                         || attachment.getQuantityQNT() > Constants.MAX_ASSET_QUANTITY_QNT

@@ -1,3 +1,24 @@
+nxt-client-1.11.14:
+
+Updated the translation resource files.
+
+Updated default peers, added checkpoint at height 1865000.
+
+
+--------------------------------------------------------------------------------
+nxt-client-1.11.13:
+
+Desktop wallet performance optimizations to reduce excessive load.
+
+Do not allow login using passphrase to a non-existing account to prevent users
+from losing their funds due to a typo. Use the "choose your own passphrase"
+link under "create new account" if you really need to login to a non-existing
+account using passphrase.
+
+Client UI enhancements and bugfixes.
+
+
+--------------------------------------------------------------------------------
 nxt-client-1.11.12:
 
 Fixed peer disconnections while downloading the blockchain. Upgrade to this

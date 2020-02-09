@@ -239,13 +239,14 @@ public final class Alias {
     }
 
     private void save(Connection con) throws SQLException {
-        try (PreparedStatement pstmt = con.prepareStatement("MERGE INTO alias (id, account_id, alias_name, "
+        try (PreparedStatement pstmt = con.prepareStatement("MERGE INTO alias (id, account_id, alias_name, alias_name_lower, "
                 + "alias_uri, timestamp, height) KEY (id, height) "
-                + "VALUES (?, ?, ?, ?, ?, ?)")) {
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
             int i = 0;
             pstmt.setLong(++i, this.id);
             pstmt.setLong(++i, this.accountId);
             pstmt.setString(++i, this.aliasName);
+            pstmt.setString(++i, this.aliasName.toLowerCase(Locale.ROOT));
             pstmt.setString(++i, this.aliasURI);
             pstmt.setInt(++i, this.timestamp);
             pstmt.setInt(++i, Nxt.getBlockchain().getHeight());

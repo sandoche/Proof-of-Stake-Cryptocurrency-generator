@@ -256,14 +256,15 @@ public final class Currency {
     }
 
     private void save(Connection con) throws SQLException {
-        try (PreparedStatement pstmt = con.prepareStatement("MERGE INTO currency (id, account_id, name, code, "
+        try (PreparedStatement pstmt = con.prepareStatement("MERGE INTO currency (id, account_id, name, name_lower, code, "
                 + "description, type, initial_supply, reserve_supply, max_supply, creation_height, issuance_height, min_reserve_per_unit_nqt, "
                 + "min_difficulty, max_difficulty, ruleset, algorithm, decimals, height, latest) "
-                + "KEY (id, height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)")) {
+                + "KEY (id, height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)")) {
             int i = 0;
             pstmt.setLong(++i, this.currencyId);
             pstmt.setLong(++i, this.accountId);
             pstmt.setString(++i, this.name);
+            pstmt.setString(++i, this.name.toLowerCase(Locale.ROOT));
             pstmt.setString(++i, this.code);
             pstmt.setString(++i, this.description);
             pstmt.setInt(++i, this.type);

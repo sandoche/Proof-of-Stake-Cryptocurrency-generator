@@ -10,3 +10,4 @@ nxt.peer
 nxt.tools
 nxt.user
 nxt.util
+nxt.util.bbh
