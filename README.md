@@ -13,6 +13,7 @@ If you are an advanced user follow directly the official tutorial:
 ## What are the Cryptocurrency built with this generator?
 
 * Motive - https://motive.network
+* Meteor - https://github.com/Minecraft-Meteor
 
 ## Requirements
 * Java
