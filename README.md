@@ -1,6 +1,6 @@
-# Proof-of-Stake-Cryptocurrency-generator 
+# Proof-of-Stake-Cryptocurrency-generator
 
-![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](/LICENSE)
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/coin_generator)
 [![Medium Badge](https://badgen.net/badge/icon/medium?icon=medium&label)](https://medium.com/@sandoche)
 [![Twitter: sandochee](https://img.shields.io/twitter/follow/sandochee.svg?style=social)](https://twitter.com/sandochee)
