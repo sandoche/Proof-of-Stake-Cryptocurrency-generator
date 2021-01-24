@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -78,6 +78,7 @@ final class BlockDb {
                 return block;
             }
         }
+        blockchain.readLock();
         // Search the database
         try (Connection con = Db.db.getConnection();
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block WHERE id = ?")) {
@@ -91,6 +92,8 @@ final class BlockDb {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            blockchain.readUnlock();
         }
     }
 
@@ -149,6 +152,7 @@ final class BlockDb {
                 return block;
             }
         }
+        blockchain.readLock();
         // Search the database
         try (Connection con = Db.db.getConnection();
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block WHERE height = ?")) {
@@ -164,10 +168,13 @@ final class BlockDb {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            blockchain.readUnlock();
         }
     }
 
     static BlockImpl findLastBlock() {
+        blockchain.readLock();
         try (Connection con = Db.db.getConnection();
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block ORDER BY timestamp DESC LIMIT 1")) {
             BlockImpl block = null;
@@ -179,10 +186,13 @@ final class BlockDb {
             return block;
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            blockchain.readUnlock();
         }
     }
 
     static BlockImpl findLastBlock(int timestamp) {
+        blockchain.readLock();
         try (Connection con = Db.db.getConnection();
              PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block WHERE timestamp <= ? ORDER BY timestamp DESC LIMIT 1")) {
             pstmt.setInt(1, timestamp);
@@ -195,6 +205,8 @@ final class BlockDb {
             return block;
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            blockchain.readUnlock();
         }
     }
 
@@ -309,7 +321,6 @@ final class BlockDb {
         BlockDb.deleteBlocksFrom(blockId);
     }
 
-    // relying on cascade triggers in the database to delete the transactions and public keys for all deleted blocks
     static BlockImpl deleteBlocksFrom(long blockId) {
         if (!Db.db.isInTransaction()) {
             BlockImpl lastBlock;
@@ -326,7 +337,7 @@ final class BlockDb {
             return lastBlock;
         }
         try (Connection con = Db.db.getConnection();
-             PreparedStatement pstmtSelect = con.prepareStatement("SELECT db_id FROM block WHERE timestamp >= "
+             PreparedStatement pstmtSelect = con.prepareStatement("SELECT db_id, id FROM block WHERE timestamp >= "
                      + "IFNULL ((SELECT timestamp FROM block WHERE id = ?), " + Integer.MAX_VALUE + ") ORDER BY timestamp DESC");
              PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM block WHERE db_id = ?")) {
             try {
@@ -334,6 +345,7 @@ final class BlockDb {
                 try (ResultSet rs = pstmtSelect.executeQuery()) {
                     Db.db.commitTransaction();
                     while (rs.next()) {
+                        TransactionDb.deleteBlockTransactions(con, rs.getLong("id"));
         	            pstmtDelete.setLong(1, rs.getLong("db_id"));
             	        pstmtDelete.executeUpdate();
                         Db.db.commitTransaction();
@@ -380,11 +392,9 @@ final class BlockDb {
                 stmt.executeUpdate("TRUNCATE TABLE transaction");
                 stmt.executeUpdate("TRUNCATE TABLE block");
                 BlockchainProcessorImpl.getInstance().getDerivedTables().forEach(table -> {
-                    if (table.isPersistent()) {
-                        try {
-                            stmt.executeUpdate("TRUNCATE TABLE " + table.toString());
-                        } catch (SQLException ignore) {}
-                    }
+                    try {
+                        stmt.executeUpdate("TRUNCATE TABLE " + table.toString());
+                    } catch (SQLException ignore) {}
                 });
                 stmt.executeUpdate("SET REFERENTIAL_INTEGRITY TRUE");
                 Db.db.commitTransaction();

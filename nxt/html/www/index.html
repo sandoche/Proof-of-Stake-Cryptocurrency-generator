@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
-  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
   ~                                                                           ~
   ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
   ~ for licensing information.                                                ~
@@ -29,9 +29,6 @@
         <style id="user_header_style" type="text/css"></style>
         <style id="user_sidebar_style" type="text/css"></style>
         <style id="user_boxes_style" type="text/css"></style>
-
-        <!-- cordova script (this will be missing unless deployed as a mobile application) -->
-        <script src="cordova.js"></script>
     </head>
     <body class="lockscreen fixed loading">
         <div id="progress-container">
@@ -87,7 +84,7 @@
         <script src="js/3rdparty/async.js" type="text/javascript"></script>
         <script src="js/3rdparty/qrcode.js" type="text/javascript"></script>
         <script src="js/3rdparty/highlight.pack.js" type="text/javascript"></script>
-        <script src="js/html5-qrcode.js" type="text/javascript"></script>
+        <script src="js/3rdparty/instascan.min.js" type="text/javascript"></script>
         <script src="js/3rdparty/clipboard.js" type="text/javascript"></script>
         <script src="js/nrs.browser.js" type="text/javascript"></script>
         <script src="js/nrs.constants.js" type="text/javascript"></script>
@@ -116,9 +113,11 @@
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/exchange/changelly.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/shuffling.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/account_properties.html"></script>
+        <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/asset_properties.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/tagged_data.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/monitors.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/generators.html"></script>
+        <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTML" data-path="html/pages/processes.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadPageHTMLTemplates"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/nrs.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/transactions.html"></script>
@@ -137,9 +136,11 @@
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/account_control.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/shuffling.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/account_properties.html"></script>
+        <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/asset_properties.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/tagged_data.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/monitors.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/mobile.html"></script>
+        <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTML" data-path="html/modals/processes.html"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="loadModalHTMLTemplates"></script>
         <script class="sitebuild" src="js/nrs.sitebuild.helper.js" type="text/javascript" data-action="preloadModalUIElements"></script>
         <script>
@@ -213,6 +214,7 @@
         <script src="js/exchange/nrs.changelly.js" type="text/javascript"></script>
         <script src="js/nrs.shuffling.js" type="text/javascript"></script>
         <script src="js/nrs.accountproperties.js" type="text/javascript"></script>
+        <script src="js/nrs.assetproperties.js" type="text/javascript"></script>
         <script src="js/nrs.taggeddata.js" type="text/javascript"></script>
         <script src="js/nrs.header.js" type="text/javascript"></script>
         <script src="js/nrs.localstorage.js" type="text/javascript"></script>
@@ -221,5 +223,6 @@
         <script src="js/nrs.monitors.js" type="text/javascript"></script>
         <script src="js/nrs.mobile.js" type="text/javascript"></script>
         <script src="js/nrs.generators.js" type="text/javascript"></script>
+        <script src="js/nrs.processes.js" type="text/javascript"></script>
     </body>
 </html>

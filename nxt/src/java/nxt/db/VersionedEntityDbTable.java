@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -80,7 +80,7 @@ public abstract class VersionedEntityDbTable<T> extends EntityDbTable<T> {
         }
     }
 
-    static void rollback(final TransactionalDb db, final String table, final int height, final DbKey.Factory dbKeyFactory) {
+    static void popOff(final TransactionalDb db, final String table, final int height, final DbKey.Factory dbKeyFactory) {
         if (!db.isInTransaction()) {
             throw new IllegalStateException("Not in transaction");
         }
@@ -88,7 +88,7 @@ public abstract class VersionedEntityDbTable<T> extends EntityDbTable<T> {
              PreparedStatement pstmtSelectToDelete = con.prepareStatement("SELECT DISTINCT " + dbKeyFactory.getPKColumns()
                      + " FROM " + table + " WHERE height > ?");
              PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM " + table
-                     + " WHERE height > ?");
+                     + " WHERE height > ? LIMIT " + Constants.BATCH_COMMIT_SIZE);
              PreparedStatement pstmtSetLatest = con.prepareStatement("UPDATE " + table
                      + " SET latest = TRUE " + dbKeyFactory.getPKClause() + " AND height ="
                      + " (SELECT MAX(height) FROM " + table + dbKeyFactory.getPKClause() + ")")) {
@@ -99,24 +99,21 @@ public abstract class VersionedEntityDbTable<T> extends EntityDbTable<T> {
                     dbKeys.add(dbKeyFactory.newKey(rs));
                 }
             }
-            /*
-            if (dbKeys.size() > 0 && Logger.isDebugEnabled()) {
-                Logger.logDebugMessage(String.format("rollback table %s found %d records to update to latest", table, dbKeys.size()));
-            }
-            */
             pstmtDelete.setInt(1, height);
-            int deletedRecordsCount = pstmtDelete.executeUpdate();
-            /*
-            if (deletedRecordsCount > 0 && Logger.isDebugEnabled()) {
-                Logger.logDebugMessage(String.format("rollback table %s deleting %d records", table, deletedRecordsCount));
-            }
-            */
+            int count;
+            do {
+                count = pstmtDelete.executeUpdate();
+                db.commitTransaction();
+            } while (count >= Constants.BATCH_COMMIT_SIZE);
+            count = 0;
             for (DbKey dbKey : dbKeys) {
                 int i = 1;
                 i = dbKey.setPK(pstmtSetLatest, i);
                 i = dbKey.setPK(pstmtSetLatest, i);
                 pstmtSetLatest.executeUpdate();
-                //Db.getCache(table).remove(dbKey);
+                if (++count % Constants.BATCH_COMMIT_SIZE == 0) {
+                    db.commitTransaction();
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
@@ -133,7 +130,7 @@ public abstract class VersionedEntityDbTable<T> extends EntityDbTable<T> {
              PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM " + table + dbKeyFactory.getPKClause()
                      + " AND height < ? AND height >= 0 LIMIT " + Constants.BATCH_COMMIT_SIZE);
              PreparedStatement pstmtDeleteDeleted = con.prepareStatement("DELETE FROM " + table + " WHERE height < ? AND height >= 0 AND latest = FALSE "
-                     + " AND (" + dbKeyFactory.getPKColumns() + ") NOT IN (SELECT (" + dbKeyFactory.getPKColumns() + ") FROM "
+                     + " AND (" + dbKeyFactory.getPKColumns() + ") NOT IN (SELECT " + dbKeyFactory.getPKColumns() + " FROM "
                      + table + " WHERE height >= ?) LIMIT " + Constants.BATCH_COMMIT_SIZE)) {
             pstmtSelect.setInt(1, height);
             try (ResultSet rs = pstmtSelect.executeQuery()) {

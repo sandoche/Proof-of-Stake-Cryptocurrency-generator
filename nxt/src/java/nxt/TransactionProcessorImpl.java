@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -77,7 +77,7 @@ final class TransactionProcessorImpl implements TransactionProcessor {
         }
 
         @Override
-        public void rollback(int height) {
+        public void popOffTo(int height) {
             try (Connection con = Db.db.getConnection();
                  PreparedStatement pstmt = con.prepareStatement("SELECT * FROM unconfirmed_transaction WHERE height > ?")) {
                 pstmt.setInt(1, height);
@@ -91,7 +91,7 @@ final class TransactionProcessorImpl implements TransactionProcessor {
             } catch (SQLException e) {
                 throw new RuntimeException(e.toString(), e);
             }
-            super.rollback(height);
+            super.popOffTo(height);
             unconfirmedDuplicates.clear();
         }
 

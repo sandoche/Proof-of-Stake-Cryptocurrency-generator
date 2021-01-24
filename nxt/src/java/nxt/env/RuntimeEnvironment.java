@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -25,6 +25,7 @@ public class RuntimeEnvironment {
     public static final String DIRPROVIDER_ARG = "nxt.runtime.dirProvider";
 
     private static final String osname = System.getProperty("os.name").toLowerCase();
+    private static final String javaSpecVendor = System.getProperty("java.specification.vendor");
     private static final boolean isHeadless;
     private static final boolean hasJavaFX;
     static {
@@ -60,6 +61,10 @@ public class RuntimeEnvironment {
         return osname.contains("mac");
     }
 
+    public static boolean isAndroidRuntime() {
+        return javaSpecVendor.equals("The Android Project");
+    }
+
     private static boolean isWindowsService() {
         return "service".equalsIgnoreCase(System.getProperty(RUNTIME_MODE_ARG)) && isWindowsRuntime();
     }
@@ -82,6 +87,12 @@ public class RuntimeEnvironment {
             return new DesktopMode();
         } else if (isWindowsService()) {
             return new WindowsServiceMode();
+        } else if (isAndroidRuntime()) {
+            try {
+                return (RuntimeMode) Class.forName("nxt.env.AndroidServiceMode").newInstance();
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Failed to instantiate nxt.env.AndroidServiceMode", e);
+            }
         } else {
             return new CommandLineMode();
         }
@@ -96,6 +107,9 @@ public class RuntimeEnvironment {
                 System.out.println("Failed to instantiate dirProvider " + dirProvider);
                 throw new RuntimeException(e.getMessage(), e);
             }
+        }
+        if (isAndroidRuntime()) {
+            return new AndroidDirProvider();
         }
         if (isDesktopEnabled()) {
             if (isWindowsRuntime()) {

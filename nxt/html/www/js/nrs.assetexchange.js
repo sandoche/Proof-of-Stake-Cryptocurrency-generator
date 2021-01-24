@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -71,6 +71,7 @@ var NRS = (function (NRS, $, undefined) {
                     "type": "danger"
                 });
             } else {
+                updateAssetStorage(response);
                 NRS.loadAsset(response, false);
             }
         });
@@ -200,6 +201,7 @@ var NRS = (function (NRS, $, undefined) {
                         }
                     });
                 } else {
+                    updateAssetStorage(response);
                     NRS.saveAssetBookmarks(new Array(response), NRS.forms.addAssetBookmarkComplete);
                 }
             });
@@ -561,6 +563,7 @@ var NRS = (function (NRS, $, undefined) {
             $("#sell_asset_button").data("asset", assetId);
             $("#buy_asset_button").data("asset", assetId);
             $("#view_asset_distribution_link").data("asset", assetId);
+            $("#asset_properties_link").data("asset", assetId);
             $("#sell_asset_for_nxt").html($.t("sell_asset_for_nxt", {
                 "assetName": NRS.escapeRespStr(asset.name)
             }));
@@ -612,6 +615,8 @@ var NRS = (function (NRS, $, undefined) {
                                 });
                             }, 50);
                         });
+                    } else {
+                        updateAssetStorage(response);
                     }
                     $("#asset_quantity").html(NRS.formatQuantity(response.quantityQNT, response.decimals));
                 }
@@ -766,7 +771,8 @@ var NRS = (function (NRS, $, undefined) {
         assetExchangeDividendHistoryTable.find("tbody").empty();
         assetExchangeDividendHistoryTable.parent().addClass("data-loading").removeClass("data-empty");
         var options = {
-            "asset": assetId
+            "asset": assetId,
+            includeHoldingInfo: true
         };
         var view = NRS.simpleview.get(table, {
             errorMessage: null,
@@ -790,12 +796,19 @@ var NRS = (function (NRS, $, undefined) {
                 dividend.numberOfAccounts = new BigInteger(dividend.numberOfAccounts.toString());
                 dividend.amountNQTPerQNT = new BigInteger(dividend.amountNQTPerQNT);
                 dividend.totalDividend = new BigInteger(dividend.totalDividend);
+                var holdingLink;
+                if (dividend.holdingType == "0") {
+                    holdingLink = "NXT";
+                } else {
+                    holdingLink = NRS.getTransactionLink(dividend.holding, dividend.holdingInfo.name);
+                }
                 view.data.push({
                     "timestamp": NRS.getTransactionLink(dividend.assetDividend, NRS.formatTimestamp(dividend.timestamp)),
                     "dividend_height": String(dividend.dividendHeight).escapeHTML(),
                     "total": NRS.formatAmount(dividend.totalDividend, false, false, amountDecimals),
                     "accounts": NRS.formatQuantity(dividend.numberOfAccounts, false, false, accountsDecimals),
-                    "amount_per_share": NRS.formatOrderPricePerWholeQNT(dividend.amountNQTPerQNT, currentAsset.decimals, amountNQTPerQNTDecimals)
+                    "amount_per_share": NRS.formatOrderPricePerWholeQNT(dividend.amountNQTPerQNT, currentAsset.decimals, amountNQTPerQNTDecimals),
+                    "holding": holdingLink
                 })
             }
             view.render({
@@ -1426,32 +1439,32 @@ var NRS = (function (NRS, $, undefined) {
         });
     };
 
-    /* DELETES HISTORY PAGE */
-    NRS.pages.deletes_history = function () {
-        NRS.sendRequest("getAssetDeletes+", {
+    /* ASSET HISTORY PAGE */
+    NRS.pages.quantity_change_history = function () {
+        NRS.sendRequest("getAssetHistory+", {
             "account": NRS.accountRS,
             "includeAssetInfo": true,
             "firstIndex": NRS.pageNumber * NRS.itemsPerPage - NRS.itemsPerPage,
             "lastIndex": NRS.pageNumber * NRS.itemsPerPage
         }, function (response) {
-            if (response.deletes && response.deletes.length) {
-                if (response.deletes.length > NRS.itemsPerPage) {
+            if (response.assetHistory && response.assetHistory.length) {
+                if (response.assetHistory.length > NRS.itemsPerPage) {
                     NRS.hasMorePages = true;
-                    response.deletes.pop();
+                    response.assetHistory.pop();
                 }
-                var deletes = response.deletes;
-                var quantityDecimals = NRS.getNumberOfDecimals(deletes, "quantityQNT", function(val) {
+                var changes = response.assetHistory;
+                var quantityDecimals = NRS.getNumberOfDecimals(changes, "quantityQNT", function(val) {
                     return NRS.formatQuantity(val.quantityQNT, val.decimals);
                 });
                 var rows = "";
-                for (var i = 0; i < deletes.length; i++) {
-                    deletes[i].quantityQNT = new BigInteger(deletes[i].quantityQNT);
+                for (var i = 0; i < changes.length; i++) {
+                    changes[i].quantityQNT = new BigInteger(changes[i].quantityQNT);
                     rows += "<tr>" +
-                        "<td>" + NRS.getTransactionLink(deletes[i].assetDelete) + "</td>" +
-                        "<td><a href='#' data-goto-asset='" + NRS.escapeRespStr(deletes[i].asset) + "'>" + NRS.escapeRespStr(deletes[i].name) + "</a></td>" +
-                        "<td>" + NRS.formatTimestamp(deletes[i].timestamp) + "</td>" +
-                        "<td class='numeric'>" + NRS.formatQuantity(deletes[i].quantityQNT, deletes[i].decimals, false, quantityDecimals) + "</td>" +
-                    "</tr>";
+                        "<td>" + NRS.getTransactionLink(changes[i].assetHistory) + "</td>" +
+                        "<td><a href='#' data-goto-asset='" + NRS.escapeRespStr(changes[i].asset) + "'>" + NRS.escapeRespStr(changes[i].name) + "</a></td>" +
+                        "<td>" + NRS.formatTimestamp(changes[i].timestamp) + "</td>" +
+                        "<td class='numeric'>" + NRS.formatQuantity(changes[i].quantityQNT, changes[i].decimals, false, quantityDecimals) + "</td>" +
+                        "</tr>";
                 }
                 NRS.dataLoaded(rows);
             } else {
@@ -1534,6 +1547,7 @@ var NRS = (function (NRS, $, undefined) {
                         "balanceQNT": NRS.accountInfo.assetBalances[i].balanceQNT
                     }
                 }, function (asset, input) {
+                    updateAssetStorage(asset);
                     if (NRS.currentPage != "my_assets") {
                         return;
                     }
@@ -1606,19 +1620,24 @@ var NRS = (function (NRS, $, undefined) {
             if (highestBidOrder != -1) {
                 var totalNQT = new BigInteger(NRS.calculateOrderTotalNQT(asset.balanceQNT, highestBidOrder));
             }
-            rows += "<tr data-asset='" + NRS.escapeRespStr(asset.asset) + "'>" +
-                "<td><a href='#' data-goto-asset='" + NRS.escapeRespStr(asset.asset) + "'>" + NRS.escapeRespStr(asset.name) + "</a></td>" +
+            var assetId = NRS.escapeRespStr(asset.asset);
+            var assetName = NRS.escapeRespStr(asset.name);
+            var decimals = NRS.escapeRespStr(asset.decimals);
+            rows += "<tr data-asset='" + assetId + "'>" +
+                "<td><a href='#' data-goto-asset='" + assetId + "'>" + assetName + "</a></td>" +
                 "<td class='quantity numeric'>" + NRS.formatQuantity(asset.balanceQNT, asset.decimals, false, quantityDecimals) + "</td>" +
                 "<td class='numeric'>" + NRS.formatQuantity(asset.quantityQNT, asset.decimals, false, totalDecimals) + "</td>" +
                 "<td class='numeric'>" + percentageAsset + "%</td>" +
                 "<td class='numeric'>" + (lowestAskOrder != -1 ? NRS.formatOrderPricePerWholeQNT(lowestAskOrder, asset.decimals, askDecimals) : "") + "</td>" +
                 "<td class='numeric'>" + (highestBidOrder != -1 ? NRS.formatOrderPricePerWholeQNT(highestBidOrder, asset.decimals, bidDecimals) : "") + "</td>" +
                 "<td class='numeric'>" + (highestBidOrder != -1 ? NRS.formatAmount(totalNQT, false, false, valueDecimals) : "") + "</td>" +
-                "<td>" +
-                    "<a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-target='#transfer_asset_modal' data-asset='" + NRS.escapeRespStr(asset.asset) + "' data-name='" + NRS.escapeRespStr(asset.name) + "' data-decimals='" + NRS.escapeRespStr(asset.decimals) + "' data-action='transfer_asset'>" + $.t("transfer") + "</a>" +
-                    "<a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-target='#transfer_asset_modal' data-asset='" + NRS.escapeRespStr(asset.asset) + "' data-name='" + NRS.escapeRespStr(asset.name) + "' data-decimals='" + NRS.escapeRespStr(asset.decimals) + "' data-action='delete_shares'>" + $.t("delete_shares") + "</a>" +
-                "</td>" +
-            "</tr>";
+                "<td><a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-target='#transfer_asset_modal' data-asset='" + assetId + "' data-name='" + assetName + "' data-decimals='" + decimals + "' data-action='transfer_asset'>" + $.t("transfer") + "</a>";
+            // Share increase is only allowed for non-singleton assets
+            if (asset.account == NRS.account && (asset.quantityQNT != 1 || asset.decimals != 0)) {
+                rows += "<a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-target='#transfer_asset_modal' data-asset='" + assetId + "' data-name='" + assetName + "' data-decimals='" + decimals + "' data-action='increase_shares'>" + $.t("increase_shares") + "</a>";
+            }
+            rows += "<a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-target='#transfer_asset_modal' data-asset='" + assetId + "' data-name='" + assetName + "' data-decimals='" + decimals + "' data-action='delete_shares'>" + $.t("delete_shares") + "</a>";
+            rows += "</td></tr>";
         }
         NRS.dataLoaded(rows);
     };
@@ -1677,6 +1696,9 @@ var NRS = (function (NRS, $, undefined) {
         } else if (action == "delete_shares") {
             $("#transfer_asset_recipient_container").hide();
             $("#transfer_asset_request_type").val("deleteAssetShares");
+        } else if (action == "increase_shares") {
+            $("#transfer_asset_recipient_container").hide();
+            $("#transfer_asset_request_type").val("increaseAssetShares");
         }
 
         var confirmedBalance = 0;
@@ -1713,14 +1735,18 @@ var NRS = (function (NRS, $, undefined) {
     });
 
     NRS.forms.transferAsset = function ($modal) {
-        return transferOrDeleteShares($modal);
+        return transferOrChangeShares($modal);
     };
 
     NRS.forms.deleteAssetShares = function ($modal) {
-        return transferOrDeleteShares($modal);
+        return transferOrChangeShares($modal);
     };
 
-    function transferOrDeleteShares($modal) {
+    NRS.forms.increaseAssetShares = function ($modal) {
+        return transferOrChangeShares($modal);
+    };
+
+    function transferOrChangeShares($modal) {
         var data = NRS.getFormData($modal.find("form:first"));
         if (!data.quantity) {
             return {
@@ -1762,7 +1788,8 @@ var NRS = (function (NRS, $, undefined) {
             delete data.permanent_message;
         }
 
-        if ($("#transfer_asset_action").val() == "delete_shares") {
+        var action = $("#transfer_asset_action").val();
+        if (action == "delete_shares" || action == "increase_shares") {
             delete data.recipient;
             delete data.recipientPublicKey;
         }
@@ -1802,6 +1829,7 @@ var NRS = (function (NRS, $, undefined) {
                         "asset": asset
                     }, function (response) {
                         if (!response.errorCode) {
+                            updateAssetStorage(response);
                             NRS.loadAssetExchangeSidebar(function () {
                                 response.groupName = "";
                                 response.viewingAsset = true;
@@ -2075,9 +2103,9 @@ var NRS = (function (NRS, $, undefined) {
         };
         NRS.appendMenuItemToTSMenuItem(sidebarId, options);
         options = {
-            "titleHTML": '<span data-i18n="delete_history">Delete History</span>',
+            "titleHTML": '<span data-i18n="quantity_change_history">Quantity Change History</span>',
             "type": 'PAGE',
-            "page": 'deletes_history'
+            "page": 'quantity_change_history'
         };
         NRS.appendMenuItemToTSMenuItem(sidebarId, options);
         options = {
@@ -2105,6 +2133,15 @@ var NRS = (function (NRS, $, undefined) {
         };
         NRS.appendMenuItemToTSMenuItem(sidebarId, options);
     };
+
+    // updates mutable fields of stored assets
+    function updateAssetStorage(asset) {
+        NRS.storageUpdate("assets", {
+            quantityQNT: asset.quantityQNT
+        }, [{
+            asset: asset.asset
+        }]);
+    }
 
     return NRS;
 }(NRS || {}, jQuery));

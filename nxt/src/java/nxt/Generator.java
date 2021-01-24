@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public final class Generator implements Comparable<Generator> {
 
@@ -44,8 +45,15 @@ public final class Generator implements Comparable<Generator> {
     }
 
     private static final int MAX_FORGERS = Nxt.getIntProperty("nxt.maxNumberOfForgers");
-    private static final byte[] fakeForgingPublicKey = Nxt.getBooleanProperty("nxt.enableFakeForging") ?
-            Account.getPublicKey(Convert.parseAccountId(Nxt.getStringProperty("nxt.fakeForgingAccount"))) : null;
+    private static final List<byte[]> fakeForgingPublicKeys = getFakeForgingPublicKeys();
+
+    private static List<byte[]> getFakeForgingPublicKeys() {
+        if (!Nxt.getBooleanProperty("nxt.enableFakeForging")) {
+            return Collections.emptyList();
+        }
+        final List<String> fakeForgingPublicKeysStrings = Nxt.getStringListProperty("nxt.fakeForgingPublicKeys");
+        return fakeForgingPublicKeysStrings.stream().map(Convert::parseHexString).collect(Collectors.toList());
+    }
 
     private static final Listeners<Generator,Event> listeners = new Listeners<>();
 
@@ -248,7 +256,7 @@ public final class Generator implements Comparable<Generator> {
     }
 
     static boolean allowsFakeForging(byte[] publicKey) {
-        return Constants.isTestnet && publicKey != null && Arrays.equals(publicKey, fakeForgingPublicKey);
+        return Constants.isTestnet && publicKey != null && fakeForgingPublicKeys.stream().anyMatch(pk -> Arrays.equals(pk, publicKey));
     }
 
     static BigInteger getHit(byte[] publicKey, Block block) {

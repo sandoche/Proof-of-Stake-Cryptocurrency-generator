@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -284,7 +284,15 @@ public enum APIEnum {
     GET_NEXT_BLOCK_GENERATORS("getNextBlockGenerators", GetNextBlockGeneratorsTemp.instance),
     GET_SCHEDULED_TRANSACTIONS("getScheduledTransactions", GetScheduledTransactions.instance),
     SCHEDULE_CURRENCY_BUY("scheduleCurrencyBuy", ScheduleCurrencyBuy.instance),
-    DELETE_SCHEDULED_TRANSACTION("deleteScheduledTransaction", DeleteScheduledTransaction.instance);
+    DELETE_SCHEDULED_TRANSACTION("deleteScheduledTransaction", DeleteScheduledTransaction.instance),
+    GET_ASSET_HISTORY("getAssetHistory", GetAssetHistory.instance),
+    INCREASE_ASSET_SHARES("increaseAssetShares", IncreaseAssetShares.instance),
+    GET_ASSET_PROPERTIES("getAssetProperties", GetAssetProperties.instance),
+    SET_ASSET_PROPERTY("setAssetProperty", SetAssetProperty.instance),
+    DELETE_ASSET_PROPERTY("deleteAssetProperty", DeleteAssetProperty.instance),
+    BOOTSTRAP_API_PROXY("bootstrapAPIProxy", BootstrapAPIProxy.instance),
+    MANAGE_PEERS_NETWORKING("managePeersNetworking", ManagePeersNetworking.instance),
+    GET_EPOCH_TIME("getEpochTime", GetEpochTime.instance);
 
     private static final Map<String, APIEnum> apiByName = new HashMap<>();
 
@@ -332,7 +340,7 @@ public enum APIEnum {
         byte[] decoded = Base64.getDecoder().decode(apiSetBase64);
         BitSet bs = BitSet.valueOf(decoded);
         EnumSet<APIEnum> result = EnumSet.noneOf(APIEnum.class);
-        for (int i = bs.nextSetBit(0); i >= 0; i = bs.nextSetBit(i+1)) {
+        for (int i = bs.nextSetBit(0); i >= 0 && i < APIEnum.values().length; i = bs.nextSetBit(i+1)) {
             result.add(APIEnum.values()[i]);
             if (i == Integer.MAX_VALUE) {
                 break; // or (i+1) would overflow

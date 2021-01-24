@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -16,34 +16,27 @@
 
 RemoteNodesManager.prototype.REMOTE_NODES_BOOTSTRAP =
     {
-        "peers": [
-            {
-                "downloadedVolume": 57669241,
-                "address": "159.89.98.88",
-                "inbound": true,
-                "blockchainState": "UP_TO_DATE",
-                "weight": 0,
-                "uploadedVolume": 53021877,
-                "services": [
-                    "PRUNABLE",
-                    "API",
-                    "API_SSL",
-                    "CORS"
-                ],
-                "version": "1.11.14",
-                "platform": "FreeBSD amd64",
-                "inboundWebSocket": true,
-                "apiSSLPort": 6877,
-                "lastUpdated": 153604540,
-                "blacklisted": false,
-                "announcedAddress": "testnxt.jelurida.com",
-                "apiPort": 6876,
-                "application": "NRS",
-                "port": 6874,
-                "outboundWebSocket": false,
-                "lastConnectAttempt": 153604540,
-                "state": 1,
-                "shareAddress": true
-            }
-        ]
+        "peers": [{
+            "downloadedVolume": 297870,
+            "address": "159.89.98.88",
+            "inbound": true,
+            "blockchainState": "UP_TO_DATE",
+            "weight": 0,
+            "uploadedVolume": 110164,
+            "services": ["PRUNABLE", "API", "API_SSL", "CORS"],
+            "version": "1.11.16",
+            "platform": "FreeBSD amd64",
+            "inboundWebSocket": true,
+            "apiSSLPort": 6877,
+            "lastUpdated": 181675485,
+            "blacklisted": false,
+            "announcedAddress": "testnxt.jelurida.com",
+            "apiPort": 6876,
+            "application": "NRS",
+            "port": 6874,
+            "outboundWebSocket": true,
+            "lastConnectAttempt": 181675480,
+            "state": 1,
+            "shareAddress": true
+        }]
     };

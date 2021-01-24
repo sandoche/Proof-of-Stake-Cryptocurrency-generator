@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -173,8 +173,9 @@ public class Snapshot implements AddOn {
                             String account = Long.toUnsignedString(accountId);
                             snapshotMap.put(account, balance);
                             if (snapshotForTestnet) {
-                                eurSnapshotMap.put(account, BigInteger.valueOf(balance).multiply(BigInteger.valueOf(10000))
-                                        .divide(BigInteger.valueOf(Constants.ONE_NXT)).longValueExact());
+                                eurSnapshotMap.put(account, Convert.longValueExact(
+                                        BigInteger.valueOf(balance).multiply(BigInteger.valueOf(10000))
+                                        .divide(BigInteger.valueOf(Constants.ONE_NXT))));
                             } else {
                                 eurSnapshotMap.put(Long.toUnsignedString(Convert.parseAccountId(AEUR_ACCOUNT)), 10000000L * 10000);
                             }
@@ -293,13 +294,14 @@ public class Snapshot implements AddOn {
                     for (Map.Entry<String, Long> entry : ignisBalances.entrySet()) {
                         String accountId = entry.getKey();
                         long ignisBalance = Convert.nullToZero(entry.getValue());
-                        long sharedropQuantity = totalQuantity.multiply(BigInteger.valueOf(ignisBalance)).divide(totalIgnisBalance).divide(BigInteger.TEN).longValueExact();
+                        long sharedropQuantity = Convert.longValueExact(
+                                totalQuantity.multiply(BigInteger.valueOf(ignisBalance)).divide(totalIgnisBalance).divide(BigInteger.TEN));
                         Long quantity = snapshotMap.get(accountId);
                         snapshotMap.put(accountId, quantity == null ? sharedropQuantity : quantity + sharedropQuantity);
                     }
                     String bitswiftSharedropAccount = Long.toUnsignedString(FxtDistribution.BITSWIFT_SHAREDROP_ACCOUNT);
                     long bitswiftIssuerBalance = snapshotMap.get(bitswiftSharedropAccount);
-                    bitswiftIssuerBalance -= totalQuantity.divide(BigInteger.TEN).longValueExact();
+                    bitswiftIssuerBalance -= Convert.longValueExact(totalQuantity.divide(BigInteger.TEN));
                     if (bitswiftIssuerBalance < 0) {
                         throw new RuntimeException("Not enough Bitswift available for sharedrop");
                     }

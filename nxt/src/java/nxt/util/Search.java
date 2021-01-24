@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -25,6 +25,8 @@ import org.apache.tika.Tika;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import nxt.Constants;
 
 public final class Search {
 
@@ -53,11 +55,17 @@ public final class Search {
     }
 
     public static String detectMimeType(byte[] data, String filename) {
+        if (Constants.DISABLE_METADATA_DETECTION) {
+            throw new UnsupportedOperationException("Metadata detection is disabled");
+        }
         Tika tika = new Tika();
         return tika.detect(data, filename);
     }
 
     public static String detectMimeType(byte[] data) {
+        if (Constants.DISABLE_METADATA_DETECTION) {
+            throw new UnsupportedOperationException("Metadata detection is disabled");
+        }
         Tika tika = new Tika();
         try {
             return tika.detect(data);

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -52,17 +52,53 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-import static nxt.http.JSONResponses.*;
+import static nxt.http.JSONResponses.INCORRECT_ACCOUNT;
+import static nxt.http.JSONResponses.INCORRECT_ALIAS;
+import static nxt.http.JSONResponses.INCORRECT_ARBITRARY_MESSAGE;
+import static nxt.http.JSONResponses.INCORRECT_DATA_TOO_LONG;
+import static nxt.http.JSONResponses.INCORRECT_DATA_ZERO_LENGTH;
+import static nxt.http.JSONResponses.INCORRECT_HEIGHT;
+import static nxt.http.JSONResponses.INCORRECT_MESSAGE_TO_ENCRYPT;
+import static nxt.http.JSONResponses.INCORRECT_PURCHASE;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_CHANNEL;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_DESCRIPTION;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_FILE;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_FILENAME;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_NAME;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_TAGS;
+import static nxt.http.JSONResponses.INCORRECT_TAGGED_DATA_TYPE;
+import static nxt.http.JSONResponses.MISSING_ACCOUNT;
+import static nxt.http.JSONResponses.MISSING_ALIAS_OR_ALIAS_NAME;
+import static nxt.http.JSONResponses.MISSING_NAME;
+import static nxt.http.JSONResponses.MISSING_PROPERTY;
+import static nxt.http.JSONResponses.MISSING_RECIPIENT_PUBLIC_KEY;
+import static nxt.http.JSONResponses.MISSING_SECRET_PHRASE;
+import static nxt.http.JSONResponses.MISSING_TRANSACTION_BYTES_OR_JSON;
+import static nxt.http.JSONResponses.UNKNOWN_ACCOUNT;
+import static nxt.http.JSONResponses.UNKNOWN_ALIAS;
+import static nxt.http.JSONResponses.UNKNOWN_ASSET;
+import static nxt.http.JSONResponses.UNKNOWN_CURRENCY;
+import static nxt.http.JSONResponses.UNKNOWN_GOODS;
+import static nxt.http.JSONResponses.UNKNOWN_OFFER;
+import static nxt.http.JSONResponses.UNKNOWN_POLL;
+import static nxt.http.JSONResponses.UNKNOWN_SHUFFLING;
+import static nxt.http.JSONResponses.either;
+import static nxt.http.JSONResponses.incorrect;
+import static nxt.http.JSONResponses.missing;
 
 public final class ParameterParser {
 
     public static byte getByte(HttpServletRequest req, String name, byte min, byte max, boolean isMandatory) throws ParameterException {
+        return getByte(req, name, min, max, (byte) 0, isMandatory);
+    }
+
+    public static byte getByte(HttpServletRequest req, String name, byte min, byte max, byte defaultValue, boolean isMandatory) throws ParameterException {
         String paramValue = Convert.emptyToNull(req.getParameter(name));
         if (paramValue == null) {
             if (isMandatory) {
                 throw new ParameterException(missing(name));
             }
-            return 0;
+            return defaultValue;
         }
         try {
             byte value = Byte.parseByte(paramValue);
@@ -83,14 +119,26 @@ public final class ParameterParser {
             }
             return 0;
         }
+        return getInt(name, paramValue, min, max);
+    }
+
+    public static int getInt(HttpServletRequest req, String name, int min, int max, int defaultValue) throws ParameterException {
+        String paramValue = Convert.emptyToNull(req.getParameter(name));
+        if (paramValue == null) {
+            return defaultValue;
+        }
+        return getInt(name, paramValue, min, max);
+    }
+
+    private static int getInt(String paramName, String paramValue, int min, int max) throws ParameterException {
         try {
             int value = Integer.parseInt(paramValue);
             if (value < min || value > max) {
-                throw new ParameterException(incorrect(name, String.format("value %d not in range [%d-%d]", value, min, max)));
+                throw new ParameterException(incorrect(paramName, String.format("value %d not in range [%d-%d]", value, min, max)));
             }
             return value;
         } catch (RuntimeException e) {
-            throw new ParameterException(incorrect(name, String.format("value %s is not numeric", paramValue)));
+            throw new ParameterException(incorrect(paramName, String.format("value %s is not numeric", paramValue)));
         }
     }
 
@@ -103,14 +151,27 @@ public final class ParameterParser {
             }
             return 0;
         }
+        return getLong(name, paramValue, min, max);
+    }
+
+    public static long getLong(HttpServletRequest req, String name, long min, long max,
+                               long defaultValue) throws ParameterException {
+        String paramValue = Convert.emptyToNull(req.getParameter(name));
+        if (paramValue == null) {
+            return defaultValue;
+        }
+        return getLong(name, paramValue, min, max);
+    }
+
+    private static long getLong(String paramName, String paramValue, long min, long max) throws ParameterException {
         try {
             long value = Long.parseLong(paramValue);
             if (value < min || value > max) {
-                throw new ParameterException(incorrect(name, String.format("value %d not in range [%d-%d]", value, min, max)));
+                throw new ParameterException(incorrect(paramName, String.format("value %d not in range [%d-%d]", value, min, max)));
             }
             return value;
         } catch (RuntimeException e) {
-            throw new ParameterException(incorrect(name, String.format("value %s is not numeric", paramValue)));
+            throw new ParameterException(incorrect(paramName, String.format("value %s is not numeric", paramValue)));
         }
     }
 
@@ -521,6 +582,10 @@ public final class ParameterParser {
     }
 
     public static int getHeight(HttpServletRequest req) throws ParameterException {
+        return getHeight(req, false);
+    }
+
+    public static int getHeight(HttpServletRequest req, boolean isMandatory) throws ParameterException {
         String heightValue = Convert.emptyToNull(req.getParameter("height"));
         if (heightValue != null) {
             try {
@@ -532,6 +597,9 @@ public final class ParameterParser {
             } catch (NumberFormatException e) {
                 throw new ParameterException(INCORRECT_HEIGHT);
             }
+        }
+        if (isMandatory) {
+            throw new ParameterException(missing("height"));
         }
         return -1;
     }

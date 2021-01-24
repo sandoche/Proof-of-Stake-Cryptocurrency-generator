@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -121,6 +121,11 @@ public final class Poll extends AbstractPoll {
 
     public static DbIterator<Poll> getPollsFinishingAtOrBefore(int height, int from, int to) {
         return pollTable.getManyBy(new DbClause.IntClause("finish_height", DbClause.Op.LTE, height), from, to);
+    }
+
+    public static DbIterator<Poll> getPollsFinishingBetween(int minHeight, int height, int from, int to) {
+        return pollTable.getManyBy(new DbClause.IntClause("finish_height", DbClause.Op.LTE, height)
+                .and(new DbClause.IntClause("finish_height", DbClause.Op.GT, minHeight)), from, to);
     }
 
     public static DbIterator<Poll> getAllPolls(int from, int to) {

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,17 +16,14 @@
 
 package nxt.db;
 
-public abstract class VersionedPersistentDbTable<T> extends VersionedPrunableDbTable<T> {
+public abstract class VersionedPersistentDbTable<T> extends PersistentDbTable<T> {
 
     protected VersionedPersistentDbTable(String table, DbKey.Factory<T> dbKeyFactory) {
-        super(table, dbKeyFactory);
+        super(table, dbKeyFactory, true, null);
     }
 
     protected VersionedPersistentDbTable(String table, DbKey.Factory<T> dbKeyFactory, String fullTextSearchColumns) {
-        super(table, dbKeyFactory, fullTextSearchColumns);
+        super(table, dbKeyFactory, true, fullTextSearchColumns);
     }
-
-    @Override
-    protected final void prune() {}
 
 }

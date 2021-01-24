@@ -1,0 +1,99 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of this software, including this file, may be copied, modified,   ~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="set_asset_property_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="set_asset_property">SET ASSET PROPERTY</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="set_asset_property_asset" data-i18n="asset">ASSET</label>
+                        <input type="text" class="form-control" name="asset" id="set_asset_property_asset" placeholder="ASSET" data-i18n="[placeholder]asset" tabindex="1" />
+                    </div>
+                    <div class="form-group">
+                        <label for="set_asset_property_property" data-i18n="property">PROPERTY</label>
+                        <input type="text" class="form-control" name="property" id="set_asset_property_property" placeholder="PROPERTY" data-i18n="[placeholder]property" tabindex="2" />
+                    </div>
+                    <div class="form-group">
+                        <label for="set_asset_property_value" data-i18n="value">VALUE</label>
+                        <input type="text" class="form-control" name="value" id="set_asset_property_value" placeholder="value" data-i18n="[placeholder]value" tabindex="3" />
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="setAssetProperty" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="set_property;[placeholder]submitting">SET PROPERTY</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_asset_property_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" data-i18n="delete_asset_property">DELETE ASSET PROPERTY</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="delete_asset_property_setter" data-i18n="setter">SETTER</label>
+                        <input type="text" class="form-control" name="setter" id="delete_asset_property_setter" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="delete_asset_property_asset" data-i18n="asset">ASSET</label>
+                        <input type="text" class="form-control" name="asset" id="delete_asset_property_asset" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="delete_asset_property_property" data-i18n="property">PROPERTY</label>
+                        <input type="text" class="form-control" name="property" id="delete_asset_property_property" readonly/>
+                    </div>
+                    <div data-replace-with-modal-template="fee_calculation_modal_template"></div>
+                    <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                    <div data-replace-with-modal-template="advanced_deadline_template"></div>
+                    <div data-replace-with-modal-template="advanced_approve_template"></div>
+                    <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
+                    <div data-replace-with-modal-template="advanced_broadcast_template"></div>
+                    <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
+
+                    <input type="hidden" name="request_type" value="deleteAssetProperty" />
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <div class="advanced_info"><a href="#" data-i18n="advanced">advanced</a></div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="delete_property;[placeholder]submitting">DELETE PROPERTY</button>
+            </div>
+        </div>
+    </div>
+</div>

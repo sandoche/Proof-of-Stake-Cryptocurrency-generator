@@ -1,0 +1,48 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of this software, including this file, may be copied, modified,   ~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="node_processes_config_page" class="page">
+    <script type="text/x-handlebars-template">
+        <section class="content-header">
+            <h1 data-i18n="node_processes_config">Processes</h1>
+        </section>
+        <section class="content">
+            {{#if emptyUI}}
+            <p data-i18n="node_processes_config_empty_ui">
+                This section allows to interact with add-ons that save and start local processes via an encrypted file.
+                There are none of those add-ons enabled (i.e. ForgingEncryptedConfig).
+            </p>
+            {{/if}}
+            <table class="table">
+                {{#each addons}}
+                {{#if showUI}}
+                <tr>
+                    <td>{{ i18n friendlyName }}</td>
+                    <td>
+                        <a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-addon="{{@index}}"
+                           data-target='{{ save_modal }}' data-i18n="save">Save</a>
+                    </td>
+                    <td>
+                        <a href='#' class='btn btn-xs btn-default' data-toggle='modal' data-addon="{{@index}}"
+                           data-target='#m_start_node_process_config_modal' data-i18n="start">Start</a>
+                    </td>
+                </tr>
+                {{/if}}
+                {{/each}}
+            </table>
+        </section>
+    </script>
+</div>

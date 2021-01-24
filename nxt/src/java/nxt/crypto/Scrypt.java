@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -24,21 +24,18 @@ import java.security.NoSuchAlgorithmException;
 
 @SuppressWarnings({"PointlessBitwiseExpression", "PointlessArithmeticExpression"})
 public class Scrypt {
-
-    private final Mac mac;
-    {
-        try {
-            mac = Mac.getInstance("HmacSHA256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+    private final Mac mac = createMac();
     private final byte[] H = new byte[32];
     private final byte[] B = new byte[128 + 4];
     private final int[] X = new int[32];
     private final int[] V = new int[32 * 1024];
 
     public byte[] hash(final byte input[]) {
+        erase(H);
+        erase(B);
+        erase(X);
+        erase(V);
+
         int i, j, k;
         System.arraycopy(input, 0, B, 0, input.length);
         try {
@@ -166,4 +163,23 @@ public class Scrypt {
         X[di + 15] += x15;
     }
 
+    private static void erase(byte[] bytes) {
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) 0;
+        }
+    }
+
+    private static void erase(int[] ints) {
+        for (int i = 0; i < ints.length; i++) {
+            ints[i] = 0;
+        }
+    }
+
+    private static Mac createMac() {
+        try {
+            return Mac.getInstance("HmacSHA256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

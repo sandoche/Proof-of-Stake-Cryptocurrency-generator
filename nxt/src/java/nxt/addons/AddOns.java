@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -23,6 +23,8 @@ import nxt.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +34,21 @@ public final class AddOns {
     static {
         List<AddOn> addOnsList = new ArrayList<>();
         Nxt.getStringListProperty("nxt.addOns").forEach(addOn -> {
+            Class addOnClass = null;
             try {
-                addOnsList.add((AddOn)Class.forName(addOn).newInstance());
+                try {
+                    addOnClass = Class.forName(addOn);
+                } catch (ClassNotFoundException e) {
+                    if (addOn.indexOf('.') == -1) {
+                        addOn = "nxt.addons." + addOn;
+                        addOnClass = Class.forName(addOn);
+                    }
+                }
+                if (addOnClass == null) {
+                    Logger.logErrorMessage("Add-on %s not found", addOn);
+                } else {
+                    addOnsList.add((AddOn) addOnClass.getConstructor().newInstance());
+                }
             } catch (ReflectiveOperationException e) {
                 Logger.logErrorMessage(e.getMessage(), e);
             }
@@ -70,14 +85,32 @@ public final class AddOns {
 
     public static void registerAPIRequestHandlers(Map<String,APIServlet.APIRequestHandler> map) {
         for (AddOn addOn : addOns) {
+            Map<String, APIServlet.APIRequestHandler> apiRequests = addOn.getAPIRequests();
+            if (apiRequests != null) {
+                apiRequests = new LinkedHashMap<>(apiRequests); // defensive copy, preserve order
+            }
+
             APIServlet.APIRequestHandler requestHandler = addOn.getAPIRequestHandler();
-            if (requestHandler != null) {
+            String apiRequestType = addOn.getAPIRequestType();
+            if (requestHandler != null && apiRequestType != null) {
+                if (apiRequests == null) {
+                    apiRequests = new HashMap<>();
+                }
+                apiRequests.put(apiRequestType, requestHandler);
+            }
+            if (apiRequests == null) {
+                continue;
+            }
+
+            // Register the Addon APIs
+            for(Map.Entry<String, APIServlet.APIRequestHandler> apiRequest : apiRequests.entrySet()){
+                requestHandler = apiRequest.getValue();
                 if (!requestHandler.getAPITags().contains(APITag.ADDONS)) {
                     Logger.logErrorMessage("Add-on " + addOn.getClass().getName()
                             + " attempted to register request handler which is not tagged as APITag.ADDONS, skipping");
                     continue;
                 }
-                String requestType = addOn.getAPIRequestType();
+                String requestType = apiRequest.getKey();
                 if (requestType == null) {
                     Logger.logErrorMessage("Add-on " + addOn.getClass().getName() + " requestType not defined");
                     continue;

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -117,6 +117,7 @@ final class BlockchainImpl implements Blockchain {
     @Override
     public DbIterator<BlockImpl> getAllBlocks() {
         Connection con = null;
+        readLock();
         try {
             con = Db.db.getConnection();
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block ORDER BY db_id ASC");
@@ -124,12 +125,15 @@ final class BlockchainImpl implements Blockchain {
         } catch (SQLException e) {
             DbUtils.close(con);
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            readUnlock();
         }
     }
 
     @Override
     public DbIterator<BlockImpl> getBlocks(int from, int to) {
         Connection con = null;
+        readLock();
         try {
             con = Db.db.getConnection();
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block WHERE height <= ? AND height >= ? ORDER BY height DESC");
@@ -140,6 +144,8 @@ final class BlockchainImpl implements Blockchain {
         } catch (SQLException e) {
             DbUtils.close(con);
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            readUnlock();
         }
     }
 
@@ -151,6 +157,7 @@ final class BlockchainImpl implements Blockchain {
     @Override
     public DbIterator<BlockImpl> getBlocks(long accountId, int timestamp, int from, int to) {
         Connection con = null;
+        readLock();
         try {
             con = Db.db.getConnection();
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block WHERE generator_id = ? "
@@ -166,6 +173,8 @@ final class BlockchainImpl implements Blockchain {
         } catch (SQLException e) {
             DbUtils.close(con);
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            readUnlock();
         }
     }
 
@@ -244,6 +253,7 @@ final class BlockchainImpl implements Blockchain {
             }
         }
         // Search the database
+        readLock();
         try (Connection con = Db.db.getConnection();
                 PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block "
                         + "WHERE db_id > IFNULL ((SELECT db_id FROM block WHERE id = ?), " + Long.MAX_VALUE + ") "
@@ -257,6 +267,8 @@ final class BlockchainImpl implements Blockchain {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            readUnlock();
         }
         return result;
     }
@@ -282,6 +294,7 @@ final class BlockchainImpl implements Blockchain {
                 return result;
             }
         }
+        readLock();
         // Search the database
         try (Connection con = Db.db.getConnection();
                 PreparedStatement pstmt = con.prepareStatement("SELECT * FROM block "
@@ -301,6 +314,8 @@ final class BlockchainImpl implements Blockchain {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
+        } finally {
+            readUnlock();
         }
         return result;
     }

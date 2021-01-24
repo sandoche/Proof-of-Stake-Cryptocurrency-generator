@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -223,17 +223,21 @@ public class TaggedData {
         private static void delete(Map<String,Integer> expiredTags) {
             try (Connection con = Db.db.getConnection();
                  PreparedStatement pstmt = con.prepareStatement("UPDATE data_tag SET tag_count = tag_count - ? WHERE tag = ?");
-                 PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM data_tag WHERE tag_count <= 0")) {
+                 PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM data_tag WHERE tag_count <= 0 LIMIT " + Constants.BATCH_COMMIT_SIZE)) {
                 for (Map.Entry<String,Integer> entry : expiredTags.entrySet()) {
                     pstmt.setInt(1, entry.getValue());
                     pstmt.setString(2, entry.getKey());
                     pstmt.executeUpdate();
                     Logger.logDebugMessage("Reduced tag count for " + entry.getKey() + " by " + entry.getValue());
                 }
-                int deleted = pstmtDelete.executeUpdate();
-                if (deleted > 0) {
-                    Logger.logDebugMessage("Deleted " + deleted + " tags");
-                }
+                int deleted;
+                do {
+                    deleted = pstmtDelete.executeUpdate();
+                    if (deleted > 0) {
+                        Logger.logDebugMessage("Deleted " + deleted + " tags");
+                    }
+                    Db.db.commitTransaction();
+                } while (deleted >= Constants.BATCH_COMMIT_SIZE);
             } catch (SQLException e) {
                 throw new RuntimeException(e.toString(), e);
             }

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,7 +16,6 @@
 
 package nxtdesktop;
 
-import com.sun.javafx.scene.web.Debugger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
@@ -25,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -42,9 +42,11 @@ import nxt.util.Logger;
 import nxt.util.TrustAllSSLProvider;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.awt.*;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -117,11 +119,12 @@ public class DesktopApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+        Thread.currentThread().setName("jfx");
+        logJavaFxProperties();
         DesktopApplication.stage = stage;
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         WebView browser = new WebView();
-        browser.setOnContextMenuRequested(new WalletContextMenu());
         WebView invisible = new WebView();
 
         int height = (int) Math.min(primaryScreenBounds.getMaxY() - 100, 1000);
@@ -150,8 +153,7 @@ public class DesktopApplication extends Application {
                     nrs = (JSObject) webEngine.executeScript("NRS");
                     updateClientState("Desktop Wallet started");
                     BlockchainProcessor blockchainProcessor = Nxt.getBlockchainProcessor();
-                    blockchainProcessor.addListener((block) ->
-                            updateClientState(BlockchainProcessor.Event.BLOCK_PUSHED, block), BlockchainProcessor.Event.BLOCK_PUSHED);
+                    blockchainProcessor.addListener(this::updateClientState, BlockchainProcessor.Event.BLOCK_PUSHED);
                     Nxt.getTransactionProcessor().addListener(transaction ->
                             updateClientState(TransactionProcessor.Event.ADDED_UNCONFIRMED_TRANSACTIONS, transaction), TransactionProcessor.Event.ADDED_UNCONFIRMED_TRANSACTIONS);
                     Nxt.getTransactionProcessor().addListener(transaction ->
@@ -159,13 +161,17 @@ public class DesktopApplication extends Application {
 
                     if (ENABLE_JAVASCRIPT_DEBUGGER) {
                         try {
-                            // Add the javafx_webview_debugger lib to the classpath
+                            // Add the javafx_webview_debugger and websocket-* test libs to the classpath
                             // For more details, check https://github.com/mohamnag/javafx_webview_debugger
                             Class<?> aClass = Class.forName("com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer");
-                            @SuppressWarnings("deprecation") Debugger debugger = webEngine.impl_getDebugger();
-                            Method startDebugServer = aClass.getMethod("startDebugServer", Debugger.class, int.class);
+                            Class webEngineClazz = WebEngine.class;
+                            Field debuggerField = webEngineClazz.getDeclaredField("debugger");
+                            debuggerField.setAccessible(true);
+                            Object debugger = debuggerField.get(webEngine);
+                            //noinspection JavaReflectionMemberAccess
+                            Method startDebugServer = aClass.getMethod("startDebugServer", debugger.getClass(), int.class);
                             startDebugServer.invoke(null, debugger, 51742);
-                        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                        } catch (NoSuchFieldException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                             Logger.logInfoMessage("Cannot start JavaFx debugger", e);
                         }
                     }
@@ -197,13 +203,13 @@ public class DesktopApplication extends Application {
         Platform.setImplicitExit(false); // So that we can reopen the application in case the user closed it
     }
 
-    private void updateClientState(BlockchainProcessor.Event blockEvent, Block block) {
+    private void updateClientState(Block block) {
         if (Nxt.getBlockchainProcessor().isDownloading()) {
             if (System.currentTimeMillis() - updateTime < 10000L) {
                 return;
             }
         }
-        String msg = blockEvent.toString() + " id " + block.getStringId() + " height " + block.getHeight();
+        String msg = BlockchainProcessor.Event.BLOCK_PUSHED.toString() + " id " + block.getStringId() + " height " + block.getHeight();
         updateClientState(msg);
     }
 
@@ -349,14 +355,21 @@ public class DesktopApplication extends Application {
     private void downloadFile(byte[] data, String filename) {
         Path folderPath = Paths.get(System.getProperty("user.home"), "downloads");
         Path path = Paths.get(folderPath.toString(), filename);
-        Logger.logInfoMessage("Downloading data to " + path.toAbsolutePath());
-        try {
-            OutputStream outputStream = Files.newOutputStream(path);
-            outputStream.write(data);
-            outputStream.close();
-            growl(String.format("File %s saved to folder %s", filename, folderPath));
-        } catch (IOException e) {
-            growl("Download failed " + e.getMessage(), e);
+        Logger.logInfoMessage("Before downloading file %s to default path %s", filename, path.toAbsolutePath());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        fileChooser.setInitialDirectory(folderPath.toFile());
+        fileChooser.setInitialFileName(filename);
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            try (OutputStream outputStream = Files.newOutputStream(file.toPath())){
+                outputStream.write(data);
+                growl(String.format("File %s downloaded", file.getAbsolutePath()));
+            } catch (IOException e) {
+                growl("Download failed " + e.getMessage(), e);
+            }
+        } else {
+            growl("File download cancelled");
         }
     }
 
@@ -375,6 +388,16 @@ public class DesktopApplication extends Application {
             Logger.logInfoMessage(msg, e);
         }
         nrs.call("growl", msg);
+    }
+
+    private void logJavaFxProperties() {
+        String[] loggedProperties = new String[] {
+                "javafx.version",
+                "javafx.runtime.version",
+        };
+        for (String property : loggedProperties) {
+            Logger.logDebugMessage(String.format("%s = %s", property, System.getProperty(property)));
+        }
     }
 
 }

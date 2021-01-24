@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -28,6 +28,8 @@ import java.sql.SQLException;
 
 public final class Vote {
 
+    private static final boolean deleteProcessedVotes = Nxt.getBooleanProperty("nxt.deleteProcessedVotes");
+
     private static final DbKey.LongKeyFactory<Vote> voteDbKeyFactory = new DbKey.LongKeyFactory<Vote>("id") {
         @Override
         public DbKey newKey(Vote vote) {
@@ -50,15 +52,23 @@ public final class Vote {
         @Override
         public void trim(int height) {
             super.trim(height);
-            try (Connection con = Db.db.getConnection();
-                 DbIterator<Poll> polls = Poll.getPollsFinishingAtOrBefore(height, 0, Integer.MAX_VALUE);
-                 PreparedStatement pstmt = con.prepareStatement("DELETE FROM vote WHERE poll_id = ?")) {
-                for (Poll poll : polls) {
-                    pstmt.setLong(1, poll.getId());
-                    pstmt.executeUpdate();
+            if (deleteProcessedVotes) {
+                try (Connection con = Db.db.getConnection();
+                     PreparedStatement pstmtMinHeight = con.prepareStatement("SELECT MIN(height) as min_height FROM vote");
+                     PreparedStatement pstmt = con.prepareStatement("DELETE FROM vote WHERE poll_id = ?");
+                     ResultSet rs = pstmtMinHeight.executeQuery()) {
+                    rs.next();
+                    int minHeight = rs.getInt("min_height");
+                    if (!rs.wasNull()) {
+                        DbIterator<Poll> polls = Poll.getPollsFinishingBetween(minHeight, height, 0, Integer.MAX_VALUE);
+                        for (Poll poll : polls) {
+                            pstmt.setLong(1, poll.getId());
+                            pstmt.executeUpdate();
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e.toString(), e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e.toString(), e);
             }
         }
     };

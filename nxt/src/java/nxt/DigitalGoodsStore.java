@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -312,7 +312,16 @@ public final class DigitalGoodsStore {
             this.priceNQT = attachment.getPriceNQT();
             this.delisted = false;
             this.timestamp = Nxt.getBlockchain().getLastBlockTimestamp();
-            this.hasImage = transaction.getPrunablePlainMessage() != null;
+            boolean hasImage = false;
+            Appendix.PrunablePlainMessage prunablePlainMessage = transaction.getPrunablePlainMessage();
+            if (!Constants.DISABLE_METADATA_DETECTION && prunablePlainMessage != null) {
+                byte[] image = prunablePlainMessage.getMessage();
+                if (image != null) {
+                    String mediaType = Search.detectMimeType(image);
+                    hasImage = mediaType != null && mediaType.startsWith("image/");
+                }
+            }
+            this.hasImage = hasImage;
         }
 
         private Goods(ResultSet rs, DbKey dbKey) throws SQLException {

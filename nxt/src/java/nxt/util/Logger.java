@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -201,19 +201,17 @@ public final class Logger {
     }
 
     public static void logShutdownMessage(String message) {
-        if (LogManager.getLogManager() instanceof NxtLogManager) {
-            logMessage(message);
-        } else {
+        logMessage(message);
+        if (!(LogManager.getLogManager() instanceof NxtLogManager)) {
             System.out.println(message);
         }
     }
 
     public static void logShutdownMessage(String message, Exception e) {
-        if (LogManager.getLogManager() instanceof NxtLogManager) {
-            logMessage(message, e);
-        } else {
+        logMessage(message, e);
+        if (!(LogManager.getLogManager() instanceof NxtLogManager)) {
             System.out.println(message);
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -228,6 +226,16 @@ public final class Logger {
      */
     public static void logErrorMessage(String message) {
         doLog(Level.ERROR, message, null);
+    }
+
+    /**
+     * Log an ERROR message
+     *
+     * @param       format             Message format
+     * @param       args               Message args
+     */
+    public static void logErrorMessage(String format, Object ... args) {
+        doLog(Level.ERROR, String.format(format, args), null);
     }
 
     /**
@@ -251,6 +259,10 @@ public final class Logger {
      */
     public static void logWarningMessage(String message) {
         doLog(Level.WARN, message, null);
+    }
+
+    public static void logWarningMessage(String format, Object ... args) {
+        doLog(Level.WARN, String.format(format, args), null);
     }
 
     /**

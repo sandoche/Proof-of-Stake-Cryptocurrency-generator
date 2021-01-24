@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -26,6 +26,7 @@ import org.json.simple.JSONStreamAware;
 import javax.servlet.http.HttpServletRequest;
 
 import static nxt.http.JSONResponses.MISSING_PEER;
+import static nxt.http.JSONResponses.PEERS_NETWORKING_DISABLED;
 
 public class AddPeer extends APIRequestHandler {
 
@@ -44,6 +45,9 @@ public class AddPeer extends APIRequestHandler {
         JSONObject response = new JSONObject();
         Peer peer = Peers.findOrCreatePeer(peerAddress, true);
         if (peer != null) {
+            if (!Peers.isNetworkingEnabled()) {
+                return PEERS_NETWORKING_DISABLED;
+            }
             boolean isNewlyAdded = Peers.addPeer(peer, peerAddress);
             Peers.connectPeer(peer);
             response = JSONData.peer(peer);

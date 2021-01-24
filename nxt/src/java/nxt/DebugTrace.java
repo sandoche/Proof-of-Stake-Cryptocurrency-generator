@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -615,7 +615,16 @@ public final class DebugTrace {
             map.put("asset", Long.toUnsignedString(assetDelete.getAssetId()));
             long quantity = assetDelete.getQuantityQNT();
             map.put("asset quantity", String.valueOf(-quantity));
-            map.put("event", "asset delete");
+            map.put("event", "asset quantity change");
+        } else if (attachment instanceof Attachment.ColoredCoinsAssetIncrease) {
+            if (isRecipient) {
+                return Collections.emptyMap();
+            }
+            Attachment.ColoredCoinsAssetIncrease assetIncrease = (Attachment.ColoredCoinsAssetIncrease)attachment;
+            map.put("asset", Long.toUnsignedString(assetIncrease.getAssetId()));
+            long quantity = assetIncrease.getQuantityQNT();
+            map.put("asset quantity", String.valueOf(quantity));
+            map.put("event", "asset quantity change");
         } else if (attachment instanceof Attachment.ColoredCoinsOrderCancellation) {
             Attachment.ColoredCoinsOrderCancellation orderCancellation = (Attachment.ColoredCoinsOrderCancellation)attachment;
             map.put("order", Long.toUnsignedString(orderCancellation.getOrderId()));

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -258,9 +258,13 @@ public class AccountLedger {
      * Commit pending ledger entries
      */
     static void commitEntries() {
+        int count = 0;
         for (LedgerEntry ledgerEntry : pendingEntries) {
             accountLedgerTable.insert(ledgerEntry);
             listeners.notify(ledgerEntry, Event.ADD_ENTRY);
+            if (++count % Constants.BATCH_COMMIT_SIZE == 0) {
+                Db.db.commitTransaction();
+            }
         }
         pendingEntries.clear();
     }
@@ -418,6 +422,9 @@ public class AccountLedger {
             ASSET_TRADE(20, true),
             ASSET_TRANSFER(21, true),
             ASSET_DELETE(49, true),
+            ASSET_INCREASE(58, true),
+            ASSET_PROPERTY_SET(59, true),
+            ASSET_PROPERTY_DELETE(60, true),
         // TYPE_DIGITAL_GOODS
             DIGITAL_GOODS_DELISTED(22, true),
             DIGITAL_GOODS_DELISTING(23, true),

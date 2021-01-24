@@ -1,0 +1,16 @@
+This is a stable release, an optional but recommended update for both mainnet
+and testnet.
+
+Performance optimizations in trimming of the derived tables to speed up
+blockchain download.
+
+Trimming frequency can now be modified per table by setting a frequency
+modifier property nxt.trimFrequencyMultiplier.<tablename> for that table.
+
+The default log file name has been changed from logs/nxt.log to logs/nxt.0.log
+and up to 10 log files are now kept.
+
+Added a checkpoint after the last hardfork block.
+
+Blacklist nodes running versions older than 1.12.1.
+

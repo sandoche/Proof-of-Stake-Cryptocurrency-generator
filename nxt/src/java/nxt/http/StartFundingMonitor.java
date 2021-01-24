@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,21 +16,14 @@
 
 package nxt.http;
 
-import nxt.Account;
-import nxt.Asset;
-import nxt.Currency;
-import nxt.FundingMonitor;
-import nxt.HoldingType;
-import nxt.NxtException;
+import nxt.*;
 import nxt.crypto.Crypto;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONStreamAware;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static nxt.http.JSONResponses.MONITOR_ALREADY_STARTED;
-import static nxt.http.JSONResponses.UNKNOWN_ACCOUNT;
-import static nxt.http.JSONResponses.incorrect;
+import static nxt.http.JSONResponses.*;
 
 /**
  * Start a funding monitor
@@ -106,6 +99,9 @@ public final class StartFundingMonitor extends APIServlet.APIRequestHandler {
         Account account = Account.getAccount(Crypto.getPublicKey(secretPhrase));
         if (account == null) {
             throw new ParameterException(UNKNOWN_ACCOUNT);
+        }
+        if (account.getControls().contains(Account.ControlType.PHASING_ONLY)) {
+            return JSONResponses.error("Accounts under phasing only control cannot run a funding monitor");
         }
         if (FundingMonitor.startMonitor(holdingType, holdingId, property, amount, threshold, interval, secretPhrase)) {
             JSONObject response = new JSONObject();

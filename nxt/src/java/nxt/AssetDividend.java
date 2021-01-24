@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -93,6 +93,8 @@ public final class AssetDividend {
 
     private final long id;
     private final DbKey dbKey;
+    private final long holdingId;
+    private final HoldingType holdingType;
     private final long assetId;
     private final long amountNQTPerQNT;
     private final int dividendHeight;
@@ -105,6 +107,8 @@ public final class AssetDividend {
                           long totalDividend, long numAccounts) {
         this.id = transactionId;
         this.dbKey = dividendDbKeyFactory.newKey(this.id);
+        this.holdingId = attachment.getHoldingId();
+        this.holdingType = attachment.getHoldingType();
         this.assetId = attachment.getAssetId();
         this.amountNQTPerQNT = attachment.getAmountNQTPerQNT();
         this.dividendHeight = attachment.getHeight();
@@ -117,6 +121,8 @@ public final class AssetDividend {
     private AssetDividend(ResultSet rs, DbKey dbKey) throws SQLException {
         this.id = rs.getLong("id");
         this.dbKey = dbKey;
+        this.holdingId = rs.getLong("holding_id");
+        this.holdingType = HoldingType.get(rs.getByte("holding_type"));
         this.assetId = rs.getLong("asset_id");
         this.amountNQTPerQNT = rs.getLong("amount");
         this.dividendHeight = rs.getInt("dividend_height");
@@ -127,11 +133,13 @@ public final class AssetDividend {
     }
 
     private void save(Connection con) throws SQLException {
-        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO asset_dividend (id, asset_id, "
+        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO asset_dividend (id, holding_id, holding_type, asset_id, "
                 + "amount, dividend_height, total_dividend, num_accounts, timestamp, height) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             int i = 0;
             pstmt.setLong(++i, this.id);
+            pstmt.setLong(++i, this.holdingId);
+            pstmt.setByte(++i, this.holdingType.getCode());
             pstmt.setLong(++i, this.assetId);
             pstmt.setLong(++i, this.amountNQTPerQNT);
             pstmt.setInt(++i, this.dividendHeight);
@@ -145,6 +153,14 @@ public final class AssetDividend {
 
     public long getId() {
         return id;
+    }
+
+    public long getHoldingId() {
+        return holdingId;
+    }
+
+    public HoldingType getHoldingType() {
+        return holdingType;
     }
 
     public long getAssetId() {

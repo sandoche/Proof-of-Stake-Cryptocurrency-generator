@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -104,7 +104,7 @@ var NRS = (function(NRS, $, undefined) {
 									pollDescription = pollDescription.substring(0, 100) + "...";
 								}
 								rows += "<tr>";
-								rows += "<td>" + NRS.getTransactionLink(poll.transaction, poll.attachment.name) + "</td>";
+								rows += "<td>" + NRS.getTransactionLink(poll.transaction, NRS.escapeRespStr(poll.attachment.name), true) + "</td>";
 								rows += "<td>" + NRS.escapeRespStr(pollDescription) + "</td>";
 								rows += "<td>" + NRS.getAccountLink(poll, "sender") + "</td>";
 								rows += "<td>" + NRS.formatTimestamp(poll.timestamp) + "</td>";
@@ -165,7 +165,7 @@ var NRS = (function(NRS, $, undefined) {
 									pollDescription = pollDescription.substring(0, 100) + "...";
 								}
 								rows += "<tr>";
-								rows += "<td>" + NRS.getTransactionLink(poll.transaction, poll.attachment.name) + "</td>";
+								rows += "<td>" + NRS.getTransactionLink(poll.transaction, NRS.escapeRespStr(poll.attachment.name), true) + "</td>";
 								rows += "<td>" + NRS.escapeRespStr(pollDescription) + "</td>";
 								rows += "<td>" + NRS.getAccountLink(poll, "sender") + "</td>";
 								rows += "<td>" + NRS.formatTimestamp(poll.timestamp) + "</td>";
@@ -226,7 +226,7 @@ var NRS = (function(NRS, $, undefined) {
 									pollDescription = pollDescription.substring(0, 100) + "...";
 								}
 								rows += "<tr>";
-								rows += "<td>" + NRS.getTransactionLink(poll.transaction, poll.attachment.name) + "</td>";
+								rows += "<td>" + NRS.getTransactionLink(poll.transaction, NRS.escapeRespStr(poll.attachment.name), true) + "</td>";
 								rows += "<td>" + NRS.escapeRespStr(pollDescription) + "</td>";
 								rows += "<td>" + NRS.getAccountLink(poll, "sender") + "</td>";
 								rows += "<td>" + NRS.formatTimestamp(poll.timestamp) + "</td>";
@@ -378,7 +378,7 @@ var NRS = (function(NRS, $, undefined) {
 		NRS.sendRequest("getTransaction", {
 			"transaction": transactionId
 		}, function(response, input) {
-			$("#cast_vote_poll_name").text(response.attachment.name);
+			$("#cast_vote_poll_name").text(NRS.unescapeRespStr(response.attachment.name));
 			$("#cast_vote_poll_description").text(response.attachment.description);
 			var castVoteAnswersEntry = $("#cast_vote_answers_entry");
             castVoteAnswersEntry.text("");
@@ -977,7 +977,7 @@ var NRS = (function(NRS, $, undefined) {
 			rows += "data-cache='" + i + "' ";
 			rows += "data-poll='" + NRS.escapeRespStr(poll.poll) + "' ";
 			rows += "data-closed='false'>";
-			rows += "<h4 class='list-group-item-heading'>" + poll.name.escapeHTML() + "</h4>";
+			rows += "<h4 class='list-group-item-heading'>" + NRS.escapeRespStr(poll.name) + "</h4>";
 
 			if(NRS.lastBlockHeight > parseInt(poll.finishHeight)) {
 				rows += "<p class='list-group-item-text'><span data-i18n=\"completed\">Completed</span></p>";

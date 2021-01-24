@@ -1,6 +1,6 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
-  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
   ~                                                                           ~
   ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
   ~ for licensing information.                                                ~
@@ -280,6 +280,7 @@
                                         <th class='numeric'>{{i18n "total"}}</th>
                                         <th class='numeric'>{{i18n "accounts"}}</th>
                                         <th class='numeric'>{{i18n "amount_per_share"}}</th>
+                                        <th class='numeric'>{{i18n "holding"}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -290,6 +291,7 @@
                                         <td class='numeric'>{{{total}}}</td>
                                         <td class='numeric'>{{{accounts}}}</td>
                                         <td class='numeric'>{{{amount_per_share}}}</td>
+                                        <td class='numeric'>{{{holding}}}</td>
                                     </tr>
                                     {{/each}}
                                     </tbody>
@@ -387,20 +389,34 @@
             <div class="modal-body">
                 <form role="form" autocomplete="off">
                     <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="dividend_payment_holding_type" data-18n="holding_type">Holding Type</label>
+                        <select name="holdingType" id="dividend_payment_holding_type" class="form-control" data-default="0" tabindex="1">
+                            <option selected value="0" data-i18n="nxt_capital_letters">NXT</option>
+                            <option value="1" data-i18n="asset">Asset</option>
+                            <option value="2" data-i18n="currency">Currency</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" aria-hidden="true" id="dividend_payment_asset_id_group" style="display: none;">
+                        <div class="form-group dividend_payment_holding_asset" data-modal-ui-element="add_asset_modal_ui_element"></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12" aria-hidden="true" id="dividend_payment_ms_currency_group" style="display: none;">
+                        <div class="form-group dividend_payment_holding_currency" data-modal-ui-element="add_currency_modal_ui_element"></div>
+                    </div>
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6" data-normal="12" data-advanced="6">
                             <div class="form-group">
-                                <label for="dividend_payment_amount_per_share"><span data-i18n="amount_per_share">AMOUNT PER SHARE</span></label>
-                                <div class="input-group">
-                                    <input type="number" name="amountNXTPerShare" id="dividend_payment_amount_per_share" class="form-control" placeholder="" step="any" tabindex="1">
-                                    <span class="input-group-addon">NXT</span>
-                                </div>
+                                <label for="dividend_payment_amount_per_share">
+                                    <span data-i18n="amount_per_share">AMOUNT PER SHARE</span>
+                                    <i class="fa fa-info-circle show_popover" data-container="body" style="color:#4CAA6E"></i>
+                                </label>
+                                <input type="number" name="amountPerShare" id="dividend_payment_amount_per_share" class="form-control" placeholder="" step="any" tabindex="3">
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label for="dividend_payment_height"><span data-i18n="height">HEIGHT</span></label> <i>Current Height: <span class="nrs_current_block"></span></i> <i class="fa fa-exclamation-circle show_popover" data-content="Dividend calculation height must be within the last 1440 blocks." data-i18n="[data-content]dividend_payment_height_help" data-container="body" style="color:red"></i>
-                                <input type="number" name="height" id="dividend_payment_height" class="form-control" min="0" placeholder="Height" data-i18n="height" data-default="" value="" tabindex="2">
+                                <input type="number" name="height" id="dividend_payment_height" class="form-control" min="0" placeholder="Height" data-i18n="height" data-default="" value="" tabindex="4">
                             </div>
                         </div>
                     </div>
@@ -412,8 +428,6 @@
                     <div data-replace-with-modal-template="advanced_rt_hash_template"></div>
                     <div data-replace-with-modal-template="advanced_broadcast_template"></div>
                     <div data-replace-with-modal-template="advanced_note_to_self_template"></div>
-                    
-                    <div class="callout dividend_payment_info" style="display:none;margin-bottom: 0;"></div>
                     <input type="hidden" name="request_type" value="dividendPayment" />
                 </form>
             </div>

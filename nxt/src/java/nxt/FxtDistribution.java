@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -22,6 +22,7 @@ import nxt.util.Convert;
 import nxt.util.JSON;
 import nxt.util.Listener;
 import nxt.util.Logger;
+import nxt.util.ResourceLookup;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -59,7 +60,7 @@ public final class FxtDistribution implements Listener<Block> {
     private static final String logAccount = Nxt.getStringProperty("nxt.logFxtBalance");
     private static final long logAccountId = Convert.parseAccountId(logAccount);
     private static final String fxtJsonFile = Constants.isTestnet ? "fxt-testnet.json" : "fxt.json";
-    private static final boolean hasSnapshot = ClassLoader.getSystemResource(fxtJsonFile) != null;
+    private static final boolean hasSnapshot = ResourceLookup.getSystemResource(fxtJsonFile) != null;
 
     public static final long BITSWIFT_ASSET_ID = Long.parseUnsignedLong("12034575542068240440");
     public static final long BITSWIFT_SHAREDROP_ACCOUNT = Convert.parseAccountId("NXT-2HKA-GTP2-ZBFL-34B9L");
@@ -157,7 +158,7 @@ public final class FxtDistribution implements Listener<Block> {
             if (currentHeight == DISTRIBUTION_END) {
                 Logger.logDebugMessage("Distributing FXT based on snapshot file " + fxtJsonFile);
                 JSONObject snapshotJSON;
-                try (Reader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(fxtJsonFile)))) {
+                try (Reader reader = new BufferedReader(new InputStreamReader(ResourceLookup.getSystemResourceAsStream(fxtJsonFile)))) {
                     snapshotJSON = (JSONObject) JSONValue.parse(reader);
                 } catch (IOException e) {
                     throw new RuntimeException(e.getMessage(), e);
@@ -259,7 +260,7 @@ public final class FxtDistribution implements Listener<Block> {
                 if (logAccountId != 0) {
                     if (accountId == logAccountId) {
                         Logger.logMessage("Average NXT balance for " + logAccount + " as of height " + currentHeight + ":\t"
-                                + balanceTotal.divide(BigInteger.valueOf((currentHeight - DISTRIBUTION_START) / DISTRIBUTION_STEP)).longValueExact());
+                                + Convert.longValueExact(balanceTotal.divide(BigInteger.valueOf((currentHeight - DISTRIBUTION_START) / DISTRIBUTION_STEP))));
                     }
                 }
                 pstmtInsert.setLong(1, accountId);
@@ -288,7 +289,7 @@ public final class FxtDistribution implements Listener<Block> {
                         while (rs.next()) {
                             long accountId = rs.getLong("id");
                             // 1 NXT held for the full period should give 1 asset unit, i.e. 10000 QNT assuming 4 decimals
-                            long quantity = new BigInteger(rs.getBytes("balance")).divide(BALANCE_DIVIDER).longValueExact();
+                            long quantity = Convert.longValueExact(new BigInteger(rs.getBytes("balance")).divide(BALANCE_DIVIDER));
                             if (logAccountId != 0) {
                                 if (accountId == logAccountId) {
                                     Logger.logMessage("FXT quantity for " + logAccount + ":\t" + quantity);

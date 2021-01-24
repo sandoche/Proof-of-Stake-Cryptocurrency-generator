@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -139,6 +139,7 @@ var NRS = (function(NRS, $, undefined) {
 					$(_aamElem).find('.aam_ue_asset_name').html(nameString);
 					$(_aamElem).find('.aam_ue_asset_decimals_input').val(String(response.decimals));
 					$(_aamElem).find('.aam_ue_asset_decimals_input').prop("disabled", false);
+					$(_aamElem).find('.aam_ue_asset_name_input').val(response.name);
 				} else {
 					_setAssetInfoNotExisting();
 				}

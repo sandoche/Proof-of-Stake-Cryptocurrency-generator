@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -23,19 +23,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ValuesDbTable<T,V> extends DerivedDbTable {
-
-    private final boolean multiversion;
-    protected final DbKey.Factory<T> dbKeyFactory;
+public abstract class ValuesDbTable<T,V> extends TrimmableDbTable<T> {
 
     protected ValuesDbTable(String table, DbKey.Factory<T> dbKeyFactory) {
         this(table, dbKeyFactory, false);
     }
 
     ValuesDbTable(String table, DbKey.Factory<T> dbKeyFactory, boolean multiversion) {
-        super(table);
-        this.dbKeyFactory = dbKeyFactory;
-        this.multiversion = multiversion;
+        super(table, dbKeyFactory, multiversion);
     }
 
     protected abstract V load(Connection con, ResultSet rs) throws SQLException;
@@ -106,23 +101,4 @@ public abstract class ValuesDbTable<T,V> extends DerivedDbTable {
             throw new RuntimeException(e.toString(), e);
         }
     }
-
-    @Override
-    public final void rollback(int height) {
-        if (multiversion) {
-            VersionedEntityDbTable.rollback(db, table, height, dbKeyFactory);
-        } else {
-            super.rollback(height);
-        }
-    }
-
-    @Override
-    public final void trim(int height) {
-        if (multiversion) {
-            VersionedEntityDbTable.trim(db, table, height, dbKeyFactory);
-        } else {
-            super.trim(height);
-        }
-    }
-
 }

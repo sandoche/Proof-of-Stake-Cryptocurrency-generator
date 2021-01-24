@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -30,7 +30,7 @@ public final class GetAssetDividends extends APIServlet.APIRequestHandler {
     static final GetAssetDividends instance = new GetAssetDividends();
 
     private GetAssetDividends() {
-        super(new APITag[] {APITag.AE}, "asset", "firstIndex", "lastIndex", "timestamp");
+        super(new APITag[] {APITag.AE}, "asset", "firstIndex", "lastIndex", "timestamp", "includeHoldingInfo");
     }
 
     @Override
@@ -40,6 +40,7 @@ public final class GetAssetDividends extends APIServlet.APIRequestHandler {
         int timestamp = ParameterParser.getTimestamp(req);
         int firstIndex = ParameterParser.getFirstIndex(req);
         int lastIndex = ParameterParser.getLastIndex(req);
+        boolean includeHoldingInfo = "true".equalsIgnoreCase(req.getParameter("includeHoldingInfo"));
 
         JSONObject response = new JSONObject();
         JSONArray dividendsData = new JSONArray();
@@ -49,7 +50,7 @@ public final class GetAssetDividends extends APIServlet.APIRequestHandler {
                 if (assetDividend.getTimestamp() < timestamp) {
                     break;
                 }
-                dividendsData.add(JSONData.assetDividend(assetDividend));
+                dividendsData.add(JSONData.assetDividend(assetDividend, includeHoldingInfo));
             }
         }
         response.put("dividends", dividendsData);
