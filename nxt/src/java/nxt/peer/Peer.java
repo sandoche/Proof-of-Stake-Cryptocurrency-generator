@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -50,7 +50,24 @@ public interface Peer extends Comparable<Peer> {
         UP_TO_DATE,
         DOWNLOADING,
         LIGHT_CLIENT,
-        FORK
+        FORK; //never returned and considered equal to UP_TO_DATE
+
+        public static BlockchainState get(Number ordinal) {
+            int blockchainStateInt = ordinal.intValue();
+            if (blockchainStateInt >= 0 && blockchainStateInt < BlockchainState.values().length) {
+                return BlockchainState.values()[blockchainStateInt];
+            } else {
+                return null;
+            }
+        }
+
+        public static BlockchainState get(String name) {
+            try {
+                return valueOf(name);
+            } catch (IllegalArgumentException iae) {
+                return null;
+            }
+        }
     }
 
     boolean providesService(Service service);

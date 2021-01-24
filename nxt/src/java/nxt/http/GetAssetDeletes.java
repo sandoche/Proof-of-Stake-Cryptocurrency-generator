@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,7 +16,7 @@
 
 package nxt.http;
 
-import nxt.AssetDelete;
+import nxt.AssetHistory;
 import nxt.NxtException;
 import nxt.db.DbIterator;
 import nxt.db.DbUtils;
@@ -26,6 +26,7 @@ import org.json.simple.JSONStreamAware;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Deprecated
 public final class GetAssetDeletes extends APIServlet.APIRequestHandler {
 
     static final GetAssetDeletes instance = new GetAssetDeletes();
@@ -45,25 +46,19 @@ public final class GetAssetDeletes extends APIServlet.APIRequestHandler {
         int timestamp = ParameterParser.getTimestamp(req);
         int firstIndex = ParameterParser.getFirstIndex(req);
         int lastIndex = ParameterParser.getLastIndex(req);
-        boolean includeAssetInfo = "true".equalsIgnoreCase(req.getParameter("includeAssetInfo"));
+        boolean includeAssetInfo = "true".equalsIgnoreCase(req.getParameter( "includeAssetInfo"));
 
         JSONObject response = new JSONObject();
         JSONArray deletesData = new JSONArray();
-        DbIterator<AssetDelete> deletes = null;
+        DbIterator<AssetHistory> deletes = null;
         try {
-            if (accountId == 0) {
-                deletes = AssetDelete.getAssetDeletes(assetId, firstIndex, lastIndex);
-            } else if (assetId == 0) {
-                deletes = AssetDelete.getAccountAssetDeletes(accountId, firstIndex, lastIndex);
-            } else {
-                deletes = AssetDelete.getAccountAssetDeletes(accountId, assetId, firstIndex, lastIndex);
-            }
+            deletes = GetAssetHistory.Query.DELETE_ONLY.getAssetHistories(accountId, assetId, firstIndex, lastIndex);
             while (deletes.hasNext()) {
-                AssetDelete assetDelete = deletes.next();
-                if (assetDelete.getTimestamp() < timestamp) {
+                AssetHistory assetHistory = deletes.next();
+                if (assetHistory.getTimestamp() < timestamp) {
                     break;
                 }
-                deletesData.add(JSONData.assetDelete(assetDelete, includeAssetInfo));
+                deletesData.add(JSONData.assetDelete(assetHistory, includeAssetInfo));
             }
         } finally {
             DbUtils.close(deletes);

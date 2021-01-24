@@ -924,7 +924,7 @@
     "pay_dividends": "Pay Dividends",
     "amount_per_share": "Amount Per Share",
     "error_amount_per_share_required": "Amount Per Share is a required field.",
-    "dividend_payment_info_preview_success": "A total of __amountNXT__ NXT will be distributed among __recipientCount__ accounts which own a total of __totalQuantity__ shares.",
+    "dividend_payment_info_preview_success": "A total of __amount__ will be distributed among __recipientCount__ accounts which own a total of __totalQuantity__ shares.",
     "dividend_payment_info_preview_error": "Could not display preview information of the dividend payment due to an unexpected error. code: __errorCode__.",
     "error_whole_units": "Unit supply value must be a whole number",
     "available_units": "Currency units available",

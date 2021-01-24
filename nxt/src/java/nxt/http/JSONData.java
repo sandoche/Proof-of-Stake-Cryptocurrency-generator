@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -23,7 +23,7 @@ import nxt.AccountRestrictions;
 import nxt.Alias;
 import nxt.Appendix;
 import nxt.Asset;
-import nxt.AssetDelete;
+import nxt.AssetHistory;
 import nxt.AssetDividend;
 import nxt.AssetTransfer;
 import nxt.Attachment;
@@ -234,6 +234,19 @@ public final class JSONData {
         return json;
     }
 
+    static JSONObject assetProperty(Asset.AssetProperty property, boolean includeAsset, boolean includeSetter) {
+        JSONObject json = new JSONObject();
+        if (includeAsset) {
+            json.put("asset", Long.toUnsignedString(property.getAssetId()));
+        }
+        if (includeSetter) {
+            putAccount(json, "setter", property.getSetterId());
+        }
+        json.put("property", property.getProperty());
+        json.put("value", property.getValue());
+        return json;
+    }
+
     static JSONObject askOrder(Order.Ask order) {
         JSONObject json = order(order);
         json.put("type", "ask");
@@ -366,15 +379,19 @@ public final class JSONData {
             json.put("recipientPublicKeys", recipientPublicKeys);
         }
         if (includeHoldingInfo && shuffling.getHoldingType() != HoldingType.NXT) {
-            JSONObject holdingJson = new JSONObject();
-            if (shuffling.getHoldingType() == HoldingType.ASSET) {
-                putAssetInfo(holdingJson, shuffling.getHoldingId());
-            } else if (shuffling.getHoldingType() == HoldingType.CURRENCY) {
-                putCurrencyInfo(holdingJson, shuffling.getHoldingId());
-            }
-            json.put("holdingInfo", holdingJson);
+            json.put("holdingInfo", holdingInfoJson(shuffling.getHoldingType(), shuffling.getHoldingId()));
         }
         return json;
+    }
+
+    private static JSONObject holdingInfoJson(HoldingType holdingType, long holdingId) {
+        JSONObject holdingJson = new JSONObject();
+        if (holdingType == HoldingType.ASSET) {
+            putAssetInfo(holdingJson, holdingId);
+        } else if (holdingType == HoldingType.CURRENCY) {
+            putCurrencyInfo(holdingJson, holdingId);
+        }
+        return holdingJson;
     }
 
     static JSONObject participant(ShufflingParticipant participant) {
@@ -812,16 +829,30 @@ public final class JSONData {
         return json;
     }
 
-    static JSONObject assetDelete(AssetDelete assetDelete, boolean includeAssetInfo) {
+    static JSONObject assetDelete(AssetHistory assetHistory, boolean includeAssetInfo) {
         JSONObject json = new JSONObject();
-        json.put("assetDelete", Long.toUnsignedString(assetDelete.getId()));
-        json.put("asset", Long.toUnsignedString(assetDelete.getAssetId()));
-        putAccount(json, "account", assetDelete.getAccountId());
-        json.put("quantityQNT", String.valueOf(assetDelete.getQuantityQNT()));
-        json.put("height", assetDelete.getHeight());
-        json.put("timestamp", assetDelete.getTimestamp());
+        json.put("assetDelete", Long.toUnsignedString(assetHistory.getId()));
+        json.put("asset", Long.toUnsignedString(assetHistory.getAssetId()));
+        putAccount(json, "account", assetHistory.getAccountId());
+        json.put("quantityQNT", String.valueOf(-assetHistory.getQuantityQNT()));
+        json.put("height", assetHistory.getHeight());
+        json.put("timestamp", assetHistory.getTimestamp());
         if (includeAssetInfo) {
-            putAssetInfo(json, assetDelete.getAssetId());
+            putAssetInfo(json, assetHistory.getAssetId());
+        }
+        return json;
+    }
+
+    static JSONObject assetHistory(AssetHistory assetHistory, boolean includeAssetInfo) {
+        JSONObject json = new JSONObject();
+        json.put("assetHistory", Long.toUnsignedString(assetHistory.getId()));
+        json.put("asset", Long.toUnsignedString(assetHistory.getAssetId()));
+        putAccount(json, "account", assetHistory.getAccountId());
+        json.put("quantityQNT", String.valueOf(assetHistory.getQuantityQNT()));
+        json.put("height", assetHistory.getHeight());
+        json.put("timestamp", assetHistory.getTimestamp());
+        if (includeAssetInfo) {
+            putAssetInfo(json, assetHistory.getAssetId());
         }
         return json;
     }
@@ -840,7 +871,7 @@ public final class JSONData {
         return json;
     }
 
-    static JSONObject assetDividend(AssetDividend assetDividend) {
+    static JSONObject assetDividend(AssetDividend assetDividend, boolean includeHoldingInfo) {
         JSONObject json = new JSONObject();
         json.put("assetDividend", Long.toUnsignedString(assetDividend.getId()));
         json.put("asset", Long.toUnsignedString(assetDividend.getAssetId()));
@@ -850,6 +881,12 @@ public final class JSONData {
         json.put("numberOfAccounts", assetDividend.getNumAccounts());
         json.put("height", assetDividend.getHeight());
         json.put("timestamp", assetDividend.getTimestamp());
+        json.put("holding", Long.toUnsignedString(assetDividend.getHoldingId()));
+        HoldingType holdingType = assetDividend.getHoldingType();
+        json.put("holdingType", holdingType.getCode());
+        if (includeHoldingInfo && holdingType != HoldingType.NXT) {
+            json.put("holdingInfo", holdingInfoJson(holdingType, assetDividend.getHoldingId()));
+        }
         return json;
     }
 

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -65,7 +65,8 @@ var NRS = (function(NRS, $, undefined) {
         remote_node_port: 7876,
         is_remote_node_ssl: false,
         validators_count: 3,
-        bootstrap_nodes_count: 5
+        bootstrap_nodes_count: 5,
+        camera_id: 0
     };
 	NRS.contacts = {};
 
@@ -229,6 +230,8 @@ var NRS = (function(NRS, $, undefined) {
 					var isOffline = false;
                     var customLoginWarning;
 					var peerPort = 0;
+					var apiProxyPeer = null;
+					var isAPIProxyActivated = false;
 					for (var key in response) {
 						if (!response.hasOwnProperty(key)) {
 							continue;
@@ -254,6 +257,12 @@ var NRS = (function(NRS, $, undefined) {
 						if (key == "version") {
 							NRS.appVersion = response[key];
 						}
+						if (key == "apiProxyPeer") {
+						    apiProxyPeer = response[key];
+						}
+						if (key == "apiProxy") {
+						    isAPIProxyActivated = response[key];
+						}
 					}
 
 					if (!isTestnet) {
@@ -266,6 +275,20 @@ var NRS = (function(NRS, $, undefined) {
 						testnetWarningDiv.text(warningText);
 						$(".testnet_only, #testnet_login, #testnet_warning").show();
 					}
+
+					if (isAPIProxyActivated && apiProxyPeer == null) {
+                        $("#proxy_connection_error").show();
+                        $("#proxy_connection_error button").on("click", function(e) {
+                            $("#proxy_connection_error button").prop("disabled", true);
+                            NRS.sendRequest("bootstrapAPIProxy", {}, function(response) {
+                                $("#proxy_connection_error button").prop("disabled", false);
+                                if (response["success"]) {
+                                    $("#proxy_connection_error").hide();
+                                }
+                            });
+                        });
+					}
+
                     var customLoginWarningDiv = $(".custom_login_warning");
                     if (customLoginWarning) {
                         customLoginWarningDiv.text(customLoginWarning);
@@ -285,6 +308,8 @@ var NRS = (function(NRS, $, undefined) {
 			});
 
 			getStatePromise.then(function() {
+			    NRS.showUrlParameterModal("lifetime_modal");
+
 				console.log("continue initialization");
 				var hasLocalStorage = false;
 				try {
@@ -826,70 +851,89 @@ var NRS = (function(NRS, $, undefined) {
 				});
 			}
 		}
-		if (NRS.getUrlParameter("modal")) {
-			var urlParams = [];
-			if (window.location.search && window.location.search.length > 1) {
-				urlParams = window.location.search.substring(1).split('&');
-			}
-			var modalId = "#" + NRS.getUrlParameter("modal").escapeHTML();
-			var modal = $(modalId);
-			var attributes = {};
-			if (modal[0]) {
-				var isValidParams = true;
-				for (var i = 0; i < urlParams.length; i++) {
-					var paramKeyValue = urlParams[i].split('=');
-					if (paramKeyValue.length != 2) {
-						continue;
-					}
-					var key = paramKeyValue[0].escapeHTML();
-					if (key == "account" || key == "modal") {
-						continue;
-					}
-					var value = paramKeyValue[1].escapeHTML();
+		NRS.showUrlParameterModal("modal");
+    }
+
+    NRS.showUrlParameterModal = function(parameterName) {
+        if (NRS.getUrlParameter(parameterName)) {
+            var urlParams = [];
+            if (window.location.search && window.location.search.length > 1) {
+                urlParams = window.location.search.substring(1).split('&');
+            }
+            var modalId = "#" + NRS.getUrlParameter(parameterName).escapeHTML();
+            var modal = $(modalId);
+            var attributes = {};
+            if (modal[0]) {
+                var isValidParams = true;
+                for (var i = 0; i < urlParams.length; i++) {
+                    var paramKeyValue = urlParams[i].split('=');
+                    if (paramKeyValue.length != 2) {
+                        continue;
+                    }
+                    var key = paramKeyValue[0].escapeHTML();
+                    if (key == "account" || key == parameterName) {
+                        continue;
+                    }
+                    var value = paramKeyValue[1].escapeHTML();
                     var input = modal.find("input[name=" + key + "]");
                     if (input[0]) {
-						if (input.attr("type") == "text") {
-							input.val(value);
-						} else if (input.attr("type") == "checkbox") {
-							var isChecked = false;
-							if (value != "true" && value != "false") {
-								isValidParams = false;
-								$.growl($.t("value") + " " + value + " " + $.t("must_be_true_or_false") + " " + $.t("for") + " " + key, {
-									"type": "danger",
-									"offset": 50
-								});
-							} else if (value == "true") {
-								isChecked = true;
-							}
-							if (isValidParams) {
-								input.prop('checked', isChecked);
-							}
-						}
-					} else if (modal.find("textarea[name=" + key + "]")[0]) {
-						modal.find("textarea[name=" + key + "]").val(decodeURI(value));
-					} else {
-						attributes["data-" + key.toLowerCase().escapeHTML()] = String(value).escapeHTML();
-					}
-				}
-				if (isValidParams) {
-					var a = $('<a />');
-					a.attr('href', '#');
-					a.attr('data-toggle', 'modal');
-					a.attr('data-target', modalId);
-					Object.keys(attributes).forEach(function (key) {
-						a.attr(key, attributes[key]);
-					});
-					$('body').append(a);
-					a.click();
-				}
-			} else {
-				$.growl($.t("modal") + " " + modalId + " " + $.t("does_not_exist"), {
-					"type": "danger",
-					"offset": 50
-				});
-			}
-		}
-	}
+                        if (input.attr("type") == "text") {
+                            input.val(value);
+                        } else if (input.attr("type") == "checkbox") {
+                            var isChecked = false;
+                            if (value != "true" && value != "false") {
+                                isValidParams = false;
+                                $.growl($.t("value") + " " + value + " " + $.t("must_be_true_or_false") + " " + $.t("for") + " " + key, {
+                                    "type": "danger",
+                                    "offset": 50
+                                });
+                            } else if (value == "true") {
+                                isChecked = true;
+                            }
+                            if (isValidParams) {
+                                input.prop('checked', isChecked);
+                            }
+                        }
+                    } else if (modal.find("textarea[name=" + key + "]")[0]) {
+                        modal.find("textarea[name=" + key + "]").val(decodeURI(value));
+                    } else {
+                        attributes["data-" + key.toLowerCase().escapeHTML()] = String(value).escapeHTML();
+                    }
+                }
+                if (isValidParams) {
+                    var a = $('<a />');
+                    a.attr('href', '#');
+                    a.attr('data-toggle', 'modal');
+                    a.attr('data-target', modalId);
+                    var actionClass = modal.data("actionclass");
+                    if (actionClass) {
+                        a.addClass(actionClass);
+                    }
+
+                    Object.keys(attributes).forEach(function (key) {
+                        a.attr(key, attributes[key]);
+                    });
+                    $('body').append(a);
+                    a.click();
+                }
+                if (parameterName == "lifetime_modal" && typeof androidWebViewInterface !== 'undefined') {
+                    var requestType = modal.find('input[name="request_type"]').val();
+                    var isSuccessfull = false;
+                    NRS["forms"][requestType + "Complete"] = function() {
+                        isSuccessfull = true;
+                    };
+                    modal.on("hidden.bs.modal", function () {
+                        androidWebViewInterface.closeActivity(isSuccessfull);
+                    });
+                }
+            } else {
+                $.growl($.t("modal") + " " + modalId + " " + $.t("does_not_exist"), {
+                    "type": "danger",
+                    "offset": 50
+                });
+            }
+        }
+    };
 
 	NRS.initUserDBSuccess = function() {
 		NRS.databaseSupport = true;

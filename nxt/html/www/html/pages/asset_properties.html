@@ -1,0 +1,57 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of this software, including this file, may be copied, modified,   ~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div id="asset_properties_page" class="paginated page">
+    <section class="content-header">
+        <h1 data-i18n="asset_properties">ASSET PROPERTIES</h1>
+        <div style="position:absolute;top:9px;right:9px;">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#set_asset_property_modal" style="display:inline-block;vertical-align:middle;" data-asset="" id="set_asset_property_btn" data-i18n="set_asset_property">SET ASSET PROPERTY</button>
+        </div>
+    </section>
+    <section class="content" id="asset_properties_section">
+        <script type="text/x-handlebars-template">
+            <div class="data-container {{when isLoading 'data-loading' isEmpty 'data-empty'}}">
+                <table class="table table-striped" id="asset_properties_table">
+                    <thead>
+                    <tr>
+                        <th>{{header}}</th>
+                        <th>{{i18n "property"}}</th>
+                        <th>{{i18n "value"}}</th>
+                        <th>{{i18n "action"}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each properties}}
+                    <tr>
+                        <td>{{{accountFormatted}}}</td>
+                        <td>{{{property}}}</td>
+                        <td>{{{value}}}</td>
+                        <td>{{{action_update}}}{{{action_delete}}}</td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                <div class="data-empty-container">
+                    <p>
+                        <span>{{i18n "no_properties"}}</span>
+                    </p>
+                </div>
+                <div class="data-pagination"></div>
+            </div>
+        </script>
+    </section>
+</div>

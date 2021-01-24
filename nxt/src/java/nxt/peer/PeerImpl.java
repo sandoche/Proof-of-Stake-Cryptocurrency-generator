@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -274,10 +274,7 @@ final class PeerImpl implements Peer {
     void setBlockchainState(Object blockchainStateObj) {
         BlockchainState state = null;
         if (blockchainStateObj instanceof Number) {
-            int blockchainStateInt = ((Number)blockchainStateObj).intValue();
-            if (blockchainStateInt >= 0 && blockchainStateInt < BlockchainState.values().length) {
-                state = BlockchainState.values()[blockchainStateInt];
-            }
+            state = BlockchainState.get((Number) blockchainStateObj);
         }
         if (state != null) {
             this.blockchainState = state;
@@ -900,10 +897,11 @@ final class PeerImpl implements Peer {
 
     @Override
     public boolean isApiConnectable() {
-        return isOpenAPI() && state == Peer.State.CONNECTED
+        return isOpenAPI() && state == State.CONNECTED
                 && !Peers.isOldVersion(version, Constants.MIN_PROXY_VERSION)
                 && !Peers.isNewVersion(version)
-                && blockchainState == Peer.BlockchainState.UP_TO_DATE;
+                && (blockchainState == BlockchainState.UP_TO_DATE
+                    || blockchainState == BlockchainState.FORK);
     }
 
     public StringBuilder getPeerApiUri() {

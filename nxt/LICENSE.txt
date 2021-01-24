@@ -1,8 +1,8 @@
 Copyright © 2013-2016 The Nxt Core Developers.
-Copyright © 2016-2018 Jelurida IP B.V.
+Copyright © 2016-2020 Jelurida IP B.V.
 
 This program is distributed under the terms of the Jelurida Public License
-version 1.1 for the Nxt Public Blockchain Platform.
+version 1.2 for the Nxt Public Blockchain Platform.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -88,7 +88,7 @@ Public License and any other license terms and conditions other than this JPL
 are explicitly excluded.
 
 
-JPL version: 1.1
+JPL version: 1.2
 
 
 Article 0. Definitions:
@@ -287,6 +287,11 @@ including this work or portions of it which is a DLT Software or in any other
 way distributes tokens to its users. The specific percentage of the airdrop
 and the tokens to which it applies, which may also depend on how the new DLT
 Instance relates to the original one, are defined in the Special Conditions.
+
+3.4.2 For the avoidance of doubt, satisfying the requirements of article 3.4.1
+for another work (i.e. a different DLT Instance) of the same or different
+copyright holder, released under the JPL, does not give permission of copying
+or porting any code from this one and vice versa.
 
 3.5 All other provisions, designated in the Special Conditions and consistent
 with the specific requirements arising from the architecture of each particular
@@ -496,11 +501,18 @@ fork satisfy the first condition. The Nxt holders who received the airdrop
 would still have the same balances on either fork.
 
 
-Article 2. In both cases (Articles 1.1 or 1.2 of the Special Conditions), token
+Article 2.
+
+2.1 In both cases (Articles 1.1 or 1.2 of the Special Conditions), token
 holdings must be calculated based on a snapshot taken not earlier than 3 months
 before the launch of the new DLT Instance. For a new DLT Instance, the snapshot
 should also be taken not later than 24 h before the launch, to avoid the
 uncertainty due to the 720 blocks rolling checkpoint.
+
+2.2 The airdrop, and the fact that it is being done in order to satisfy this
+license, should be clearly announced in any places or media that describe the
+distribution of the tokens of the new DLT Instance, at least one month before
+the snapshot date.
 
 
 Article 3.

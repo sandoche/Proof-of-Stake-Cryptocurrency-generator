@@ -1,0 +1,152 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
+  ~                                                                           ~
+  ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
+  ~ for licensing information.                                                ~
+  ~                                                                           ~
+  ~ Unless otherwise agreed in a custom licensing agreement with Jelurida B.V.,
+  ~ no part of this software, including this file, may be copied, modified,   ~
+  ~ propagated, or distributed except according to the terms contained in the ~
+  ~ LICENSE.txt file.                                                         ~
+  ~                                                                           ~
+  ~ Removal or modification of this copyright notice is prohibited.           ~
+  ~                                                                           ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<div class="modal fade" id="m_save_node_process_config_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="callout callout-info info_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="save_node_process_payload" data-i18n="data">Data</label>
+                        <textarea id="save_node_process_payload" name="payload" class="form-control" rows="10"></textarea>
+                    </div>
+
+                    <div class="panel panel-default hidden encryptionPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" data-i18n="configuration_password">Configuration password</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="save_node_process_encryption_passphrase" data-i18n="configuration_password">Configuration password</label>
+                                <input type="password" name="encryptionPassword" id="save_node_process_encryption_passphrase" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="save_node_process_encryption_passphrase2" data-i18n="configuration_password_repeat">Repeat configuration password</label>
+                                <input type="password" name="encryptionPassword2" id="save_node_process_encryption_passphrase2" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default passphrasesPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" data-i18n="passphrases">Passphrases</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p data-i18n="remaining_passphrases_required">Remaining passphrases required</p>
+                            <ul></ul>
+                            <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <button type="button" class="btn btn-primary" data-ignore="true" data-i18n="add_passphrase">Add passphrase</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="request_type" id="save_node_process_config_request_type"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" disabled
+                        data-loading-text="Submitting..." data-i18n="save;[placeholder]submitting">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_save_forging_encrypted_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    <span data-i18n="save">Save</span>:
+                    <span data-i18n="forging">Forging</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" data-i18n="forging_accounts">Forging accounts</h3>
+                        </div>
+                        <div class="panel-body">
+                            <dl class="forgingAccounts"></dl>
+                            <div data-replace-with-modal-template="secret_phrase_modal_template"></div>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <button type="button" class="btn btn-primary addForgerButton"
+                                    data-ignore="true" data-i18n="add_passphrase">Add passphrase</button>
+                    </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" data-i18n="configuration_password">Configuration password</h3>
+                    </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="save_forging_encrypted_encryption_passphrase" data-i18n="configuration_password">Configuration password</label>
+                                <input type="password" name="encryptionPassword" id="save_forging_encrypted_encryption_passphrase" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="save_forging_encrypted_encryption_passphrase2" data-i18n="configuration_password_repeat">Repeat configuration password</label>
+                                <input type="password" name="encryptionPassword2" id="save_forging_encrypted_encryption_passphrase2" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="request_type" value="saveForgingEncrypted"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="save;[placeholder]submitting">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_start_node_process_config_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" autocomplete="off">
+                    <div class="callout callout-danger error_message" style="display:none"></div>
+                    <div class="form-group">
+                        <label for="start_node_process_encryption_passphrase" data-i18n="configuration_password">Configuration password</label>
+                        <input type="password" name="encryptionPassword" id="start_node_process_encryption_passphrase" class="form-control">
+                    </div>
+                    <input type="hidden" name="request_type" id="start_node_process_config_request_type"/>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0;">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="start;[placeholder]submitting">Start</button>
+            </div>
+        </div>
+    </div>
+</div>

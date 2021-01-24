@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -168,17 +168,17 @@ public final class GetConstants extends APIServlet.APIRequestHandler {
                 for (APITag apiTag : APITag.values()) {
                     JSONObject tagJSON = new JSONObject();
                     tagJSON.put("name", apiTag.getDisplayName());
-                    tagJSON.put("enabled", !API.disabledAPITags.contains(apiTag));
+                    tagJSON.put("enabled", !API.getDisabledApiTags().contains(apiTag));
                     apiTags.put(apiTag.name(), tagJSON);
                 }
                 response.put("apiTags", apiTags);
 
                 JSONArray disabledAPIs = new JSONArray();
-                Collections.addAll(disabledAPIs, API.disabledAPIs);
+                Collections.addAll(disabledAPIs, API.getDisabledApis());
                 response.put("disabledAPIs", disabledAPIs);
 
                 JSONArray disabledAPITags = new JSONArray();
-                API.disabledAPITags.forEach(apiTag -> disabledAPITags.add(apiTag.getDisplayName()));
+                API.getDisabledApiTags().forEach(apiTag -> disabledAPITags.add(apiTag.getDisplayName()));
                 response.put("disabledAPITags", disabledAPITags);
 
                 JSONArray notForwardedRequests = new JSONArray();

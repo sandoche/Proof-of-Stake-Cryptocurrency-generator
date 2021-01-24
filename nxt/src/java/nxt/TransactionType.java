@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -22,9 +22,6 @@ import nxt.Attachment.AbstractAttachment;
 import nxt.NxtException.ValidationException;
 import nxt.VoteWeighting.VotingModel;
 import nxt.util.Convert;
-import nxt.util.Logger;
-import org.apache.tika.Tika;
-import org.apache.tika.mime.MediaType;
 import org.json.simple.JSONObject;
 
 import java.nio.ByteBuffer;
@@ -69,6 +66,9 @@ public abstract class TransactionType {
     private static final byte SUBTYPE_COLORED_COINS_BID_ORDER_CANCELLATION = 5;
     private static final byte SUBTYPE_COLORED_COINS_DIVIDEND_PAYMENT = 6;
     private static final byte SUBTYPE_COLORED_COINS_ASSET_DELETE = 7;
+    private static final byte SUBTYPE_COLORED_COINS_ASSET_INCREASE = 8;
+    private static final byte SUBTYPE_COLORED_COINS_PROPERTY_SET = 10;
+    private static final byte SUBTYPE_COLORED_COINS_PROPERTY_DELETE = 11;
 
     private static final byte SUBTYPE_DIGITAL_GOODS_LISTING = 0;
     private static final byte SUBTYPE_DIGITAL_GOODS_DELISTING = 1;
@@ -141,6 +141,12 @@ public abstract class TransactionType {
                         return ColoredCoins.DIVIDEND_PAYMENT;
                     case SUBTYPE_COLORED_COINS_ASSET_DELETE:
                         return ColoredCoins.ASSET_DELETE;
+                    case SUBTYPE_COLORED_COINS_ASSET_INCREASE:
+                        return ColoredCoins.ASSET_INCREASE;
+                    case SUBTYPE_COLORED_COINS_PROPERTY_SET:
+                        return ColoredCoins.ASSET_PROPERTY_SET;
+                    case SUBTYPE_COLORED_COINS_PROPERTY_DELETE:
+                        return ColoredCoins.ASSET_PROPERTY_DELETE;
                     default:
                         return null;
                 }
@@ -1755,6 +1761,104 @@ public abstract class TransactionType {
 
         };
 
+        public static final TransactionType ASSET_INCREASE = new ColoredCoins() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_COLORED_COINS_ASSET_INCREASE;
+            }
+
+            @Override
+            public LedgerEvent getLedgerEvent() {
+                return LedgerEvent.ASSET_INCREASE;
+            }
+
+            @Override
+            public String getName() {
+                return "AssetIncrease";
+            }
+
+            @Override
+            public Fee getBaselineFee(Transaction transaction) {
+                return new Fee.ConstantFee(Constants.ONE_NXT * 10);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetIncrease parseAttachment(ByteBuffer buffer, byte transactionVersion) {
+                return new Attachment.ColoredCoinsAssetIncrease(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetIncrease parseAttachment(JSONObject attachmentData) {
+                return new Attachment.ColoredCoinsAssetIncrease(attachmentData);
+            }
+
+            @Override
+            boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                return true;
+            }
+
+            @Override
+            void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+                Attachment.ColoredCoinsAssetIncrease attachment = (Attachment.ColoredCoinsAssetIncrease) transaction.getAttachment();
+                senderAccount.addToAssetAndUnconfirmedAssetBalanceQNT(getLedgerEvent(), transaction.getId(),
+                        attachment.getAssetId(), attachment.getQuantityQNT());
+                Asset.increaseAsset(transaction, attachment.getAssetId(), attachment.getQuantityQNT());
+            }
+
+            @Override
+            void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                Attachment.ColoredCoinsAssetIncrease attachment = (Attachment.ColoredCoinsAssetIncrease) transaction.getAttachment();
+                if (attachment.getAssetId() == 0) {
+                    throw new NxtException.NotValidException("Invalid asset identifier: " + attachment.getJSONObject());
+                }
+                long quantityQNT = attachment.getQuantityQNT();
+                if (quantityQNT <= 0 || quantityQNT > Constants.MAX_ASSET_QUANTITY_QNT) {
+                    throw new NxtException.NotValidException("Invalid asset increase quantity: " + attachment.getJSONObject());
+                }
+                Asset asset = Asset.getAsset(attachment.getAssetId());
+                if (asset == null) {
+                    throw new NxtException.NotCurrentlyValidException("Asset " + Long.toUnsignedString(attachment.getAssetId()) +
+                            " does not exist yet");
+                }
+                if (Constants.MAX_ASSET_QUANTITY_QNT - quantityQNT < asset.getQuantityQNT()) {
+                    throw new NxtException.NotCurrentlyValidException("Invalid asset increase quantity: " + attachment.getJSONObject());
+                }
+                if (asset.getQuantityQNT() == 1) {
+                    throw new NxtException.NotCurrentlyValidException("No quantity increase allowed for single share assets");
+                }
+                if (asset.getQuantityQNT() == 0) {
+                    throw new NxtException.NotCurrentlyValidException("No quantity increase allowed for deleted assets");
+                }
+                if (transaction.getSenderId() != asset.getAccountId()) {
+                    throw new NxtException.NotValidException("Only asset issuer can increase asset quantity");
+                }
+                if (FxtDistribution.ardorSnapshotAssets.contains(attachment.getAssetId()) && Nxt.getBlockchain().getHeight() >= Constants.IGNIS_BLOCK) {
+                    throw new NxtException.NotCurrentlyValidException("Asset increase of ARDR asset not allowed after height " + Constants.IGNIS_BLOCK);
+                }
+            }
+
+            @Override
+            public boolean isDuplicate(Transaction transaction, Map<TransactionType, Map<String, Integer>> duplicates) {
+                Attachment.ColoredCoinsAssetIncrease attachment = (Attachment.ColoredCoinsAssetIncrease) transaction.getAttachment();
+                return isDuplicate(ASSET_INCREASE, Long.toUnsignedString(attachment.getAssetId()), duplicates, true);
+            }
+
+            @Override
+            public boolean canHaveRecipient() {
+                return false;
+            }
+
+            @Override
+            public boolean isPhasingSafe() {
+                return false;
+            }
+        };
+
         abstract static class ColoredCoinsOrderPlacement extends ColoredCoins {
 
             @Override
@@ -2066,10 +2170,12 @@ public abstract class TransactionType {
                 if (asset == null) {
                     return true;
                 }
+                HoldingType holdingType = attachment.getHoldingType();
                 long quantityQNT = asset.getQuantityQNT() - senderAccount.getAssetBalanceQNT(assetId, attachment.getHeight());
                 long totalDividendPayment = Math.multiplyExact(attachment.getAmountNQTPerQNT(), quantityQNT);
-                if (senderAccount.getUnconfirmedBalanceNQT() >= totalDividendPayment) {
-                    senderAccount.addToUnconfirmedBalanceNQT(getLedgerEvent(), transaction.getId(), -totalDividendPayment);
+                if (holdingType.getUnconfirmedBalance(senderAccount, attachment.getHoldingId()) >= totalDividendPayment) {
+                    holdingType.addToUnconfirmedBalance(senderAccount, getLedgerEvent(), transaction.getId(),
+                            attachment.getHoldingId(), -totalDividendPayment);
                     return true;
                 }
                 return false;
@@ -2089,9 +2195,11 @@ public abstract class TransactionType {
                 if (asset == null) {
                     return;
                 }
+                HoldingType holdingType = attachment.getHoldingType();
                 long quantityQNT = asset.getQuantityQNT() - senderAccount.getAssetBalanceQNT(assetId, attachment.getHeight());
                 long totalDividendPayment = Math.multiplyExact(attachment.getAmountNQTPerQNT(), quantityQNT);
-                senderAccount.addToUnconfirmedBalanceNQT(getLedgerEvent(), transaction.getId(), totalDividendPayment);
+                holdingType.addToUnconfirmedBalance(senderAccount, getLedgerEvent(), transaction.getId(),
+                        attachment.getHoldingId(), totalDividendPayment);
             }
 
             @Override
@@ -2127,6 +2235,29 @@ public abstract class TransactionType {
                                 + ", limit is one dividend per 60 blocks");
                     }
                 }
+                HoldingType holdingType = attachment.getHoldingType();
+                switch (holdingType) {
+                    case NXT:
+                        if (attachment.getHoldingId() != 0) {
+                            throw new NxtException.NotValidException("Holding id must be 0 for holding type NXT");
+                        }
+                        break;
+                    case ASSET:
+                        Asset dividendAsset = Asset.getAsset(attachment.getHoldingId());
+                        if (dividendAsset == null) {
+                            throw new NxtException.NotCurrentlyValidException("Unknown asset " + Long.toUnsignedString(attachment.getHoldingId()));
+                        }
+                        break;
+                    case CURRENCY:
+                        Currency currency = Currency.getCurrency(attachment.getHoldingId());
+                        CurrencyType.validate(currency, transaction);
+                        if (!currency.isActive()) {
+                            throw new NxtException.NotCurrentlyValidException("Currency is not active: " + currency.getCode());
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException("Unsupported holding type " + holdingType);
+                }
             }
 
             @Override
@@ -2148,6 +2279,161 @@ public abstract class TransactionType {
 
         };
 
+        abstract static class ColoredCoinsAssetPropertyTransactionType extends ColoredCoins {
+            final void checkRecipient(Asset asset, long recipientId) throws NxtException.NotValidException {
+                if (recipientId != asset.getAccountId()) {
+                    throw new NxtException.NotValidException(String.format(
+                            "Property transaction recipient must be asset issuer(%s), but was %s",
+                            Long.toUnsignedString(asset.getAccountId()),
+                            Long.toUnsignedString(recipientId)));
+                }
+            }
+
+            @Override
+            boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                return true;
+            }
+
+            @Override
+            void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) { }
+        }
+
+        public static final TransactionType ASSET_PROPERTY_SET = new ColoredCoinsAssetPropertyTransactionType() {
+
+            private final Fee ASSET_PROPERTY_FEE = new Fee.SizeBasedFee(Constants.ONE_NXT, Constants.ONE_NXT, 32) {
+                @Override
+                public int getSize(TransactionImpl transaction, Appendix appendage) {
+                    Attachment.ColoredCoinsAssetProperty attachment = (Attachment.ColoredCoinsAssetProperty) transaction.getAttachment();
+                    return attachment.getValue().length();
+                }
+            };
+
+            @Override
+            public byte getSubtype() {
+                return SUBTYPE_COLORED_COINS_PROPERTY_SET;
+            }
+
+            @Override
+            public LedgerEvent getLedgerEvent() {
+                return LedgerEvent.ASSET_PROPERTY_SET;
+            }
+
+            @Override
+            public String getName() {
+                return "AssetProperty";
+            }
+
+            @Override
+            Fee getBaselineFee(Transaction transaction) {
+                return ASSET_PROPERTY_FEE;
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetProperty parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.ColoredCoinsAssetProperty(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetProperty parseAttachment(JSONObject attachmentData) {
+                return new Attachment.ColoredCoinsAssetProperty(attachmentData);
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws ValidationException {
+                Attachment.ColoredCoinsAssetProperty attachment = (Attachment.ColoredCoinsAssetProperty) transaction.getAttachment();
+                if (!Attachment.ColoredCoinsAssetProperty.PROPERTY_NAME_RW.validate(attachment.getProperty())
+                        || attachment.getProperty().length() == 0
+                        || !Attachment.ColoredCoinsAssetProperty.PROPERTY_VALUE_RW.validate(attachment.getValue())) {
+                    throw new NxtException.NotValidException("Invalid asset property: " + attachment.getJSONObject());
+                }
+
+                checkRecipient(Asset.getAsset(attachment.getAssetId()), transaction.getRecipientId());
+
+                if (transaction.getAmountNQT() != 0) {
+                    throw new NxtException.NotValidException("Asset property transaction cannot be used to send money");
+                }
+            }
+
+            @Override
+            void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+                Attachment.ColoredCoinsAssetProperty attachment = (Attachment.ColoredCoinsAssetProperty) transaction.getAttachment();
+                Asset.getAsset(attachment.getAssetId())
+                     .setProperty(transaction.getId(), senderAccount, attachment.getProperty(), attachment.getValue());
+            }
+
+            @Override
+            public boolean canHaveRecipient() {
+                return true;
+            }
+
+            @Override
+            public boolean isPhasingSafe() {
+                return true;
+            }
+        };
+
+        public static final TransactionType ASSET_PROPERTY_DELETE = new ColoredCoinsAssetPropertyTransactionType() {
+            @Override
+            public byte getSubtype() {
+                return SUBTYPE_COLORED_COINS_PROPERTY_DELETE;
+            }
+
+            @Override
+            public LedgerEvent getLedgerEvent() {
+                return LedgerEvent.ASSET_PROPERTY_DELETE;
+            }
+
+            @Override
+            public String getName() {
+                return "AssetPropertyDelete";
+            }
+
+            @Override
+            Attachment.PropertyDeleteAttachment parseAttachment(ByteBuffer buffer, byte transactionVersion) {
+                return new Attachment.ColoredCoinsAssetPropertyDelete(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.PropertyDeleteAttachment parseAttachment(JSONObject attachmentData) {
+                return new Attachment.ColoredCoinsAssetPropertyDelete(attachmentData);
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws ValidationException {
+                Attachment.PropertyDeleteAttachment attachment = (Attachment.PropertyDeleteAttachment) transaction.getAttachment();
+                Asset.AssetProperty property = Asset.getProperty(attachment.getPropertyId());
+                if (property == null) {
+                    throw new NxtException.NotCurrentlyValidException("No such property " + Long.toUnsignedString(attachment.getPropertyId()));
+                }
+                Asset asset = Asset.getAsset(property.getAssetId());
+                if (asset.getAccountId() != transaction.getSenderId() && property.getSetterId() != transaction.getSenderId()) {
+                    throw new NxtException.NotValidException("Account " + Long.toUnsignedString(transaction.getSenderId())
+                            + " cannot delete property " + Long.toUnsignedString(attachment.getPropertyId()));
+                }
+
+                checkRecipient(asset, transaction.getRecipientId());
+
+                if (transaction.getAmountNQT() != 0) {
+                    throw new NxtException.NotValidException("Asset property transaction cannot be used to send money");
+                }
+            }
+
+            @Override
+            void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+                Attachment.PropertyDeleteAttachment attachment = (Attachment.PropertyDeleteAttachment) transaction.getAttachment();
+                Asset.deleteProperty(attachment.getPropertyId());
+            }
+
+            @Override
+            public boolean canHaveRecipient() {
+                return true;
+            }
+
+            @Override
+            public boolean isPhasingSafe() {
+                return true;
+            }
+        };
     }
 
     public static abstract class DigitalGoods extends TransactionType {
@@ -2236,23 +2522,6 @@ public abstract class TransactionType {
                         || attachment.getQuantity() < 0 || attachment.getQuantity() > Constants.MAX_DGS_LISTING_QUANTITY
                         || attachment.getPriceNQT() <= 0 || attachment.getPriceNQT() > Constants.MAX_BALANCE_NQT) {
                     throw new NxtException.NotValidException("Invalid digital goods listing: " + attachment.getJSONObject());
-                }
-                Appendix.PrunablePlainMessage prunablePlainMessage = transaction.getPrunablePlainMessage();
-                if (prunablePlainMessage != null) {
-                    byte[] image = prunablePlainMessage.getMessage();
-                    if (image != null) {
-                        Tika tika = new Tika();
-                        MediaType mediaType = null;
-                        try {
-                            String mediaTypeName = tika.detect(image);
-                            mediaType = MediaType.parse(mediaTypeName);
-                        } catch (NoClassDefFoundError e) {
-                            Logger.logErrorMessage("Error running Tika parsers", e);
-                        }
-                        if (mediaType == null || !"image".equals(mediaType.getType())) {
-                            throw new NxtException.NotValidException("Only image attachments allowed for DGS listing, media type is " + mediaType);
-                        }
-                    }
                 }
             }
 

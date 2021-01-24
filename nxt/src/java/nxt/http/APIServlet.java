@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -146,14 +146,16 @@ public final class APIServlet extends HttpServlet {
 
         AddOns.registerAPIRequestHandlers(map);
 
-        API.disabledAPIs.forEach(api -> {
-            APIRequestHandler handler = map.remove(api);
+        List<APIEnum> disabledApis = API.getDisabledApis();
+        disabledApis.forEach(api -> {
+            APIRequestHandler handler = map.remove(api.getName());
             if (handler == null) {
                 throw new RuntimeException("Invalid API in nxt.disabledAPIs: " + api);
             }
-            disabledMap.put(api, handler);
+            disabledMap.put(api.getName(), handler);
         });
-        API.disabledAPITags.forEach(apiTag -> {
+        List<APITag> disabledApiTags = API.getDisabledApiTags();
+        disabledApiTags.forEach(apiTag -> {
             Iterator<Map.Entry<String, APIRequestHandler>> iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, APIRequestHandler> entry = iterator.next();
@@ -163,11 +165,11 @@ public final class APIServlet extends HttpServlet {
                 }
             }
         });
-        if (!API.disabledAPIs.isEmpty()) {
-            Logger.logInfoMessage("Disabled APIs: " + API.disabledAPIs);
+        if (!disabledApis.isEmpty()) {
+            Logger.logInfoMessage("Disabled APIs: " + disabledApis);
         }
-        if (!API.disabledAPITags.isEmpty()) {
-            Logger.logInfoMessage("Disabled APITags: " + API.disabledAPITags);
+        if (!disabledApiTags.isEmpty()) {
+            Logger.logInfoMessage("Disabled APITags: " + disabledApiTags);
         }
 
         apiRequestHandlers = Collections.unmodifiableMap(map);
@@ -301,4 +303,7 @@ public final class APIServlet extends HttpServlet {
 
     }
 
+    public static Map<String, APIRequestHandler> getAPIRequestHandlers() {
+        return apiRequestHandlers;
+    }
 }

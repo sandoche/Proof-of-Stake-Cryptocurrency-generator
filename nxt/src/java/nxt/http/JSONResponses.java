@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -154,6 +154,8 @@ public final class JSONResponses {
     public static final JSONStreamAware UNKNOWN_PROPERTY = unknown("property");
     public static final JSONStreamAware MISSING_PROPERTY = missing("property");
     public static final JSONStreamAware INCORRECT_EC_BLOCK = incorrect("ecBlockId", "ecBlockId does not match the block id at ecBlockHeight");
+    public static final JSONStreamAware INCORRECT_ASSET_PROPERTY_NAME_LENGTH = incorrect("property", "(length must be > 0 but less than " + Constants.MAX_ASSET_PROPERTY_NAME_LENGTH + " characters)");
+    public static final JSONStreamAware INCORRECT_ASSET_PROPERTY_VALUE_LENGTH = incorrect("value", "(length must be less than " + Constants.MAX_ASSET_PROPERTY_VALUE_LENGTH + " characters)");
 
     public static final JSONStreamAware NOT_ENOUGH_FUNDS;
     static {
@@ -427,6 +429,14 @@ public final class JSONResponses {
         PEER_NOT_OPEN_API = JSON.prepare(response);
     }
 
+    public static final JSONStreamAware PEERS_NETWORKING_DISABLED;
+    static {
+        JSONObject response = new JSONObject();
+        response.put("errorCode", 24);
+        response.put("errorDescription", "Network connection to peers is disabled");
+        PEERS_NETWORKING_DISABLED = JSON.prepare(response);
+    }
+
     static JSONStreamAware missing(String... paramNames) {
         JSONObject response = new JSONObject();
         response.put("errorCode", 3);
@@ -520,6 +530,14 @@ public final class JSONResponses {
         response.put("errorCode", 5);
         response.put("errorDescription", "Account monitor not started");
         MONITOR_NOT_STARTED = JSON.prepare(response);
+    }
+
+    public static final JSONStreamAware INCORRECT_PROCESS_FILE;
+    static {
+        JSONObject response = new JSONObject();
+        response.put("errorCode", 10);
+        response.put("errorDescription", "Encrypted configuration data does not exist");
+        INCORRECT_PROCESS_FILE = JSON.prepare(response);
     }
 
     private JSONResponses() {} // never

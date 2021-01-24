@@ -1,6 +1,6 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
-  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
   ~                                                                           ~
   ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
   ~ for licensing information.                                                ~
@@ -17,7 +17,7 @@
 <div id="recipient_modal_template">
     <div class="form-group">
         <label for="{{name}}_recipient" data-i18n="recipient">RECIPIENT</label>
-        <div id="{{name}}_account_id_reader" class="scan-qr-code-reader" style="display:none;margin:auto;width:384px;height:384px;"></div>
+        <div id="{{name}}_account_id_reader" class="scan-qr-code-reader" style="display:none;margin:auto;"></div>
         <button type="button" data-reader="{{name}}_account_id_reader" data-result="{{name}}_recipient" class="scan-qr-code btn btn-default btn-xs">
             <i class="fa fa-qrcode"></i>
         </button>
@@ -70,7 +70,7 @@
 <div id="secret_phrase_modal_template">
     <div class="form-group secret_phrase">
         <label for="{{name}}_password" data-i18n="passphrase">PASSPHRASE</label>
-        <div id="{{name}}_secret_phrase_reader" class="scan-qr-code-reader" style="display:none;margin:auto;width:384px;height:384px;"></div>
+        <div id="{{name}}_secret_phrase_reader" class="scan-qr-code-reader" style="display:none;margin:auto;"></div>
         <button id="{{name}}_secret_phrase_scan" type="button" data-reader="{{name}}_secret_phrase_reader" data-result="{{name}}_password" class="scan-qr-code btn btn-default btn-xs ">
             <i class="fa fa-qrcode"></i>
         </button>

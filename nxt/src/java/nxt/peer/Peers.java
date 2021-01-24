@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -147,6 +147,8 @@ public final class Peers {
     static final ExecutorService peersService = new QueuedThreadPool(2, 15);
     private static final ExecutorService sendingService = Executors.newFixedThreadPool(10);
 
+    private static volatile boolean isNetworkingEnabled = true;
+
     static {
 
         String platform = Nxt.getStringProperty("nxt.myPlatform", System.getProperty("os.name") + " " + System.getProperty("os.arch"));
@@ -275,13 +277,8 @@ public final class Peers {
         if (API.isOpenAPI) {
             EnumSet<APIEnum> disabledAPISet = EnumSet.noneOf(APIEnum.class);
 
-            API.disabledAPIs.forEach(apiName -> {
-                APIEnum api = APIEnum.fromName(apiName);
-                if (api != null) {
-                    disabledAPISet.add(api);
-                }
-            });
-            API.disabledAPITags.forEach(apiTag -> {
+            disabledAPISet.addAll(API.getDisabledApis());
+            API.getDisabledApiTags().forEach(apiTag -> {
                 for (APIEnum api : APIEnum.values()) {
                     if (api.getHandler() != null && api.getHandler().getAPITags().contains(apiTag)) {
                         disabledAPISet.add(api);
@@ -499,6 +496,9 @@ public final class Peers {
 
         @Override
         public void run() {
+            if (!isNetworkingEnabled()) {
+                return;
+            }
 
             try {
                 try {
@@ -801,6 +801,20 @@ public final class Peers {
         }
         ThreadPool.shutdownExecutor("sendingService", sendingService, 2);
         ThreadPool.shutdownExecutor("peersService", peersService, 5);
+    }
+
+    public static void disableNetworking() {
+        isNetworkingEnabled = false;
+        //TODO disconnect
+        //getConnectedPeersInternal().forEach(PeerImpl::disconnectPeer);
+    }
+
+    public static void enableNetworking() {
+        Peers.isNetworkingEnabled = true;
+    }
+
+    public static boolean isNetworkingEnabled() {
+        return isNetworkingEnabled;
     }
 
     public static boolean addListener(Listener<Peer> listener, Event eventType) {
@@ -1228,7 +1242,6 @@ public final class Peers {
     private static void checkBlockchainState() {
         Peer.BlockchainState state = Constants.isLightClient ? Peer.BlockchainState.LIGHT_CLIENT :
                 (Nxt.getBlockchainProcessor().isDownloading() || Nxt.getBlockchain().getLastBlockTimestamp() < Nxt.getEpochTime() - 600) ? Peer.BlockchainState.DOWNLOADING :
-                        (Nxt.getBlockchain().getLastBlock().getBaseTarget() / Constants.INITIAL_BASE_TARGET > 10 && !Constants.isTestnet) ? Peer.BlockchainState.FORK :
                         Peer.BlockchainState.UP_TO_DATE;
         if (state != currentBlockchainState) {
             JSONObject json = new JSONObject(myPeerInfo);

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -20,7 +20,6 @@ function RemoteNode(peerData, useAnnouncedAddress) {
     this.port = peerData.apiPort;
     this.isSsl = peerData.isSsl ? true : false; // For now only nodes specified by the user can use SSL since we need trusted certificate
     this.useAnnouncedAddress = useAnnouncedAddress === true;
-    this.blacklistedUntil = 0;
     this.connectionTime = new Date();
 }
 
@@ -28,19 +27,11 @@ RemoteNode.prototype.getUrl = function () {
     return (this.isSsl ? "https://" : "http://") + (this.useAnnouncedAddress ? this.announcedAddress : this.address) + ":" + this.port;
 };
 
-RemoteNode.prototype.isBlacklisted = function () {
-    return new Date().getTime() < this.blacklistedUntil;
-};
-
-RemoteNode.prototype.blacklist = function () {
-    var blacklistedUntil = new Date().getTime() + 10 * 60 * 1000;
-    NRS.logConsole("Blacklist " + this.address + " until " + new Date(blacklistedUntil).format("isoDateTime"));
-    this.blacklistedUntil = blacklistedUntil;
-};
-
 function RemoteNodesManager(isTestnet) {
     this.isTestnet = isTestnet;
     this.nodes = {};
+    this.blacklistTable = {}; //key is the address, value is the time until the address is blacklisted
+
     // Bootstrap connections
     this.bc = {
         success: 0, // Successful connections counter
@@ -78,16 +69,24 @@ RemoteNodesManager.prototype.addRemoteNodes = function (peersData) {
     var mgr = this;
     $.each(peersData, function(index, peerData) {
         if (isRemoteNodeConnectable(peerData, false)) {
-            var oldNode = mgr.nodes[peerData.address];
             var newNode = new RemoteNode(peerData);
-            if (oldNode) {
-                newNode.blacklistedUntil = oldNode.blacklistedUntil;
-            }
             mgr.nodes[peerData.address] = newNode;
-            NRS.logConsole("Found remote node " + peerData.address + " blacklisted " + newNode.isBlacklisted());
+            NRS.logConsole("Found remote node " + peerData.address + " blacklisted " + mgr.isBlacklisted(peerData.address));
         }
     });
 };
+
+RemoteNodesManager.prototype.blacklistAddress = function(address) {
+    var blacklistedUntil = new Date().getTime() + 30 * 60 * 1000;
+    NRS.logConsole("Blacklist " + address + " until " + new Date(blacklistedUntil).format("isoDateTime")
+            + (this.isBlacklisted(address) ? " - period extended" : ""));
+    this.blacklistTable[address] = blacklistedUntil;
+};
+
+RemoteNodesManager.prototype.isBlacklisted = function(address) {
+    var blacklistedUntil = this.blacklistTable[address];
+    return blacklistedUntil !== undefined && new Date().getTime() < blacklistedUntil;
+}
 
 RemoteNodesManager.prototype.addBootstrapNode = function (resolve, reject) {
     var node = new RemoteNode({
@@ -232,13 +231,11 @@ RemoteNodesManager.prototype.getRandomNode = function (ignoredAddresses) {
     var node;
     do {
         var address = addresses[index];
-        if (ignoredAddresses instanceof Array && ignoredAddresses.indexOf(address) >= 0) {
+        if ((ignoredAddresses instanceof Array && ignoredAddresses.indexOf(address) >= 0)
+                || this.isBlacklisted(address)) {
             node = null;
         } else {
             node = this.nodes[address];
-            if (node != null && node.isBlacklisted()) {
-                node = null;
-            }
         }
         index = (index+1) % addresses.length;
     } while(node == null && index != startIndex);

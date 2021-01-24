@@ -1,6 +1,6 @@
 rem @ECHO OFF
-if exist jre ( 
-    set javaDir=jre\bin\
+if exist jdk (
+    set javaDir=jdk\bin\
 )
 
 %javaDir%java.exe -cp classes;lib\*;conf nxt.mint.MintWorker

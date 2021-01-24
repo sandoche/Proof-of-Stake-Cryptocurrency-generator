@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -651,28 +651,34 @@ var NRS = (function (NRS, $) {
 		return value;
 	}
 
-	function aesEncrypt(plaintext, options) {
+	function aesEncrypt(payload, options) {
         var ivBytes = getRandomBytes(16);
 
 		// CryptoJS likes WordArray parameters
-		var text = converters.byteArrayToWordArray(plaintext);
+		var wordArrayPayload = converters.byteArrayToWordArray(payload);
 		var sharedKey;
 		if (!options.sharedKey) {
 			sharedKey = getSharedSecret(options.privateKey, options.publicKey);
 		} else {
 			sharedKey = options.sharedKey.slice(0); //clone
 		}
-		for (var i = 0; i < 32; i++) {
-			sharedKey[i] ^= options.nonce[i];
-		}
+        if (options.nonce !== undefined) {
+            for (var i = 0; i < 32; i++) {
+                sharedKey[i] ^= options.nonce[i];
+            }
+        }
 		var key = CryptoJS.SHA256(converters.byteArrayToWordArray(sharedKey));
-		var encrypted = CryptoJS.AES.encrypt(text, key, {
+		var encrypted = CryptoJS.AES.encrypt(wordArrayPayload, key, {
 			iv: converters.byteArrayToWordArray(ivBytes)
 		});
 		var ivOut = converters.wordArrayToByteArray(encrypted.iv);
 		var ciphertextOut = converters.wordArrayToByteArray(encrypted.ciphertext);
 		return ivOut.concat(ciphertextOut);
 	}
+
+	NRS.aesEncrypt = function(plaintext, sharedKey) {
+	    return aesEncrypt(converters.stringToByteArray(plaintext), {sharedKey: converters.stringToByteArray(sharedKey)});
+	};
 
 	function aesDecrypt(ivCiphertext, options) {
 		if (ivCiphertext.length < 16 || ivCiphertext.length % 16 != 0) {

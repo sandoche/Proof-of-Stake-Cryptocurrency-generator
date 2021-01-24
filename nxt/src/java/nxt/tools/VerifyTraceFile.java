@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -97,11 +97,11 @@ public final class VerifyTraceFile {
                     long currentQuantity = issuedAssetQuantities.get(assetId);
                     issuedAssetQuantities.put(assetId, currentQuantity - deletedQuantity);
                 }
-                if ("asset delete".equals(event)) {
+                if ("asset quantity change".equals(event)) {
                     String assetId = valueMap.get("asset");
-                    long deletedQuantity = - Long.parseLong(valueMap.get("asset quantity"));
+                    long changedQuantity = Long.parseLong(valueMap.get("asset quantity"));
                     long currentQuantity = issuedAssetQuantities.get(assetId);
-                    issuedAssetQuantities.put(assetId, currentQuantity - deletedQuantity);
+                    issuedAssetQuantities.put(assetId, currentQuantity + changedQuantity);
                 }
                 Map<String, Map<String, Long>> accountCurrencyMap = accountCurrencyTotals.computeIfAbsent(accountId, k -> new HashMap<>());
                 if ("currency issuance".equals(event)) {

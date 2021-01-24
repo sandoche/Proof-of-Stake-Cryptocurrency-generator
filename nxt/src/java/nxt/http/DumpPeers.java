@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -48,6 +48,9 @@ public final class DumpPeers extends APIServlet.APIRequestHandler {
         int weight = ParameterParser.getInt(req, "weight", 0, (int)Constants.MAX_BALANCE_NXT, false);
         boolean connect = "true".equalsIgnoreCase(req.getParameter("connect")) && API.checkPassword(req);
         if (connect) {
+            if (!Peers.isNetworkingEnabled()) {
+                return JSONResponses.PEERS_NETWORKING_DISABLED;
+            }
             List<Callable<Object>> connects = new ArrayList<>();
             Peers.getAllPeers().forEach(peer -> connects.add(() -> {
                 Peers.connectPeer(peer);

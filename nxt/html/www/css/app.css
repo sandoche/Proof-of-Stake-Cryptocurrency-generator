@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -3204,7 +3204,7 @@ html.loading, body.loading {
     max-width: 400px;
 }
 
-#testnet_login {
+#testnet_login, #proxy_connection_error {
     display: none;
     text-align: center;
     margin: auto auto 0px auto;
@@ -3952,3 +3952,15 @@ body > .header .navbar {
 }
 
 /* @media min-height: 400px */
+
+video.qr {
+  width: 100%;
+  max-width: 640px;
+}
+
+#m_save_forging_encrypted_modal dl.forgingAccounts span.forgetForgingAccount {
+  float: right;
+  cursor: pointer;
+  font-size: large;
+  color: #72afd2;
+}

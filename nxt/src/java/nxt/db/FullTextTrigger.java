@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,6 +16,7 @@
 
 package nxt.db;
 
+import nxt.Constants;
 import nxt.Db;
 import nxt.util.Logger;
 import nxt.util.ReadWriteUpdateLock;
@@ -160,6 +161,10 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
      * @param   active              TRUE to enable database triggers
      */
     public static void setActive(boolean active) {
+        if (Constants.DISABLE_FULL_TEXT_SEARCH) {
+            return;
+        }
+
         isActive = active;
         if (!active) {
             indexTriggers.values().forEach((trigger) -> trigger.isEnabled = false);
@@ -175,6 +180,9 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
      * that enables NRS fulltext search support
      */
     public static void init() {
+        if (Constants.DISABLE_FULL_TEXT_SEARCH) {
+            return;
+        }
         String ourClassName = FullTextTrigger.class.getName();
         try (Connection conn = Db.db.getConnection();
                 Statement stmt = conn.createStatement();
@@ -218,7 +226,7 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
             //
             stmt.execute("CREATE SCHEMA IF NOT EXISTS FTL");
             stmt.execute("CREATE TABLE IF NOT EXISTS FTL.INDEXES "
-                    + "(SCHEMA VARCHAR, TABLE VARCHAR, COLUMNS VARCHAR, PRIMARY KEY(SCHEMA, TABLE))");
+                    + "(SCHEMA VARCHAR, `TABLE` VARCHAR, COLUMNS VARCHAR, PRIMARY KEY(SCHEMA, `TABLE`))");
             Logger.logInfoMessage("NRS fulltext schema created");
             //
             // Drop existing triggers and create our triggers.  H2 will initialize the trigger
@@ -289,6 +297,9 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
      */
     public static void createIndex(Connection conn, String schema, String table, String columnList)
                                     throws SQLException {
+        if (Constants.DISABLE_FULL_TEXT_SEARCH) {
+            return;
+        }
         String upperSchema = schema.toUpperCase(Locale.ROOT);
         String upperTable = table.toUpperCase(Locale.ROOT);
         String tableName = upperSchema + "." + upperTable;
@@ -302,7 +313,7 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
         // will be initialized when it is created.
         //
         try (Statement stmt = conn.createStatement()) {
-            stmt.execute(String.format("INSERT INTO FTL.INDEXES (schema, table, columns) "
+            stmt.execute(String.format("INSERT INTO FTL.INDEXES (schema, `table`, columns) "
                     + "VALUES('%s', '%s', '%s')",
                     upperSchema, upperTable, columnList.toUpperCase(Locale.ROOT)));
             stmt.execute(String.format("CREATE TRIGGER FTL_%s AFTER INSERT,UPDATE,DELETE ON %s "
@@ -344,11 +355,11 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
         try (Statement qstmt = conn.createStatement();
                 Statement stmt = conn.createStatement()) {
             try (ResultSet rs = qstmt.executeQuery(String.format(
-                    "SELECT COLUMNS FROM FTL.INDEXES WHERE SCHEMA = '%s' AND TABLE = '%s'",
+                    "SELECT COLUMNS FROM FTL.INDEXES WHERE SCHEMA = '%s' AND `TABLE` = '%s'",
                     upperSchema, upperTable))) {
                 if (rs.next()) {
                     stmt.execute("DROP TRIGGER IF EXISTS FTL_" + upperTable);
-                    stmt.execute(String.format("DELETE FROM FTL.INDEXES WHERE SCHEMA = '%s' AND TABLE = '%s'",
+                    stmt.execute(String.format("DELETE FROM FTL.INDEXES WHERE SCHEMA = '%s' AND `TABLE` = '%s'",
                             upperSchema, upperTable));
                     reindex = true;
                 }
@@ -369,12 +380,15 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
      * @throws  SQLException        Unable to drop fulltext indexes
      */
     public static void dropAll(Connection conn) throws SQLException {
+        if (Constants.DISABLE_FULL_TEXT_SEARCH) {
+            return;
+        }
         //
         // Drop existing triggers
         //
         try (Statement qstmt = conn.createStatement();
                 Statement stmt = conn.createStatement();
-                ResultSet rs = qstmt.executeQuery("SELECT TABLE FROM FTL.INDEXES")) {
+                ResultSet rs = qstmt.executeQuery("SELECT `TABLE` FROM FTL.INDEXES")) {
             while(rs.next()) {
                 String table = rs.getString(1);
                 stmt.execute("DROP TRIGGER IF EXISTS FTL_" + table);
@@ -522,7 +536,7 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
             // Indexed columns must be strings (VARCHAR)
             //
             try (ResultSet rs = stmt.executeQuery(String.format(
-                    "SELECT COLUMNS FROM FTL.INDEXES WHERE SCHEMA = '%s' AND TABLE = '%s'",
+                    "SELECT COLUMNS FROM FTL.INDEXES WHERE SCHEMA = '%s' AND `TABLE` = '%s'",
                     schema, table))) {
                 if (rs.next()) {
                     String[] columns = rs.getString(1).split(",");
@@ -828,6 +842,9 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
      * @throws  SQLException        Unable to access the Lucene index
      */
     private static void getIndexAccess(Connection conn) throws SQLException {
+        if (Constants.DISABLE_FULL_TEXT_SEARCH) {
+            return;
+        }
         if (!isActive) {
             throw new SQLException("NRS is no longer active");
         }
@@ -844,7 +861,17 @@ public class FullTextTrigger implements Trigger, TransactionalDb.TransactionCall
                         getIndexPath(conn);
                     }
                     if (directory == null) {
-                        directory = FSDirectory.open(indexPath);
+                        try {
+                            //
+                            //Reflection for
+                            // "directory = FSDirectory.open(indexPath);"
+                            // because the Lucene port for Android currently doesn't support
+                            // java.nio and the compilation fails.
+                            // This code is currently not executed on Android
+                            directory = (Directory) FSDirectory.class.getMethod("open", Path.class).invoke(null, indexPath);
+                        } catch (ReflectiveOperationException e) {
+                            throw new RuntimeException("FSDirectory.open cannot be invoket", e);
+                        }
                     }
                     if (indexWriter == null) {
                         IndexWriterConfig config = new IndexWriterConfig(analyzer);

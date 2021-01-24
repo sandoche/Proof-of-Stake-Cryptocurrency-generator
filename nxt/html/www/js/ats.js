@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -210,7 +210,8 @@ var ATS = (function(ATS, $, undefined) {
             processData: processData
         })
         .done(function(result) {
-            var resultStr = JSON.stringify(JSON.parse(result), null, 4);
+            var json = $.type(result) === 'string' ? JSON.parse(result) : result;
+            var resultStr = JSON.stringify(json, null, 4);
             var code_elem = form.getElementsByClassName("result")[0];
             code_elem.textContent = resultStr;
             hljs.highlightBlock(code_elem);

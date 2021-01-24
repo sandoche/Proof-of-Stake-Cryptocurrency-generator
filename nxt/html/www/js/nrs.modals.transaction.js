@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -592,8 +592,9 @@ var NRS = (function (NRS, $, undefined) {
                             }
                             infoTable.find("tbody").append(NRS.createInfoTable(data));
                             infoTable.show();
-
-                            $("#transaction_info_modal").modal("show");
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
                             NRS.fetchingModalData = false;
                         });
 
@@ -629,7 +630,9 @@ var NRS = (function (NRS, $, undefined) {
                                     data["sender"] = transaction.senderRS ? transaction.senderRS : transaction.sender;
                                     infoTable.find("tbody").append(NRS.createInfoTable(data));
                                     infoTable.show();
-                                    $("#transaction_info_modal").modal("show");
+                                    if (!isModalVisible) {
+                                        $("#transaction_info_modal").modal("show");
+                                    }
                                     NRS.fetchingModalData = false;
                                 });
                             } else {
@@ -658,7 +661,9 @@ var NRS = (function (NRS, $, undefined) {
                                     data["sender"] = transaction.senderRS ? transaction.senderRS : transaction.sender;
                                     infoTable.find("tbody").append(NRS.createInfoTable(data));
                                     infoTable.show();
-                                    $("#transaction_info_modal").modal("show");
+                                    if (!isModalVisible) {
+                                        $("#transaction_info_modal").modal("show");
+                                    }
                                     NRS.fetchingModalData = false;
                                 });
                             } else {
@@ -680,14 +685,43 @@ var NRS = (function (NRS, $, undefined) {
                                         "type": $.t("dividend_payment"),
                                         "asset_formatted_html": NRS.getTransactionLink(transaction.attachment.asset),
                                         "asset_name": asset.name,
-                                        "amount_per_share": NRS.formatOrderPricePerWholeQNT(transaction.attachment.amountNQTPerQNT, asset.decimals) + " NXT",
                                         "height": transaction.attachment.height
                                     };
+
+                                    if (transaction.attachment.holdingType === undefined || transaction.attachment.holdingType == 0) {
+                                        data.holdingType = "NXT";
+                                        data.amount_per_share = NRS.formatOrderPricePerWholeQNT(transaction.attachment.amountNQTPerQNT, asset.decimals) + " NXT";
+                                    } else {
+                                        var requestType;
+                                        var key;
+                                        if (transaction.attachment.holdingType == 1) {
+                                            requestType = "getAsset";
+                                            key = "asset";
+                                        } else if (transaction.attachment.holdingType == 2) {
+                                            requestType = "getCurrency";
+                                            key = "currency";
+                                        }
+                                        data.holdingType = $.t(key);
+                                        var params = {};
+                                        params[key] = transaction.attachment.holding;
+                                        NRS.sendRequest(requestType, params, function (response) {
+                                            var amountPerShare = transaction.attachment.amountNQTPerQNT;
+                                            for (var i = 0; i < asset.decimals; i++) {
+                                                amountPerShare += "0";
+                                            }
+                                            data.amount_per_share_formatted_html = NRS.formatQuantity(amountPerShare, response.decimals) + " " + response.name;
+                                            data.holding_formatted_html = NRS.getTransactionLink(transaction.attachment.holding, response.name);
+                                        }, {isAsync: false});
+
+                                    }
+
                                     data["sender"] = transaction.senderRS ? transaction.senderRS : transaction.sender;
                                     infoTable.find("tbody").append(NRS.createInfoTable(data));
                                     infoTable.show();
 
-                                    $("#transaction_info_modal").modal("show");
+                                    if (!isModalVisible) {
+                                        $("#transaction_info_modal").modal("show");
+                                    }
                                     NRS.fetchingModalData = false;
                                 });
                             } else {
@@ -711,10 +745,56 @@ var NRS = (function (NRS, $, undefined) {
                             data["sender"] = transaction.senderRS ? transaction.senderRS : transaction.sender;
                             infoTable.find("tbody").append(NRS.createInfoTable(data));
                             infoTable.show();
-
-                            $("#transaction_info_modal").modal("show");
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
                             NRS.fetchingModalData = false;
                         });
+                        break;
+                    case 8:
+                        async = true;
+
+                        NRS.sendRequest("getAsset", {
+                            "asset": transaction.attachment.asset
+                        }, function (asset) {
+                            data = {
+                                "type": $.t("increase_asset_shares"),
+                                "asset_formatted_html": NRS.getTransactionLink(transaction.attachment.asset),
+                                "asset_name": asset.name,
+                                "quantity": [transaction.attachment.quantityQNT, asset.decimals]
+                            };
+
+                            data["sender"] = transaction.senderRS ? transaction.senderRS : transaction.sender;
+                            infoTable.find("tbody").append(NRS.createInfoTable(data));
+                            infoTable.show();
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
+                            NRS.fetchingModalData = false;
+                        });
+                        break;
+                    case 10:
+                        NRS.sendRequest("getAsset", {
+                            "asset": transaction.attachment.asset
+                        }, function (asset) {
+                            data = {
+                                "type": $.t("set_asset_property"),
+                                "asset_formatted_html": NRS.getTransactionLink(transaction.attachment.asset),
+                                "asset_name": asset.name,
+                                "property": transaction.attachment.property,
+                                "value": transaction.attachment.value
+                            };
+                            infoTable.find("tbody").append(NRS.createInfoTable(data));
+                            infoTable.show();
+                        });
+                        break;
+                    case 11:
+                        data = {
+                            "type": $.t("delete_asset_property"),
+                            "property": transaction.attachment.property
+                        };
+                        infoTable.find("tbody").append(NRS.createInfoTable(data));
+                        infoTable.show();
                         break;
                     default:
                         incorrect = true;
@@ -749,8 +829,9 @@ var NRS = (function (NRS, $, undefined) {
 
                             infoTable.find("tbody").append(NRS.createInfoTable(data));
                             infoTable.show();
-
-                            $("#transaction_info_modal").modal("show");
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
                             NRS.fetchingModalData = false;
                         });
                         break;
@@ -768,8 +849,9 @@ var NRS = (function (NRS, $, undefined) {
 
                             infoTable.find("tbody").append(NRS.createInfoTable(data));
                             infoTable.show();
-
-                            $("#transaction_info_modal").modal("show");
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
                             NRS.fetchingModalData = false;
                         });
                         break;
@@ -787,8 +869,9 @@ var NRS = (function (NRS, $, undefined) {
 
                             infoTable.find("tbody").append(NRS.createInfoTable(data));
                             infoTable.show();
-
-                            $("#transaction_info_modal").modal("show");
+                            if (!isModalVisible) {
+                                $("#transaction_info_modal").modal("show");
+                            }
                             NRS.fetchingModalData = false;
                         });
                         break;
@@ -843,7 +926,9 @@ var NRS = (function (NRS, $, undefined) {
                                 if (callout) {
                                     $("#transaction_info_bottom").html("<div class='callout " + (purchase.errorCode ? "callout-danger" : "callout-info") + " callout-bottom'>" + callout + "</div>").show();
                                 }
-                                $("#transaction_info_modal").modal("show");
+                                if (!isModalVisible) {
+                                    $("#transaction_info_modal").modal("show");
+                                }
                                 NRS.fetchingModalData = false;
                             });
                         });
@@ -903,8 +988,9 @@ var NRS = (function (NRS, $, undefined) {
                                 if (callout) {
                                     $("#transaction_info_bottom").append("<div class='callout callout-info callout-bottom'>" + callout + "</div>").show();
                                 }
-
-                                $("#transaction_info_modal").modal("show");
+                                if (!isModalVisible) {
+                                    $("#transaction_info_modal").modal("show");
+                                }
                                 NRS.fetchingModalData = false;
                             });
                         });
@@ -946,11 +1032,15 @@ var NRS = (function (NRS, $, undefined) {
                                         if (callout) {
                                             $("#transaction_info_bottom").append("<div class='callout callout-info callout-bottom'>" + callout + "</div>").show();
                                         }
-                                        $("#transaction_info_modal").modal("show");
+                                        if (!isModalVisible) {
+                                            $("#transaction_info_modal").modal("show");
+                                        }
                                         NRS.fetchingModalData = false;
                                     });
                                 } else {
-                                    $("#transaction_info_modal").modal("show");
+                                    if (!isModalVisible) {
+                                        $("#transaction_info_modal").modal("show");
+                                    }
                                     NRS.fetchingModalData = false;
                                 }
                             });
@@ -975,7 +1065,9 @@ var NRS = (function (NRS, $, undefined) {
                                 data["seller"] = NRS.getAccountFormatted(purchase, "seller");
                                 infoTable.find("tbody").append(NRS.createInfoTable(data));
                                 infoTable.show();
-                                $("#transaction_info_modal").modal("show");
+                                if (!isModalVisible) {
+                                    $("#transaction_info_modal").modal("show");
+                                }
                                 NRS.fetchingModalData = false;
                             });
                         });

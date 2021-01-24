@@ -5,8 +5,8 @@
 # transactions will be sent over tor only. Requires a tor proxy running
 # at localhost:9050. Set nxt.shareMyAddress=false when using tor.
 
-if [ -x jre/bin/java ]; then
-    JAVA=./jre/bin/java
+if [ -x jdk/bin/java ]; then
+    JAVA=./jdk/bin/java
 else
     JAVA=java
 fi

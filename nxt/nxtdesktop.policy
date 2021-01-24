@@ -25,7 +25,7 @@ grant {
 };
 
 grant codeBase "file:classes/-" {
-  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+  permission java.security.AllPermission;
 };
 
 grant codeBase "file:lib/-" {
@@ -33,13 +33,9 @@ grant codeBase "file:lib/-" {
 };
 
 grant codeBase "file:nxt.jar" {
-  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
-};
-
-/* Due to a bug in the JavaFX PrismFontFactory, granting AllPermissions is
-* required in order to load the FontAwesome font.
-*/
-grant codeBase "file:classes/-" {
   permission java.security.AllPermission;
 };
 
+grant codeBase "file:javafx-sdk/lib/*" {
+  permission java.security.AllPermission;
+};

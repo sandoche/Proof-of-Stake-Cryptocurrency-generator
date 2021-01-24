@@ -5,8 +5,8 @@
 @echo * file or shutdown the computer until it finishes.                  *
 @echo *********************************************************************
 
-if exist jre ( 
-    set javaDir=jre\bin\
+if exist jdk (
+    set javaDir=jdk\bin\
 )
 
 %javaDir%java.exe -Xmx1024m -cp "classes;lib/*;conf" -Dnxt.runtime.mode=desktop nxt.tools.CompactDatabase

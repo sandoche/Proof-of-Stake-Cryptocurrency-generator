@@ -1,3 +1,209 @@
+nxt-client-1.12.1, released 2020-02-27:
+
+This stable release is a mandatory upgrade for all mainnet Nxt nodes.
+
+A hardfork to activate several new features that have already been enabled on
+testnet in 1.12.0e has been scheduled for block 2870000, expected around April
+15, 2020. The following new features will be activated on mainnet:
+
+    Asset Dividends payment by asset or currency, allowing paying asset
+    dividends not only in NXT, but also in any asset or monetary system
+    currency.
+
+    Asset Properties, setting arbitrary name/value metadata on assets.
+
+    Asset Increase transaction, allowing asset issuers to increase the total
+    number of asset shares available.
+
+More details about the above features were published in the previous 1.12.0e
+changelog.
+
+Optimize checkpoint calculation by using hash of checkpoint block bytes
+instead of hashing all intermediate transactions.
+
+Simplified setting up https on a public node without the need for a reverse
+proxy. The new pem.to.pkcs12.keystore.certbot.hook.sh script can be used to
+convert an SSL certificate issued by Let's Encrypt to a keystore file that
+the Nxt node can use. The run.sh script now supports authbind, if started with
+the --authbind modified, to allow the Nxt software to listen on port 443
+without having to run it as root.
+
+A new managePeersNetworking API has been added, to allow disabling or
+enabling the node peer networking at runtime. It takes a single "operation"
+parameter, with possible values: "enable", "disable", and "query", and
+requires the adminPassword when run on a public node.
+
+Added a new GetEpochTime API, to return the blockchain epoch time given a unix
+timestamp.
+
+Added a new property nxt.stopDownloadHeight to allow forcing the blockchain
+download to stop once a certain height is reached.
+
+The compact.sh script has been improved to better reduce the database size.
+A new property has been added, nxt.disableCompactOnShutdown=false to allow
+disabling database compact on shutdown, for faster restarts during development.
+
+A new property has been added, nxt.deleteProcessedVotes=true, to optionally
+disable the deletion of votes records when trimming the votes table. Note
+that even if votes are not deleted, re-calculation of poll results may require
+data that are no longer available (such as account or asset balances at the
+time of poll finish), unless a blockchain rescan is done, this is why the
+default is still to delete old votes records.
+
+Various UI fixes and improvements.
+
+Updated Jetty to version 9.3.28, H2 to 1.4.200. If using a custom nxt.dbParams
+or nxt.dbUrl properties, remove any MVCC settings from them, MVCC is now the
+default and not configurable.
+
+
+--------------------------------------------------------------------------------
+nxt-client-1.12.0e:
+
+This is an experimental release, enabling several new features on testnet
+only at block height 2500000. All testnet nodes must upgrade to this release
+before this block (expected Sept 1, 2019). This release can also be used on
+mainnet but upgrade is optional.
+
+New features:
+
+Added Asset Dividends payment by asset or currency. This allows paying asset
+dividends not only in NXT, but also in any asset or monetary system currency.
+
+Added Asset Properties feature, to allow setting arbitrary name/value metadata
+on assets. Any user can set a property on any asset, only the asset issuer or
+the user who sets the property can delete it.
+
+Added Asset Increase transaction, allowing asset issuers to increase the total
+number of asset shares available.
+
+The Asset Delete History has been renamed to Quantity Change History and now
+shows both asset deletion and new shares issuance transactions.
+The getAssetDeletes API has been deprecated and a new getAssetHistory API can
+be used to retrieve asset deletions, increases, or both.
+
+Asset Dividends by Holding, Asset Properties and Asset Increase are currently
+testnet-only features and will be enabled on mainnet at the next planned
+hardfork block, exact height to be announced later.
+
+New APIs related to the above features:
+
+getAssetHistory, increaseAssetShares, getAssetProperties, setAssetProperty,
+deleteAssetProperty
+
+
+Process management add-ons, APIs and UI:
+
+When enabling add-ons using the nxt.addOns property, if a package name is not
+specified, the nxt.addons package is assumed, therefore it is no longer needed
+to specify the full package name for the default add-ons included in the
+release.
+
+Added StartForging and ForgingEncrypted add-ons to facilitate management of
+forging processes.
+
+The StartForging add-on reads the passphrases stored in a plain text file, as
+defined in the property nxt.startForgingFile, one passphrase per line, and
+automatically starts forging with each of these accounts when the server is
+started. Since passphrases are stored unencrypted, this add-on should only
+be used on well secured servers, or with accounts of insignificant value, or
+in test environments.
+
+For a secure way of starting forging with multiple accounts on a remote server
+the ForgingEncryptedConfig add-on can be used to store the passphrases of
+forging accounts in an encrypted file. This add-on exports two APIs:
+saveForgingEncrypted and startForgingEncrypted, used respectively to save the
+list of forging passphrases in an encrypted file, and to start forging with
+them by only submitting to the server the password necessary to decrypt this
+file. Note that at runtime, the forging account passphrases will still be kept
+in server memory, but when using these add-ons will never need to be stored on
+disk, and will not need to be re-submitted to the server each time forging
+needs to be started. These add-ons are useful when forging on a fully trusted
+node, and having to restart forging remotely without a risk of exposing the
+passphrases in transit.
+
+Added StartFundingMonitors and FundingMonitorsEncryptedConfig add-ons to
+facilitate management of funding monitor processes.
+
+The StartFundingMonitors add-on will automatically start all funding monitors
+configured in a JSON formatted file, as defined in the property
+nxt.startFundingMonitorsFile. The JSON can be generated by manually starting
+the funding monitors as desired, and using the GetFundingMonitor API to
+retrieve the list of monitors in JSON format. The secretPhrase parameter needs
+to be manually added to the JSON for each funding monitor.
+
+The FundingMonitorsEncryptedConfig add-ons allow storing the JSON configuration
+of funding monitors in an encrypted instead of plain text file, and starting
+the funding monitors by submitting only the decryption password to the server.
+It exports two APIs for this purpose, saveFundingMonitorsEncrypted and
+startFundingMonitorsEncrypted.
+
+The SaveEncrypted APIs require the admin passphrase when used on a remote node.
+To prevent overwriting arbitrary files, they will only overwrite an existing
+file located in the conf/processes directory and with a default for the add-on
+filename; otherwise the file must not already exist.
+
+An UI for the above ForgingEncryptedConfig and FundingMonitorsEncryptedConfig
+add-ons has been added, accessible under the cogwheel/processes menu.
+
+Accounts under account control are no longer allowed to start FundingMonitors.
+
+
+Java programming API:
+
+As an alternative to programming against the http API, the same API calls are
+now accessible from java programs using the so called APICallers. Those are
+available in the nxt.http.callers package, and code samples for how to use them
+are provided under src/java/com/jelurida/ardor/client/api, demonstrating tasks
+such as local signing, message encryption and decryption, waiting for a new
+block, etc. When integrating the Nxt functionality in your java programs,
+using APICallers is the recommended approach instead of accessing core Nxt
+classes directly.
+
+
+Light client networking improvements:
+
+Bootstrap of API proxy - try to connect to known peers and if this fails,
+connect to trusted nodes to get latest open API peers. The purpose is to
+either have a node serving the proxy at start, or to know that the network
+is down, and also to fix the problems caused by old initial peers.
+
+Default bootstrap node is defined in nxt.properties:
+nxt.proxyBootstrapNodes=nxt.jelurida.com;
+
+The new bootstrapAPIProxy API can be used to refresh the latest open API peers
+from the bootstrap node.
+
+
+Performance and stability improvements and bugfixes.
+
+Windows and Mac installations now use by default an embedded Open JDK 11 
+installation.
+
+The H2 database now uses the newer MV_STORE format by default. Conversion to
+this format however takes effect only when running compact.sh on an existing
+database, or re-downloading the blockchain from scratch.
+
+Updated Jetty to version 9.3.27, H2 to 1.4.199.
+
+
+--------------------------------------------------------------------------------
+nxt-client-1.11.15:
+
+This is a critical bugfix release. IMMEDIATE update is mandatory for everyone.
+
+Fixed validation of string fields length in transaction attachments.
+
+Fixed locale issue affecting Turkish users.
+
+Allow setting the Content-Type header of the API responses to application/json
+instead of text/plain using the nxt.apiFixResponseContentType property. Default
+is still text/plain to preserve compatibility.
+
+Updated libraries to Jetty 9.3.24, Bouncy Castle 1.60, IzPack installer 5.1.3.
+
+
+--------------------------------------------------------------------------------
 nxt-client-1.11.14:
 
 Updated the translation resource files.

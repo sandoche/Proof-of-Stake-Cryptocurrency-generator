@@ -1,6 +1,6 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
-  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
   ~                                                                           ~
   ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
   ~ for licensing information.                                                ~
@@ -23,12 +23,16 @@
 
             <div id="login_panel">
                 <div class="callout callout-danger custom_login_warning"></div>
+                <div class="callout callout-danger" id="proxy_connection_error" style="margin-bottom: 15px">
+                    <div data-i18n="proxy_connection_failed">Failed to connect to remote nodes</div>
+                    <button class="btn btn-flat"><i class="fa fa-repeat"></i>&nbsp;Retry</button>
+                </div>
                 <div class="callout callout-danger" id="testnet_login" data-i18n="testnet_login_warning">Log in with your TestNet account - not your real one!</div>
                 <div id="login_error" style="max-width:400px;min-width:400px;display:none">
                     <div class="callout callout-danger"></div>
                 </div>
 
-                <div id="account_data_reader" style="display:none;margin:auto;width:384px;height:384px;"></div>
+                <div id="account_data_reader" style="display:none;margin:auto;"></div>
 				<table style="width:100%;height:100%;">
 				<tr><td style="text-align:center;vertical-align:middle">
                 <div class="lockscreen-widget btn-group" data-toggle="buttons" id="loginButtons">

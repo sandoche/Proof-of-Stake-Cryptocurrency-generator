@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -17,8 +17,9 @@
 package nxt.db;
 
 import nxt.Nxt;
+import nxt.db.pool.ConnectionPool;
+import nxt.db.pool.H2ConnectionPool;
 import nxt.util.Logger;
-import org.h2.jdbcx.JdbcConnectionPool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -97,8 +98,7 @@ public class BasicDb {
 
     }
 
-    private JdbcConnectionPool cp;
-    private volatile int maxActiveConnections;
+    private ConnectionPool cp;
     private final String dbUrl;
     private final String dbUsername;
     private final String dbPassword;
@@ -118,9 +118,6 @@ public class BasicDb {
             String dbDir = Nxt.getDbDir(dbProperties.dbDir);
             dbUrl = String.format("jdbc:%s:%s;%s", dbProperties.dbType, dbDir, dbProperties.dbParams);
         }
-        if (!dbUrl.contains("MV_STORE=")) {
-            dbUrl += ";MV_STORE=FALSE";
-        }
         if (!dbUrl.contains("CACHE_SIZE=")) {
             dbUrl += ";CACHE_SIZE=" + maxCacheSize;
         }
@@ -135,11 +132,19 @@ public class BasicDb {
 
     public void init(DbVersion dbVersion) {
         Logger.logDebugMessage("Database jdbc url set to %s username %s", dbUrl, dbUsername);
+        String implClassName = Nxt.getStringProperty("nxt.connectionPoolImpl");
+
+        try {
+            Class<?> poolImplClass = Class.forName(implClassName);
+            cp = (ConnectionPool) poolImplClass.newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            Logger.logErrorMessage("Failed to create connection pool instance", e);
+            cp = new H2ConnectionPool();
+        }
+        cp.initialize(dbUrl, dbUsername, dbPassword, maxConnections, loginTimeout);
+
         FullTextTrigger.setActive(true);
-        cp = JdbcConnectionPool.create(dbUrl, dbUsername, dbPassword);
-        cp.setMaxConnections(maxConnections);
-        cp.setLoginTimeout(loginTimeout);
-        try (Connection con = cp.getConnection();
+        try (Connection con = getPooledConnection();
              Statement stmt = con.createStatement()) {
             stmt.executeUpdate("SET DEFAULT_LOCK_TIMEOUT " + defaultLockTimeout);
             stmt.executeUpdate("SET MAX_MEMORY_ROWS " + maxMemoryRows);
@@ -156,17 +161,24 @@ public class BasicDb {
         }
         try {
             FullTextTrigger.setActive(false);
-            Connection con = cp.getConnection();
+            Connection con = getPooledConnection();
             Statement stmt = con.createStatement();
-            stmt.execute("SHUTDOWN COMPACT");
-            Logger.logShutdownMessage("Database shutdown completed");
+            boolean compact = ! Nxt.getBooleanProperty("nxt.disableCompactOnShutdown");
+            if (compact) {
+                Logger.logShutdownMessage("Shutting down with compacting...");
+                stmt.execute("SHUTDOWN COMPACT");
+                Logger.logShutdownMessage("Database shutdown completed");
+            } else {
+                stmt.execute("SHUTDOWN");
+                Logger.logShutdownMessage("Database shutdown without compact completed");
+            }
         } catch (SQLException e) {
             Logger.logShutdownMessage(e.toString(), e);
         }
     }
 
     public void analyzeTables() {
-        try (Connection con = cp.getConnection();
+        try (Connection con = getPooledConnection();
              Statement stmt = con.createStatement()) {
             stmt.execute("ANALYZE");
         } catch (SQLException e) {
@@ -181,13 +193,7 @@ public class BasicDb {
     }
 
     protected Connection getPooledConnection() throws SQLException {
-        Connection con = cp.getConnection();
-        int activeConnections = cp.getActiveConnections();
-        if (activeConnections > maxActiveConnections) {
-            maxActiveConnections = activeConnections;
-            Logger.logDebugMessage("Database connection pool current size: " + activeConnections);
-        }
-        return con;
+        return cp.getConnection();
     }
 
     public String getUrl() {

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright © 2013-2016 The Nxt Core Developers.                             *
- * Copyright © 2016-2018 Jelurida IP B.V.                                     *
+ * Copyright © 2016-2020 Jelurida IP B.V.                                     *
  *                                                                            *
  * See the LICENSE.txt file at the top-level directory of this distribution   *
  * for licensing information.                                                 *
@@ -157,6 +157,24 @@ var NRS = (function(NRS, $, undefined) {
                     'title': "Delete Asset Shares",
                     'i18nKeyTitle': 'delete_asset_shares',
                     'iconHTML': '<i class="fa fa-remove"></i>',
+                    'receiverPage': "transactions"
+                },
+                8: {
+                    'title': "Increase Asset Shares",
+                    'i18nKeyTitle': 'increase_asset_shares',
+                    'iconHTML': '<i class="fa fa-plus"></i>',
+                    'receiverPage': "transactions"
+                },
+                10: {
+                    'title': "Set Asset Property",
+                    'i18nKeyTitle': 'set_asset_property',
+                    'iconHTML': '<i class="fa fa-pencil"></i>',
+                    'receiverPage': "transactions"
+                },
+                11: {
+                    'title': "Delete Asset Property",
+                    'i18nKeyTitle': 'delete_asset_property',
+                    'iconHTML': '<i class="fa fa-eraser"></i>',
                     'receiverPage': "transactions"
                 }
             }

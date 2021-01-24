@@ -1,6 +1,6 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ Copyright © 2013-2016 The Nxt Core Developers.                            ~
-  ~ Copyright © 2016-2018 Jelurida IP B.V.                                    ~
+  ~ Copyright © 2016-2020 Jelurida IP B.V.                                    ~
   ~                                                                           ~
   ~ See the LICENSE.txt file at the top-level directory of this distribution  ~
   ~ for licensing information.                                                ~
@@ -126,11 +126,11 @@
     </section>
 </div>
 
-<div id="deletes_history_page" class="paginated page">
-    <section class="content-header"><h1 data-i18n="delete_history">Delete History</h1></section>
+<div id="quantity_change_history_page" class="paginated page">
+    <section class="content-header"><h1 data-i18n="quantity_change_history">Quantity Change History</h1></section>
     <section class="content">
         <div class="data-container data-loading">
-            <table class="table table-striped" id="deletes_history_table">
+            <table class="table table-striped" id="quantity_change_history_table">
                 <thead>
                 <tr>
                     <th data-i18n="transaction">Transaction</th>
@@ -144,7 +144,7 @@
                 </tbody>
             </table>
             <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
-            <div class="data-empty-container"><p data-i18n="no_asset_deletion_history">No asset deletion history available.</p></div>
+            <div class="data-empty-container"><p data-i18n="no_quantity_change_history">No quantity change history available.</p></div>
         </div>
         <div class="data-pagination"></div>
     </section>
@@ -230,6 +230,7 @@
                                 <strong data-i18n="asset_decimals">Asset Decimals</strong>: <span id="asset_decimals"></span> | 
                                 <strong data-i18n="distribution">Distribution</strong>: <a href="#" data-toggle="modal" data-target="#asset_distribution_modal" data-i18n="view_asset_distribution" data-asset="" id="view_asset_distribution_link">View Asset Distribution</a> |
                                 <strong data-i18n="dividend_history">Dividend History</strong>: <a href="#" data-toggle="modal" data-target="#asset_dividend_modal" data-i18n="view_asset_dividend_history" data-asset="" id="view_asset_dividend_link">View Asset Dividend History</a>
+                                <strong data-i18n="asset_properties">Asset Properties</strong>: <a href="#" class="goto-page" data-page="asset_properties" data-i18n="view_asset_properties" data-asset="" id="asset_properties_link">View Asset Properties</a>
                                 <span id="dividend_payment_link"> | <strong data-i18n="pay_dividends">Pay Dividends</strong>: <a href="#" data-toggle="modal" data-target="#dividend_payment_modal" data-i18n="dividends_payment">Dividends Payment</a></span>
                             </div>
 

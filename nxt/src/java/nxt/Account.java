@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -556,6 +556,13 @@ public final class Account {
         @Override
         protected void save(Connection con, PublicKey publicKey) throws SQLException {
             publicKey.save(con);
+        }
+
+        @Override
+        public void checkAvailable(int height) {
+            if (height > Nxt.getBlockchain().getHeight()) {
+                throw new IllegalArgumentException("Height " + height + " exceeds blockchain height " + Nxt.getBlockchain().getHeight());
+            }
         }
 
     };
@@ -1204,7 +1211,7 @@ public final class Account {
             if (this.publicKey == null) {
                 this.publicKey = publicKeyTable.get(accountDbKeyFactory.newKey(this));
             }
-            if (this.publicKey == null || this.publicKey.publicKey == null || this.publicKey.height == 0 || height - this.publicKey.height <= 1440) {
+            if (this.publicKey == null || this.publicKey.publicKey == null || height - this.publicKey.height <= Constants.GUARANTEED_BALANCE_CONFIRMATIONS) {
                 return 0; // cfb: Accounts with the public key revealed less than 1440 blocks ago are not allowed to generate blocks
             }
         }
@@ -1808,6 +1815,11 @@ public final class Account {
 
     void payDividends(final long transactionId, Attachment.ColoredCoinsDividendPayment attachment) {
         long totalDividend = 0;
+        HoldingType holdingType = attachment.getHoldingType();
+        long holdingId = attachment.getHoldingId();
+        //
+        // Get a list of all asset owners
+        //
         List<AccountAsset> accountAssets = new ArrayList<>();
         try (DbIterator<AccountAsset> iterator = getAssetAccounts(attachment.getAssetId(), attachment.getHeight(), 0, -1)) {
             while (iterator.hasNext()) {
@@ -1815,17 +1827,27 @@ public final class Account {
             }
         }
         final long amountNQTPerQNT = attachment.getAmountNQTPerQNT();
+        //
+        // Pay dividends.
+        //
         long numAccounts = 0;
         for (final AccountAsset accountAsset : accountAssets) {
             if (accountAsset.getAccountId() != this.id && accountAsset.getQuantityQNT() != 0) {
                 long dividend = Math.multiplyExact(accountAsset.getQuantityQNT(), amountNQTPerQNT);
-                Account.getAccount(accountAsset.getAccountId())
-                        .addToBalanceAndUnconfirmedBalanceNQT(LedgerEvent.ASSET_DIVIDEND_PAYMENT, transactionId, dividend);
+                holdingType.addToBalanceAndUnconfirmedBalance(Account.getAccount(accountAsset.getAccountId()),
+                        AccountLedger.LedgerEvent.ASSET_DIVIDEND_PAYMENT, transactionId, holdingId, dividend);
                 totalDividend += dividend;
                 numAccounts += 1;
             }
         }
-        this.addToBalanceNQT(LedgerEvent.ASSET_DIVIDEND_PAYMENT, transactionId, -totalDividend);
+        //
+        // Update the issuer balance for the dividends paid
+        //
+        holdingType.addToBalance(this, AccountLedger.LedgerEvent.ASSET_DIVIDEND_PAYMENT, transactionId,
+                holdingId, -totalDividend);
+        //
+        // Update the dividend table
+        //
         AssetDividend.addAssetDividend(transactionId, attachment, totalDividend, numAccounts);
     }
 

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -16,6 +16,7 @@
 
 package nxt.db;
 
+import nxt.Constants;
 import nxt.Db;
 import nxt.Nxt;
 
@@ -35,17 +36,25 @@ public abstract class DerivedDbTable {
         Nxt.getBlockchainProcessor().registerDerivedTable(this);
     }
 
-    public void rollback(int height) {
+    public void popOffTo(int height) {
         if (!db.isInTransaction()) {
             throw new IllegalStateException("Not in transaction");
         }
         try (Connection con = db.getConnection();
-             PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM " + table + " WHERE height > ?")) {
+             PreparedStatement pstmtDelete = con.prepareStatement("DELETE FROM " + table + " WHERE height > ? LIMIT " + Constants.BATCH_COMMIT_SIZE)) {
             pstmtDelete.setInt(1, height);
-            pstmtDelete.executeUpdate();
+            int deleted;
+            do {
+                deleted = pstmtDelete.executeUpdate();
+                Db.db.commitTransaction();
+            } while (deleted >= Constants.BATCH_COMMIT_SIZE);
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
         }
+    }
+
+    public void rollback(int height) {
+        popOffTo(height);
     }
 
     public void truncate() {

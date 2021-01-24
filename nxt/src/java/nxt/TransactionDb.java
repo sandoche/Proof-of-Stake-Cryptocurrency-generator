@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -259,6 +259,7 @@ final class TransactionDb {
     }
 
     static List<TransactionImpl> findBlockTransactions(Connection con, long blockId) {
+        BlockchainImpl.getInstance().readLock();
         try (PreparedStatement pstmt = con.prepareStatement("SELECT * FROM transaction WHERE block_id = ? ORDER BY transaction_index")) {
             pstmt.setLong(1, blockId);
             pstmt.setFetchSize(50);
@@ -274,6 +275,21 @@ final class TransactionDb {
         } catch (NxtException.ValidationException e) {
             throw new RuntimeException("Transaction already in database for block_id = " + Long.toUnsignedString(blockId)
                     + " does not pass validation!", e);
+        } finally {
+            BlockchainImpl.getInstance().readUnlock();
+        }
+    }
+
+    static void deleteBlockTransactions(Connection con, long blockId) {
+        try (PreparedStatement pstmt = con.prepareStatement("DELETE FROM transaction WHERE block_id = ? LIMIT " + Constants.BATCH_COMMIT_SIZE)) {
+            pstmt.setLong(1, blockId);
+            int count;
+            do {
+                count = pstmt.executeUpdate();
+                Db.db.commitTransaction();
+            } while (count >= Constants.BATCH_COMMIT_SIZE);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.toString(), e);
         }
     }
 
@@ -359,6 +375,9 @@ final class TransactionDb {
                     DbUtils.setLongZeroToNull(pstmt, ++i, transaction.getECBlockId());
                     pstmt.setShort(++i, index++);
                     pstmt.executeUpdate();
+                    if (index % Constants.BATCH_COMMIT_SIZE == 0) {
+                        Db.db.commitTransaction();
+                    }
                 }
                 if (transaction.referencedTransactionFullHash() != null) {
                     try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO referenced_transaction "

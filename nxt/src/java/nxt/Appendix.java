@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -624,7 +624,7 @@ public interface Appendix {
             this.isCompressed = false;
         }
 
-        private PrunableEncryptedMessage(JSONObject attachmentJSON) {
+        public PrunableEncryptedMessage(JSONObject attachmentJSON) {
             super(attachmentJSON);
             String hashString = Convert.emptyToNull((String) attachmentJSON.get("encryptedMessageHash"));
             JSONObject encryptedMessageJSON = (JSONObject) attachmentJSON.get("encryptedMessage");

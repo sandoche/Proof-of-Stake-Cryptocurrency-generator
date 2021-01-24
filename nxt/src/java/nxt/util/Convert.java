@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -47,7 +47,17 @@ public final class Convert {
     public static final byte[] EMPTY_BYTE = new byte[0];
     public static final byte[][] EMPTY_BYTES = new byte[0][];
     public static final String[] EMPTY_STRING = new String[0];
+    private static final boolean BIG_INTEGER_HAS_LONG_VALUE_EXACT;
 
+    static {
+        boolean hasMethod = true;
+        try {
+            BigInteger.class.getMethod("longValueExact");
+        } catch (NoSuchMethodException e) {
+            hasMethod = false;
+        }
+        BIG_INTEGER_HAS_LONG_VALUE_EXACT = hasMethod;
+    }
     private Convert() {} //never
 
     public static byte[] parseHexString(String hex) {
@@ -323,4 +333,16 @@ public final class Convert {
         return o1.length - o2.length;
     };
 
+    public static long longValueExact(BigInteger bigInteger) {
+        if (BIG_INTEGER_HAS_LONG_VALUE_EXACT) {
+            return bigInteger.longValueExact();
+        } else {
+            long result = bigInteger.longValue();
+            if (BigInteger.valueOf(result).equals(bigInteger)) {
+                return result;
+            } else {
+                throw new ArithmeticException("BigInteger out of long range");
+            }
+        }
+    }
 }

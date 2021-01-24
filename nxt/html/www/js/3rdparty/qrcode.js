@@ -1341,7 +1341,7 @@ var qrcode = function() {
 
     var _mode = QRMode.MODE_8BIT_BYTE;
     var _data = data;
-    var _bytes = qrcode.stringToBytes(data);
+    var _bytes = typeof data === "string" ? qrcode.stringToBytes(data) : data;
 
     var _this = {};
 

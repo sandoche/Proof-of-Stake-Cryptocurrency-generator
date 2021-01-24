@@ -179,7 +179,7 @@
 		offset: 60,
 		offsetRight: 10, //wesley
 		spacing: 10,
-		z_index: 1029,
+		z_index: 1059,
 		fade_in: 400,
 		fade_out: 400,
 		delay: 5000, //wesley

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2013-2016 The Nxt Core Developers.
- * Copyright © 2016-2018 Jelurida IP B.V.
+ * Copyright © 2016-2020 Jelurida IP B.V.
  *
  * See the LICENSE.txt file at the top-level directory of this distribution
  * for licensing information.
@@ -46,7 +46,7 @@ class NxtDbVersion extends DbVersion {
                 apply("CREATE TABLE IF NOT EXISTS transaction (db_id IDENTITY, id BIGINT NOT NULL, "
                         + "deadline SMALLINT NOT NULL, recipient_id BIGINT, "
                         + "amount BIGINT NOT NULL, fee BIGINT NOT NULL, full_hash BINARY(32) NOT NULL, "
-                        + "height INT NOT NULL, block_id BIGINT NOT NULL, FOREIGN KEY (block_id) REFERENCES block (id) ON DELETE CASCADE, "
+                        + "height INT NOT NULL, block_id BIGINT NOT NULL, "
                         + "signature BINARY(64) NOT NULL, timestamp INT NOT NULL, type TINYINT NOT NULL, subtype TINYINT NOT NULL, "
                         + "sender_id BIGINT NOT NULL, block_timestamp INT NOT NULL, referenced_transaction_full_hash BINARY(32), "
                         + "transaction_index SMALLINT NOT NULL, phased BOOLEAN NOT NULL DEFAULT FALSE, "
@@ -516,7 +516,7 @@ class NxtDbVersion extends DbVersion {
                 apply(null);
             case 200:
                 apply("CREATE TABLE IF NOT EXISTS public_key (db_id IDENTITY, account_id BIGINT NOT NULL, "
-                        + "public_key BINARY(32), height INT NOT NULL, FOREIGN KEY (height) REFERENCES block (height) ON DELETE CASCADE, "
+                        + "public_key BINARY(32), height INT NOT NULL, "
                         + "latest BOOLEAN NOT NULL DEFAULT TRUE)");
             case 201:
                 apply(null);
@@ -710,8 +710,7 @@ class NxtDbVersion extends DbVersion {
                 apply("CREATE TABLE IF NOT EXISTS prunable_message (db_id IDENTITY, id BIGINT NOT NULL, sender_id BIGINT NOT NULL, "
                         + "recipient_id BIGINT, message VARBINARY NOT NULL, is_text BOOLEAN NOT NULL, is_compressed BOOLEAN NOT NULL, "
                         + "encrypted_message VARBINARY, encrypted_is_text BOOLEAN DEFAULT FALSE, "
-                        + "is_encrypted BOOLEAN NOT NULL, timestamp INT NOT NULL, expiration INT NOT NULL, height INT NOT NULL, "
-                        + "FOREIGN KEY (height) REFERENCES block (height) ON DELETE CASCADE)");
+                        + "is_encrypted BOOLEAN NOT NULL, timestamp INT NOT NULL, expiration INT NOT NULL, height INT NOT NULL)");
             case 287:
                 apply("CREATE UNIQUE INDEX IF NOT EXISTS prunable_message_id_idx ON prunable_message (id)");
             case 288:
@@ -754,7 +753,7 @@ class NxtDbVersion extends DbVersion {
                 apply("CREATE TABLE IF NOT EXISTS tagged_data (db_id IDENTITY, id BIGINT NOT NULL, account_id BIGINT NOT NULL, "
                         + "name VARCHAR NOT NULL, description VARCHAR, tags VARCHAR, parsed_tags ARRAY, type VARCHAR, data VARBINARY NOT NULL, "
                         + "is_text BOOLEAN NOT NULL, filename VARCHAR, channel VARCHAR, block_timestamp INT NOT NULL, transaction_timestamp INT NOT NULL, "
-                        + "height INT NOT NULL, FOREIGN KEY (height) REFERENCES block (height) ON DELETE CASCADE, latest BOOLEAN NOT NULL DEFAULT TRUE)");
+                        + "height INT NOT NULL, latest BOOLEAN NOT NULL DEFAULT TRUE)");
             case 307:
                 apply("CREATE UNIQUE INDEX IF NOT EXISTS tagged_data_id_height_idx ON tagged_data (id, height DESC)");
             case 308:
@@ -767,7 +766,7 @@ class NxtDbVersion extends DbVersion {
                 apply(null);
             case 312:
                 apply("CREATE TABLE IF NOT EXISTS data_tag (db_id IDENTITY, tag VARCHAR NOT NULL, tag_count INT NOT NULL, "
-                        + "height INT NOT NULL, FOREIGN KEY (height) REFERENCES block (height) ON DELETE CASCADE, latest BOOLEAN NOT NULL DEFAULT TRUE)");
+                        + "height INT NOT NULL, latest BOOLEAN NOT NULL DEFAULT TRUE)");
             case 313:
                 apply("CREATE UNIQUE INDEX IF NOT EXISTS data_tag_tag_height_idx ON data_tag (tag, height DESC)");
             case 314:
@@ -1022,8 +1021,7 @@ class NxtDbVersion extends DbVersion {
                 apply("CREATE INDEX IF NOT EXISTS shuffling_participant_height_idx ON shuffling_participant (height, shuffling_id, account_id)");
             case 430:
                 apply("CREATE TABLE IF NOT EXISTS shuffling_data (db_id IDENTITY, shuffling_id BIGINT NOT NULL, account_id BIGINT NOT NULL, "
-                        + "data ARRAY, transaction_timestamp INT NOT NULL, height INT NOT NULL, "
-                        + "FOREIGN KEY (height) REFERENCES block (height) ON DELETE CASCADE)");
+                        + "data ARRAY, transaction_timestamp INT NOT NULL, height INT NOT NULL)");
             case 431:
                 apply("CREATE UNIQUE INDEX IF NOT EXISTS shuffling_data_id_height_idx ON shuffling_data (shuffling_id, height DESC)");
             case 432:
@@ -1195,6 +1193,81 @@ class NxtDbVersion extends DbVersion {
                 }
                 apply(null);
             case 492:
+                try (Connection con = db.getConnection();
+                     Statement stmt = con.createStatement();
+                     ResultSet rs = stmt.executeQuery("SELECT CONSTRAINT_NAME, TABLE_NAME FROM INFORMATION_SCHEMA.CONSTRAINTS "
+                             + "WHERE TABLE_NAME IN ('PUBLIC_KEY', 'PRUNABLE_MESSAGE', 'TAGGED_DATA', 'DATA_TAG', 'SHUFFLING_DATA')"
+                             + "AND COLUMN_LIST='HEIGHT' OR TABLE_NAME IN ('TRANSACTION') AND COLUMN_LIST='BLOCK_ID'")) {
+                    List<String> tables = new ArrayList<>();
+                    List<String> constraints = new ArrayList<>();
+                    while (rs.next()) {
+                        tables.add(rs.getString("TABLE_NAME"));
+                        constraints.add(rs.getString("CONSTRAINT_NAME"));
+                    }
+                    for (int i = 0; i < tables.size(); i++) {
+                        stmt.executeUpdate("ALTER TABLE " + tables.get(i) + " DROP CONSTRAINT " + constraints.get(i));
+                    }
+                    apply(null);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e.toString(), e);
+                }
+            case 493:
+                apply("CREATE INDEX IF NOT EXISTS transaction_block_id_idx ON transaction (block_id)");
+            case 494:
+                apply("CREATE INDEX IF NOT EXISTS public_key_height_idx ON public_key (height)");
+            case 495:
+                apply("CREATE INDEX IF NOT EXISTS prunable_message_height_idx ON prunable_message (height)");
+            case 496:
+                apply("CREATE INDEX IF NOT EXISTS tagged_data_height_idx ON tagged_data (height)");
+            case 497:
+                apply("CREATE INDEX IF NOT EXISTS data_tag_height_idx ON data_tag (height)");
+            case 498:
+                apply("CREATE INDEX IF NOT EXISTS shuffling_data_height_idx ON shuffling_data (height)");
+            case 499:
+                apply("UPDATE asset_delete SET quantity=-quantity");
+            case 500:
+                apply("ALTER TABLE IF EXISTS asset_delete RENAME TO asset_history");
+            case 501:
+                apply("ALTER INDEX IF EXISTS asset_delete_id_idx RENAME TO asset_history_id_idx");
+            case 502:
+                apply("ALTER INDEX IF EXISTS asset_delete_asset_id_idx RENAME TO asset_history_asset_id_idx");
+            case 503:
+                apply("ALTER INDEX IF EXISTS asset_delete_account_id_idx RENAME TO asset_history_account_id_idx");
+            case 504:
+                apply("ALTER INDEX IF EXISTS asset_delete_height_idx RENAME TO asset_history_height_idx");
+            case 505:
+                apply("DELETE FROM asset_history WHERE asset_id = " + Long.parseUnsignedLong(Constants.isTestnet ? "861080501219231688" : "12422608354438203866"));
+            case 506:
+                apply("INSERT INTO asset_history(id, asset_id, account_id, quantity, timestamp, height) "
+                        + "SELECT asset.id, asset.id, asset.account_id, asset.initial_quantity, block.timestamp, asset.height "
+                        + "FROM asset INNER JOIN block ON asset.height = block.height WHERE asset.latest IS TRUE ");
+            case 507:
+                apply("CREATE TABLE IF NOT EXISTS asset_property (" +
+                        "   db_id IDENTITY, " +
+                        "   id BIGINT NOT NULL, " +
+                        "   asset_id BIGINT NOT NULL, " +
+                        "   setter_id BIGINT NOT NULL, " +
+                        "   property VARCHAR NOT NULL, " +
+                        "   value VARCHAR, " +
+                        "   height INT NOT NULL, " +
+                        "   latest BOOLEAN NOT NULL DEFAULT TRUE)");
+            case 508:
+                apply("CREATE UNIQUE INDEX IF NOT EXISTS asset_property_id_height_idx ON asset_property (id, height DESC)");
+            case 509:
+                apply("CREATE INDEX IF NOT EXISTS asset_property_height_id_idx ON asset_property (height, id)");
+            case 510:
+                apply("CREATE INDEX IF NOT EXISTS asset_property_asset_height_idx ON asset_property (asset_id, height DESC)");
+            case 511:
+                apply("CREATE INDEX IF NOT EXISTS asset_property_setter_property_idx ON asset_property (setter_id, property)");
+            case 512:
+                apply("CREATE TABLE IF NOT EXISTS blacklisted_open_api_nodes (host VARCHAR PRIMARY KEY, unblacklist_time INT)");
+            case 513:
+                apply("ALTER TABLE asset_dividend ADD COLUMN holding_id BIGINT NOT NULL DEFAULT 0 AFTER asset_id");
+            case 514:
+                apply("ALTER TABLE asset_dividend ADD COLUMN holding_type TINYINT NOT NULL DEFAULT 0 AFTER holding_id");
+            case 515:
+                apply("CREATE ALIAS CAN_BE_TRIMMED FOR \"nxt.db.TrimmableDbTable.canBeTrimmed\"");
+            case 516:
                 return;
             default:
                 throw new RuntimeException("Blockchain database inconsistent with code, at update " + nextUpdate

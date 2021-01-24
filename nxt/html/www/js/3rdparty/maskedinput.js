@@ -7,7 +7,8 @@
 !function(factory) {
     "function" == typeof define && define.amd ? define([ "jquery" ], factory) : factory("object" == typeof exports ? require("jquery") : jQuery);
 }(function($) {
-    var caretTimeoutId, ua = navigator.userAgent, iPhone = /iphone/i.test(ua), chrome = /chrome/i.test(ua), android = /android/i.test(ua);
+    var caretTimeoutId, ua = navigator.userAgent, iPhone = /iphone/i.test(ua), android = /android/i.test(ua);
+    //console.log("User agent:" + ua + " " + android);
     $.mask = {
         definitions: {
             "9": "[0-9]",
@@ -87,9 +88,20 @@
                 }
                 function androidInputEvent() {
                     var curVal = input.val(), pos = input.caret();
-                    //console.log("androidInputEvent " + pos.begin + "-" + pos.end + " " + curVal + " " + oldVal + " " + isKeyPressed);
-                    
-                    //A dirty fix for the weird Android 6 keyboard which deletes the text from the current pos to the 
+                    //console.log("androidInputEvent " + pos.begin + "-" + pos.end + " " + curVal + " " + oldVal);
+
+                    if (settings.unmask !== false) {
+                        if (oldVal && oldVal == "NXT-____-____-____-_____"
+                                && (curVal.length == 0
+                                    || (oldVal.length > curVal.length && pos.begin == 3))) {
+                            //Deleted the whole string, or a backspaces was pressed after the prefix
+                            input.val("");
+                            $(this).trigger("unmask");
+                            return;
+                        }
+                    }
+
+                    //A dirty fix for the weird Android 6 keyboard which deletes the text from the current pos to the
                     //input start at every char, and then inserts it again
                     if (pos.begin == 0 && pos.end == 0 && oldVal && oldVal.endsWith(curVal)) return;
                     
@@ -97,28 +109,34 @@
                         checkVal(!0);
                         for (; pos.end > 0 && !tests[pos.end - 1]; ) pos.end--;
                         if (0 === pos.end) for (;pos.end < firstNonMaskPos && !tests[pos.end]; ) pos.end++;
-                        input.caret(pos.end, pos.end);
+                        androidSetCaret(input, pos.end);
                     } else {
                         var curValUpper = curVal.toUpperCase();
                         var addressStart = curValUpper.indexOf('NXT-', 4);
                         if (addressStart > 0) {
                             var insertedAddress = curValUpper.substr(addressStart, 24);
                             if (/NXT\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{5}/.test(insertedAddress)) {
-                                //since pasting into a msked field will first trigger androidInputEvent, search for inserted address and use it
+                                //since pasting into a masked field will first trigger androidInputEvent, search for inserted address and use it
                                 input.val(insertedAddress);
                             }
                         }
                         checkVal(!0);
-                        
                         var caretAdjusted = false;
                         var newVal = input.val();
+                        //console.log("checkVal " + curValUpper + " " + newVal);
                         if (curValUpper.length == newVal.length + 1) {
                             for (var i = 0; i < newVal.length; i++) {
                                 if (tests[i] && newVal.charAt(i) == getPlaceholder(i)) {
                                     if (i > 0 && curValUpper.charAt(i-1) == getPlaceholder(i)) {
                                         //checkVal moved the inserted character to position i-1 (which was empty before). Adjust the caret
-                                        input.caret(i,i);
+                                        androidSetCaret(input, i);
                                         caretAdjusted = true;
+                                    }
+                                    if (i > 1 && curValUpper.charAt(i-1) == newVal.charAt(i-2) &&
+                                            curValUpper.charAt(i-2) == newVal.charAt(i-1) && !tests[i-2]) {
+                                         //Entered a letter before an empty position. Move the caret after the new letter
+                                         androidSetCaret(input, i);
+                                         caretAdjusted = true;
                                     }
                                     break;
                                 }
@@ -126,16 +144,23 @@
                         }
                         if (!caretAdjusted) {
                             for (; pos.end < len && !tests[pos.end]; ) pos.end++;
-                            input.caret(pos.end, pos.end);
+                            androidSetCaret(input, pos.end);
                         }
                     }
-                    oldVal = input.val();
                     tryFireCompleted();
+                }
+                function androidSetCaret(input, pos) {
+                    var proxy = function() {
+                        //console.log("androidSetCaret " + pos);
+                        $.proxy($.fn.caret, input, pos)();
+                    };
+                    setTimeout(proxy, 0);
                 }
                 function blurEvent() {
                     checkVal(), input.val() != focusText && input.change();
                 }
                 function keydownEvent(e) {
+                    //console.log("keydownEvent " + e.keyCode + " " + e.which);
                     //ignore tab
                     if (e.keyCode == 9) {
                         return true;
@@ -164,6 +189,7 @@
                     }
                 }
                 function keypressEvent(e) {
+                    //console.log("keypressEvent " + e.keyCode + " " + e.which);
                     //ignore tab
                     if (e.keyCode == 9) {
                         return true;
@@ -182,10 +208,7 @@
                             if (pos.end - pos.begin !== 0 && (clearBuffer(pos.begin, pos.end), shiftL(pos.begin, pos.end - 1)), 
                             p = seekNext(pos.begin - 1), len > p && (c = String.fromCharCode(k).toUpperCase(), tests[p].test(c))) {
                                 if (shiftR(p), buffer[p] = c, writeBuffer(), next = seekNext(p), android) {
-                                    var proxy = function() {
-                                        $.proxy($.fn.caret, input, next)();
-                                    };
-                                    setTimeout(proxy, 0);
+                                    androidSetCaret(input, next);
                                 } else input.caret(next);
                                 pos.begin <= lastRequiredNonMaskPos && tryFireCompleted();
                             }
@@ -198,7 +221,9 @@
                     for (i = start; end > i && len > i; i++) tests[i] && (buffer[i] = getPlaceholder(i));
                 }
                 function writeBuffer() {
-                    input.val(buffer.join(""));
+                    var value = buffer.join("");
+                    input.val(value);
+                    oldVal = value;
                 }
                 function checkVal(allow) {
                     var i, c, pos, test = input.val(), lastMatch = -1;
@@ -259,9 +284,8 @@
                         var pos = checkVal(!0);
                         input.caret(pos), tryFireCompleted();
                     }, 0);
-                }), chrome && android && input.off("input.mask").off("paste.mask").on("input.mask", androidInputEvent), 
+                }), android && input.off("input.mask").off("paste.mask").on("input.mask", androidInputEvent),
                 checkVal();
-
             });
         }
     });
